@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ad",
+  "info": {
+    "singularName": "ads",
+    "pluralName": "ad",
+    "displayName": "Ads"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Hello": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    }
+  }
+}

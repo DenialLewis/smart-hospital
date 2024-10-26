@@ -95,8 +95,20 @@
 
       <!-- Content Section -->
       <section class="content-grid">
-        <div v-for="n in 6" :key="n" class="content-card"></div>
-      </section>
+  <h2>Advertisements</h2>
+  <div v-if="ads.length">
+    <div v-for="ad in ads" :key="ad.id" class="content-card">
+      <h3>{{ ad.title }}</h3>
+      <img :src="ad.image.url" alt="Ad Image" />
+      <p>{{ ad.description }}</p>
+      <p>Ad Image URL: {{ ad.image.url }}</p>
+
+    </div>
+    
+  </div>
+  <p v-else>No ads available.</p>
+</section>
+
 
       <!-- Footer Section -->
       <footer class="footer">
@@ -144,7 +156,7 @@ export default {
       showLoginForm: false,
       showCreateAccountForm: false,
       currentLang: 'EN',
-      contentItems: [], // To store data from Strapi
+      ads: [], // To store data from Strapi
       translations: {
         EN: {
           searchPlaceholder: 'Search...',
@@ -251,19 +263,25 @@ export default {
       this.showDoctorDropdown = false;
     },
     
-    async fetchContentItems() {
-      try {
-        const response = await axios.get('http://localhost:1337/api/content-items'); // Replace with your Strapi endpoint
-        this.contentItems = response.data.data;
-      } catch (error) {
-        console.error('Error fetching content items:', error);
-      }
-    }
-  },
+    async fetchAds() {
+        try {
+            const response = await axios.get(`${process.env.VUE_APP_API_URL}/api/ads`);
+            this.ads = response.data.data.map(ad => ({
+                ...ad,
+                image: {
+                    url: ad.image.url.includes('http') ? ad.image.url : `http://localhost:1337${ad.image.url}`
+                }
+            }));
+        } catch (error) {
+            console.error('Error fetching ads:', error);
+            this.ads = []; // Reset to empty on error
+            this.errorMessage = 'Failed to load advertisements. Please try again later.'; // Display an error message
+        }
+    },
+},
   mounted() {
-    
-    this.fetchContentItems(); // Fetch content items from Strapi
-  }
+    this.fetchAds(); // Fetch ads when the component mounts
+  },
 };
 </script>
 
