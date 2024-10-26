@@ -131,22 +131,20 @@
 </template>
 
 <script>
+import axios from 'axios';
 import LogIn from './components/log_in.vue';
 import CreateAcc from './components/create_acc.vue';
-import ChatBubble from './components/ChatBubble.vue';
-import ChatWindow from './components/ChatWindow.vue';
+
 export default {
   data() {
     return {
-      isChatOpen: false,
       showLanguageDropdown: false,
       showProfileDropdown: false,
       showDoctorDropdown: false,
-      showAppointmentsDropdown: false,
-      showServicesDropdown: false,
       showLoginForm: false,
       showCreateAccountForm: false,
       currentLang: 'EN',
+      contentItems: [], // To store data from Strapi
       translations: {
         EN: {
           searchPlaceholder: 'Search...',
@@ -155,7 +153,6 @@ export default {
           doctorSchedule: 'Doctor Schedule',
           appointments: 'Appointments',
           services: 'Services',
-          openChatbox: 'Open Chatbox',
           contactUs: 'Contact Us',
           hospitalName: 'Mfu Hospital',
           address: '123 Hospital Rd, City, Country',
@@ -163,13 +160,10 @@ export default {
           email: 'info@mfu-hospital.com',
           departments: {
             thaiMedicine: "Department of Thai Traditional Medicine",
-      chineseMedicine: "Department of Chinese Medicine",
-      physicalTherapy: "Physical Therapy Department",
-      outpatientClinic: "Outpatient Clinic"
-    },
-          service: {
-            service1: 'Chat Box'
-          }
+            chineseMedicine: "Department of Chinese Medicine",
+            physicalTherapy: "Physical Therapy Department",
+            outpatientClinic: "Outpatient Clinic"
+          },
         },
         ไทย: {
           searchPlaceholder: 'ค้นหา...',
@@ -178,7 +172,6 @@ export default {
           doctorSchedule: 'ตารางหมอ',
           appointments: 'นัดหมาย',
           services: 'บริการ',
-          openChatbox: 'เปิดแชทบ็อกซ์',
           contactUs: 'ติดต่อเรา',
           hospitalName: 'โรงพยาบาล Mfu',
           address: '123 Hospital Rd, City, Country',
@@ -186,13 +179,10 @@ export default {
           email: 'info@mfu-hospital.com',
           departments: {
             thaiMedicine: "แผนกการแพทย์แผนไทย",
-      chineseMedicine: "แผนกการแพทย์แผนจีน",
-      physicalTherapy: "แผนกกายภาพบำบัด",
-      outpatientClinic: "แผนกผู้ป่วยนอก"
-    },
-          service: {
-            service1: 'Chat Box'
-          }
+            chineseMedicine: "แผนกการแพทย์แผนจีน",
+            physicalTherapy: "แผนกกายภาพบำบัด",
+            outpatientClinic: "แผนกผู้ป่วยนอก"
+          },
         },
         မြန်မာ: {
           searchPlaceholder: 'ရှာဖွေပါ...',
@@ -201,7 +191,6 @@ export default {
           doctorSchedule: 'ဆရာဝန်အစီအစဉ်',
           appointments: 'ချိန်းဆိုချက်များ',
           services: 'ဝန်ဆောင်မှုများ',
-          openChatbox: 'ချက်ဘော့ကို ဖွင့်မည်',
           contactUs: 'ဆက်သွယ်ရန်',
           hospitalName: 'Mfu ဆေးရုံ',
           address: '123 Hospital Rd, မြို့, နိုင်ငံ',
@@ -210,21 +199,16 @@ export default {
           departments: {
             thaiMedicine: "ထိုင်းထူးပြုဆေးရုံ",
             chineseMedicine: "တရုတ် တိုင်းရင်းဆေး၀ါး ဌာန",
-      physicalTherapy: "ရုပ်ပိုင်းဆိုင်ရာကုထုံးဌာန",
-      outpatientClinic: "ပြင်ပလူနာဌာန"
-    },
-          service: {
-            service1: 'Chat Box'
-          }
+            physicalTherapy: "ရုပ်ပိုင်းဆိုင်ရာကုထုံးဌာန",
+            outpatientClinic: "ပြင်ပလူနာဌာန"
+          },
         }
       }
     };
   },
   components: {
     LogIn,
-    CreateAcc,
-    ChatBubble,
-    ChatWindow
+    CreateAcc
   },
   methods: {
     toggleLanguageDropdown() {
@@ -242,12 +226,6 @@ export default {
       this.showLanguageDropdown = false;
       this.showProfileDropdown = false;
     },
-    toggleAppointmentsDropdown() {
-    this.showAppointmentsDropdown = !this.showAppointmentsDropdown;
-    },
-    toggleServicesDropdown() {
-      this.showServicesDropdown = !this.showServicesDropdown;
-    },
     setLanguage(lang) {
       this.currentLang = lang;
       this.showLanguageDropdown = false;
@@ -256,20 +234,39 @@ export default {
       this.showLoginForm = true;
       this.showProfileDropdown = false;
     },
+    closeLoginForm() {
+      this.showLoginForm = false;
+    },
     openCreateAccountForm() {
       this.showCreateAccountForm = true;
       this.showProfileDropdown = false;
+    },
+    closeCreateAccountForm() {
+      this.showCreateAccountForm = false;
     },
     selectDoctorDepartment(department) {
       if (department === this.translations[this.currentLang].departments.thaiMedicine) {
         this.$router.push({ name: 'thaiMedicine' });
       }
       this.showDoctorDropdown = false;
+    },
+    
+    async fetchContentItems() {
+      try {
+        const response = await axios.get('http://localhost:1337/api/content-items'); // Replace with your Strapi endpoint
+        this.contentItems = response.data.data;
+      } catch (error) {
+        console.error('Error fetching content items:', error);
+      }
     }
+  },
+  mounted() {
+    
+    this.fetchContentItems(); // Fetch content items from Strapi
   }
-  
 };
 </script>
+
 
 
 <style scoped>
