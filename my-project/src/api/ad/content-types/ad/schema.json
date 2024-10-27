@@ -1,17 +1,20 @@
 {
   "kind": "collectionType",
-  "collectionName": "ad",
+  "collectionName": "ads",
   "info": {
-    "singularName": "ads",
-    "pluralName": "ad",
-    "displayName": "Ads"
+    "singularName": "ad",
+    "pluralName": "ads",
+    "displayName": "Ad"
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "Hello": {
+    "Ad": {
+      "type": "string"
+    },
+    "Ads": {
       "allowedTypes": [
         "images",
         "files",

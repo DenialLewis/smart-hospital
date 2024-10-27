@@ -369,26 +369,24 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiAdsAds extends Struct.CollectionTypeSchema {
-  collectionName: 'ad';
+export interface ApiAdAd extends Struct.CollectionTypeSchema {
+  collectionName: 'ads';
   info: {
-    displayName: 'Ads';
-    pluralName: 'ad';
-    singularName: 'ads';
+    displayName: 'Ad';
+    pluralName: 'ads';
+    singularName: 'ad';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
+    Ad: Schema.Attribute.String;
+    Ads: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios', true>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    Hello: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios',
-      true
-    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::ads.ads'> &
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::ad.ad'> &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
@@ -902,7 +900,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
-      'api::ads.ads': ApiAdsAds;
+      'api::ad.ad': ApiAdAd;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

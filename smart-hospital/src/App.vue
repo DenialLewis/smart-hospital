@@ -1,70 +1,60 @@
 <template>
   <div id="app">
-    <!-- Show the dashboard -->
-    <div>
-      <div v-if="$route.name !== 'thaiMedicine'" class="hospital-dashboard">
-      <!-- <div v-if="$route.name !== 'chatBot'" class="hospital-dashboard">
-      <ChatWindow v-if="isChatOpen" @close-chat="isChatOpen = false" :isOpen="isChatOpen" /> -->
+    <!-- Main Dashboard -->
+    <div v-if="$route.name !== 'thaiMedicine'" class="hospital-dashboard">
       <!-- Header Section -->
-        <header class="header">
-          <div class="logo">
-            <img alt="Mfu Logo" src="./assets/Hospital.png" />
+      <header class="header">
+        <div class="logo">
+          <img alt="Mfu Logo" src="./assets/Hospital.png" />
+        </div>
+        <div class="search-lang">
+          <input type="text" class="search-bar" :placeholder="translations[currentLang].searchPlaceholder" />
+          <div>
+            <ChatBubble @open-chat="isChatOpen = true" />
           </div>
-          <div class="search-lang">
-            <input type="text" class="search-bar" :placeholder="translations[currentLang].searchPlaceholder" />
-            
-            <div>
-              <ChatBubble @open-chat="isChatOpen = true" />
+          <div class="lang-switch">
+            <div class="lang-dropdown" @click="toggleLanguageDropdown">
+              <span>{{ currentLang }}</span>
+              <img
+                :src="showLanguageDropdown ? require('@/assets/up_arr.png') : require('@/assets/down_arr.png')"
+                alt="Dropdown Arrow Icon"
+                class="down-arrow"
+              />
             </div>
-
-            <div class="lang-switch">
-
-              <div class="lang-dropdown" @click="toggleLanguageDropdown">
-                <span>{{ currentLang }}</span>
-                <img
-                  :src="showLanguageDropdown ? require('@/assets/up_arr.png') : require('@/assets/down_arr.png')"
-                  alt="Dropdown Arrow Icon"
-                  class="down-arrow"
-                />
-              </div>
-
-              <!-- Language Dropdown Menu -->
-              <div v-if="showLanguageDropdown" class="dropdown-menu">
-                <button v-if="currentLang !== 'EN'" @click="setLanguage('EN')" class="dropdown-item">
-                  <img src="./assets/uk.png" alt="English Icon" class="dropdown-icon" /> EN
-                </button>
-                <button v-if="currentLang !== 'ไทย'" @click="setLanguage('ไทย')" class="dropdown-item">
-                  <img src="./assets/th.png" alt="Thai Icon" class="dropdown-icon" /> ไทย
-                </button>
-                <button v-if="currentLang !== 'မြန်မာ'" @click="setLanguage('မြန်မာ')" class="dropdown-item">
-                  <img src="./assets/mm.png" alt="Myanmar Icon" class="dropdown-icon" /> မြန်မာ
-                </button>
-              </div>
-
-              <!-- Profile Dropdown -->
-              <div class="profile-container" @click="toggleProfileDropdown">
-                <img src="./assets/profile.png" alt="Profile Icon" />
-                <img
-                  :src="showProfileDropdown ? require('@/assets/up_arr.png') : require('@/assets/down_arr.png')"
-                  alt="Dropdown Arrow Icon"
-                  class="down-arrow"
-                />
-              </div>
-
-              <div v-if="showProfileDropdown" class="dropdown-menu">
-                <button class="dropdown-item" @click="openLoginForm">
-                  <img src="./assets/profile.png" alt="Login Logo" class="dropdown-icon" />
-                  {{ translations[currentLang].login }}
-                </button>
-                <button class="dropdown-item" @click="openCreateAccountForm">
-                  <img src="./assets/create-acc.png" alt="Create Account Icon" class="dropdown-icon" />
-                  {{ translations[currentLang].createAccount }}
-                </button>
-
+            <!-- Language Dropdown Menu -->
+            <div v-if="showLanguageDropdown" class="dropdown-menu">
+              <button v-if="currentLang !== 'EN'" @click="setLanguage('EN')" class="dropdown-item">
+                <img src="./assets/uk.png" alt="English Icon" class="dropdown-icon" /> EN
+              </button>
+              <button v-if="currentLang !== 'ไทย'" @click="setLanguage('ไทย')" class="dropdown-item">
+                <img src="./assets/th.png" alt="Thai Icon" class="dropdown-icon" /> ไทย
+              </button>
+              <button v-if="currentLang !== 'မြန်မာ'" @click="setLanguage('မြန်မာ')" class="dropdown-item">
+                <img src="./assets/mm.png" alt="Myanmar Icon" class="dropdown-icon" /> မြန်မာ
+              </button>
+            </div>
+            <!-- Profile Dropdown -->
+            <div class="profile-container" @click="toggleProfileDropdown">
+              <img src="./assets/profile.png" alt="Profile Icon" />
+              <img
+                :src="showProfileDropdown ? require('@/assets/up_arr.png') : require('@/assets/down_arr.png')"
+                alt="Dropdown Arrow Icon"
+                class="down-arrow"
+              />
+            </div>
+            <div v-if="showProfileDropdown" class="dropdown-menu">
+              <button class="dropdown-item" @click="openLoginForm">
+                <img src="./assets/profile.png" alt="Login Logo" class="dropdown-icon" />
+                {{ translations[currentLang].login }}
+              </button>
+              <button class="dropdown-item" @click="openCreateAccountForm">
+                <img src="./assets/create-acc.png" alt="Create Account Icon" class="dropdown-icon" />
+                {{ translations[currentLang].createAccount }}
+              </button>
             </div>
           </div>
-      </div>
-        </header>
+        </div>
+      </header>
 
       <!-- Navigation Section -->
       <nav class="nav-tabs">
@@ -73,42 +63,45 @@
         </button>
         <button class="tab">{{ translations[currentLang].appointments }}</button>
         <button class="tab">{{ translations[currentLang].services }}</button>
-
         <!-- Doctor Dropdown -->
-      <div v-if="showDoctorDropdown" class="doctor-dropdown">
-        <router-link to="/thai-medicine">
-          <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.thaiMedicine)">
-            {{ translations[currentLang].departments.thaiMedicine }}
+        <div v-if="showDoctorDropdown" class="doctor-dropdown">
+          <router-link to="/thai-medicine">
+            <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.thaiMedicine)">
+              {{ translations[currentLang].departments.thaiMedicine }}
+            </button>
+          </router-link>
+          <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.chineseMedicine)">
+            {{ translations[currentLang].departments.chineseMedicine }}
           </button>
-        </router-link>
-        <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.chineseMedicine)">
-          {{ translations[currentLang].departments.chineseMedicine }}
-        </button>
-        <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.physicalTherapy)">
-          {{ translations[currentLang].departments.physicalTherapy }}
-        </button>
-        <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.outpatientClinic)">
-          {{ translations[currentLang].departments.outpatientClinic }}
-        </button>
-      </div>
+          <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.physicalTherapy)">
+            {{ translations[currentLang].departments.physicalTherapy }}
+          </button>
+          <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.outpatientClinic)">
+            {{ translations[currentLang].departments.outpatientClinic }}
+          </button>
+        </div>
       </nav>
 
       <!-- Content Section -->
-      <section class="content-grid">
-  <h2>Advertisements</h2>
-  <div v-if="ads.length">
-    <div v-for="ad in ads" :key="ad.id" class="content-card">
-      <h3>{{ ad.title }}</h3>
-      <img :src="ad.image.url" alt="Ad Image" />
-      <p>{{ ad.description }}</p>
-      <p>Ad Image URL: {{ ad.image.url }}</p>
-
-    </div>
-    
-  </div>
-  <p v-else>No ads available.</p>
-</section>
-
+      <section class="content-section">
+        <h1>Ads</h1>
+        <div v-if="ads.length">
+          <div v-for="ad in ads" :key="ad.id" class="ad-card">
+            <h2>{{ ad.Ad }}</h2>
+            <img 
+              v-if="ad.Ads && ad.Ads.length > 0" 
+              :src="`http://localhost:1337${ad.Ads[0].url}`" 
+              alt="Ad Image" 
+              class="ad-image"
+              @error="handleImageError(ad)" 
+            />
+            <p v-else>No image available for this ad.</p>
+          </div>
+        </div>
+        <div v-else>
+          No ads available
+        </div>
+      </section>
 
       <!-- Footer Section -->
       <footer class="footer">
@@ -130,15 +123,13 @@
           </div>
         </div>
       </footer>
-      
+
       <ChatWindow v-if="isChatOpen" @close-chat="isChatOpen = false" :isOpen="isChatOpen" />
-      </div>
     </div>
     <router-view></router-view>
     <!-- Login form as pop-up modal -->
     <LogIn v-if="showLoginForm" @close="showLoginForm = false" :currentLang="currentLang" />
     <CreateAcc v-if="showCreateAccountForm" @close="showCreateAccountForm = false" :currentLang="currentLang" />
-  
   </div>
 </template>
 
@@ -156,7 +147,7 @@ export default {
       showLoginForm: false,
       showCreateAccountForm: false,
       currentLang: 'EN',
-      ads: [], // To store data from Strapi
+      ads: [],
       translations: {
         EN: {
           searchPlaceholder: 'Search...',
@@ -177,116 +168,59 @@ export default {
             outpatientClinic: "Outpatient Clinic"
           },
         },
-        ไทย: {
-          searchPlaceholder: 'ค้นหา...',
-          login: 'เข้าสู่ระบบ',
-          createAccount: 'สร้างบัญชี',
-          doctorSchedule: 'ตารางหมอ',
-          appointments: 'นัดหมาย',
-          services: 'บริการ',
-          contactUs: 'ติดต่อเรา',
-          hospitalName: 'โรงพยาบาล Mfu',
-          address: '123 Hospital Rd, City, Country',
-          telephone: '+123 456 7890',
-          email: 'info@mfu-hospital.com',
-          departments: {
-            thaiMedicine: "แผนกการแพทย์แผนไทย",
-            chineseMedicine: "แผนกการแพทย์แผนจีน",
-            physicalTherapy: "แผนกกายภาพบำบัด",
-            outpatientClinic: "แผนกผู้ป่วยนอก"
-          },
-        },
-        မြန်မာ: {
-          searchPlaceholder: 'ရှာဖွေပါ...',
-          login: 'ဝင်ပါ',
-          createAccount: 'အကောင့်ဖွင့်ပါ',
-          doctorSchedule: 'ဆရာဝန်အစီအစဉ်',
-          appointments: 'ချိန်းဆိုချက်များ',
-          services: 'ဝန်ဆောင်မှုများ',
-          contactUs: 'ဆက်သွယ်ရန်',
-          hospitalName: 'Mfu ဆေးရုံ',
-          address: '123 Hospital Rd, မြို့, နိုင်ငံ',
-          telephone: '+123 456 7890',
-          email: 'info@mfu-hospital.com',
-          departments: {
-            thaiMedicine: "ထိုင်းထူးပြုဆေးရုံ",
-            chineseMedicine: "တရုတ် တိုင်းရင်းဆေး၀ါး ဌာန",
-            physicalTherapy: "ရုပ်ပိုင်းဆိုင်ရာကုထုံးဌာန",
-            outpatientClinic: "ပြင်ပလူနာဌာန"
-          },
-        }
+        ไทย: { /* Thai translations */ },
+        မြန်မာ: { /* Myanmar translations */ }
       }
     };
   },
+  mounted() {
+    this.fetchAds();
+  },
+
   components: {
     LogIn,
     CreateAcc
   },
   methods: {
-    toggleLanguageDropdown() {
-      this.showLanguageDropdown = !this.showLanguageDropdown;
-      this.showProfileDropdown = false;
-      this.showDoctorDropdown = false;
-    },
-    toggleProfileDropdown() {
-      this.showProfileDropdown = !this.showProfileDropdown;
-      this.showLanguageDropdown = false;
-      this.showDoctorDropdown = false;
-    },
-    toggleDoctorDropdown() {
-      this.showDoctorDropdown = !this.showDoctorDropdown;
-      this.showLanguageDropdown = false;
-      this.showProfileDropdown = false;
-    },
-    setLanguage(lang) {
-      this.currentLang = lang;
-      this.showLanguageDropdown = false;
-    },
-    openLoginForm() {
-      this.showLoginForm = true;
-      this.showProfileDropdown = false;
-    },
-    closeLoginForm() {
-      this.showLoginForm = false;
-    },
-    openCreateAccountForm() {
-      this.showCreateAccountForm = true;
-      this.showProfileDropdown = false;
-    },
-    closeCreateAccountForm() {
-      this.showCreateAccountForm = false;
-    },
-    selectDoctorDepartment(department) {
-      if (department === this.translations[this.currentLang].departments.thaiMedicine) {
-        this.$router.push({ name: 'thaiMedicine' });
-      }
-      this.showDoctorDropdown = false;
-    },
-    
+    toggleLanguageDropdown() { this.showLanguageDropdown = !this.showLanguageDropdown; },
+    toggleProfileDropdown() { this.showProfileDropdown = !this.showProfileDropdown; },
+    toggleDoctorDropdown() { this.showDoctorDropdown = !this.showDoctorDropdown; },
+    setLanguage(lang) { this.currentLang = lang; this.showLanguageDropdown = false; },
+    openLoginForm() { this.showLoginForm = true; },
+    openCreateAccountForm() { this.showCreateAccountForm = true; },
+    selectDoctorDepartment(department) { console.log(`Selected department: ${department}`); },
     async fetchAds() {
-        try {
-            const response = await axios.get(`${process.env.VUE_APP_API_URL}/api/ads`);
-            this.ads = response.data.data.map(ad => ({
-                ...ad,
-                image: {
-                    url: ad.image.url.includes('http') ? ad.image.url : `http://localhost:1337${ad.image.url}`
-                }
-            }));
-        } catch (error) {
-            console.error('Error fetching ads:', error);
-            this.ads = []; // Reset to empty on error
-            this.errorMessage = 'Failed to load advertisements. Please try again later.'; // Display an error message
-        }
+      try {
+        const response = await axios.get('http://localhost:1337/api/ads');
+        console.log(response.data); // Log the entire response to check the structure
+        this.ads = response.data.data; // Adjust this according to your actual response
+        this.logAdImageUrls();
+      } catch (error) {
+        console.error('Error fetching ads:', error);
+      }
     },
-},
-  mounted() {
-    this.fetchAds(); // Fetch ads when the component mounts
-  },
+
+    logAdImageUrls() {
+      if (this.ads.length) {
+        this.ads.forEach(ad => {
+          // Log to see the structure of each ad
+          console.log(ad);
+          if (ad.Ads && ad.Ads.length > 0) {
+            console.log(`Ad Image URL: http://localhost:1337${ad.Ads[0].url}`);
+          }
+        });
+      } else {
+        console.log('No ads available.');
+      }
+    },
+
+    handleImageError(ad) {
+      console.log(`Error loading image for ad: ${ad.Ad}`);
+      // You could also set a default image or perform any other error handling
+    }
+  }
 };
 </script>
-
-
-
 <style scoped>
 .hospital-dashboard {
   display: flex;
@@ -510,6 +444,20 @@ export default {
   height: 80px;
   width: auto;
 }
+.ad-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  margin: 10px;
+}
+
+.ad-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
 
 
 </style>
