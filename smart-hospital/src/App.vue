@@ -9,8 +9,15 @@
       
       <div class="lang-switch">
         <div class="search-lang">
-        <input type="text" class="search-bar" :placeholder="translations[currentLang].searchPlaceholder" />
-      </div>
+        <input 
+            type="text" 
+            class="search-bar" 
+            :placeholder="translations[currentLang].searchPlaceholder" 
+        />
+        <button class="search-button">
+            <img src="./assets/search.png" alt="Search" class="search-icon" />
+        </button>
+    </div>
       <div class="chat-boutton">
         <button class="chat-button" @click="isChatOpen = !isChatOpen">
           <img src="./assets/chatbox.png" alt="Chat Icon" />
@@ -347,7 +354,15 @@ export default {
     outline: none;
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
   }
+  .search-button {
+    background-color: transparent;
+    cursor: pointer;
+  }
 
+.search-icon {
+    width: 20px;
+    height: 20px;
+}
   .lang-switch {
     margin-left: 15px;
     display: flex;
@@ -415,8 +430,6 @@ export default {
   .dropdown-item:hover .dropdown-icon {
     filter: brightness(0) invert(1); /* Changes the icon color to white on hover */
   }
-
-
 
   /* Navigation Tabs */
   .nav-tabs {
