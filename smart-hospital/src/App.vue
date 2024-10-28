@@ -52,36 +52,37 @@
         </div>
       </div>
     </header>
-
+    <nav class="nav-tabs">
+      <button class="tab" :class="{ 'active': showDoctorDropdown }" @click="toggleDoctorDropdown">
+        {{ translations[currentLang].doctorSchedule }}
+      </button>
+      <button class="tab">{{ translations[currentLang].appointments }}</button>
+      <button class="tab">{{ translations[currentLang].services }}</button>
+      <!-- Doctor Dropdown -->
+      <div v-if="showDoctorDropdown" class="doctor-dropdown">
+        <router-link to="/thai-medicine">
+          <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.thaiMedicine)">
+            {{ translations[currentLang].departments.thaiMedicine }}
+          </button>
+        </router-link>
+        <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.chineseMedicine)">
+          {{ translations[currentLang].departments.chineseMedicine }}
+        </button>
+        <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.physicalTherapy)">
+          {{ translations[currentLang].departments.physicalTherapy }}
+        </button>
+        <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.outpatientClinic)">
+          {{ translations[currentLang].departments.outpatientClinic }}
+        </button>
+      </div>
+    </nav>
+    
     <!-- Main Dashboard -->
     <div v-if="$route.name !== 'thaiMedicine'" class="hospital-dashboard">
 
       <!-- 1. Header Section -->
       <!-- 2. Navigation Section -->
-      <nav class="nav-tabs">
-        <button class="tab" :class="{ 'active': showDoctorDropdown }" @click="toggleDoctorDropdown">
-          {{ translations[currentLang].doctorSchedule }}
-        </button>
-        <button class="tab">{{ translations[currentLang].appointments }}</button>
-        <button class="tab">{{ translations[currentLang].services }}</button>
-        <!-- Doctor Dropdown -->
-        <div v-if="showDoctorDropdown" class="doctor-dropdown">
-          <router-link to="/thai-medicine">
-            <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.thaiMedicine)">
-              {{ translations[currentLang].departments.thaiMedicine }}
-            </button>
-          </router-link>
-          <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.chineseMedicine)">
-            {{ translations[currentLang].departments.chineseMedicine }}
-          </button>
-          <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.physicalTherapy)">
-            {{ translations[currentLang].departments.physicalTherapy }}
-          </button>
-          <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.outpatientClinic)">
-            {{ translations[currentLang].departments.outpatientClinic }}
-          </button>
-        </div>
-      </nav>
+      
 
       <!-- 3. Content Section -->
       <section class="content-section">

@@ -2,36 +2,10 @@
   <div class="doctor-schedule-page">
 
     <!-- Navigation Section -->
-    <nav class="nav-tabs">
-      <button class="tab" :class="{ 'active': showDoctorDropdown }" @click="toggleDoctorDropdown">
-        {{ translations[currentLang].doctorSchedule }}
-      </button>
-      <button class="tab">{{ translations[currentLang].appointments }}</button>
-      <button class="tab">{{ translations[currentLang].services }}</button>
-
-      <!-- Doctor Dropdown -->
-      <div v-if="showDoctorDropdown" class="doctor-dropdown">
-        <router-link to="/thai-medicine">
-          <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.thaiMedicine)">
-            {{ translations[currentLang].departments.thaiMedicine }}
-          </button>
-        </router-link>
-        <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.chineseMedicine)">
-    {{ translations[currentLang].departments.chineseMedicine }}
-  </button>
-  <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.physicalTherapy)">
-    {{ translations[currentLang].departments.physicalTherapy }}
-  </button>
-  <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.outpatientClinic)">
-    {{ translations[currentLang].departments.outpatientClinic }}
-  </button>
-      </div>
-    </nav>
 
     <!-- Page Title -->
     <header class="page-header">
       <h1>{{ translations[currentLang].doctorSchedule }}</h1>
-      
     </header>
 
     <!-- Schedule Section -->
