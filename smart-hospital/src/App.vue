@@ -115,28 +115,26 @@
       <!-- 1. Header Section -->
       <!-- 2. Navigation Section -->
       
-
-      <!-- 3. Content Section -->
-      <section class="content-section">
-        <h1>Ads</h1>
-        <div v-if="ads.length">
-          <div v-for="ad in ads" :key="ad.id" class="ad-card">
-            <h2>{{ ad.Ad }}</h2>
-            <img 
-              v-if="ad.Ads && ad.Ads.length > 0" 
-              :src="`http://localhost:1337${ad.Ads[0].url}`" 
-              alt="Ad Image" 
-              class="ad-image"
-              @error="handleImageError(ad)" 
-            />
-            <p v-else>No image available for this ad.</p>
-          </div>
-        </div>
-        <div v-else>
-          No ads available
-        </div>
-      </section>
-
+   <!-- 3. Content Section -->
+   <section class="content-section">
+    <h1>Ads</h1>
+    <div v-if="ads.length">
+      <div v-for="ad in ads" :key="ad.id" class="ad-card">
+        <h2>{{ ad.Ad }}</h2>
+        <img 
+           v-if="ad.Ads && ad.Ads.length > 0" 
+           :src="`http://localhost:1337${ad.Ads[0].url}`" 
+           alt="Ad Image" 
+           class="ad-image"
+           @error="handleImageError(ad)" 
+        />
+        <p v-else>No image available for this ad.</p>
+      </div>
+    </div>
+    <div v-else>
+      No ads available
+    </div>
+  </section>
       <!-- 4. Footer Section -->
       <footer class="footer">
         <div class="contact-info">
@@ -334,7 +332,7 @@ export default {
     },
     async fetchAds() {
       try {
-        const response = await axios.get('http://localhost:1337/api/ads');
+        const response = await axios.get('http://localhost:1337/api/ads?populate=*'); // Ensure to populate media
         console.log(response.data); // Log the entire response to check the structure
         this.ads = response.data.data; // Adjust this according to your actual response
         this.logAdImageUrls();
@@ -342,7 +340,6 @@ export default {
         console.error('Error fetching ads:', error);
       }
     },
-
     logAdImageUrls() {
       if (this.ads.length) {
         this.ads.forEach(ad => {
@@ -356,7 +353,6 @@ export default {
         console.log('No ads available.');
       }
     },
-
     handleImageError(ad) {
       console.log(`Error loading image for ad: ${ad.Ad}`);
       // You could also set a default image or perform any other error handling
@@ -412,7 +408,7 @@ export default {
   transform: translateY(-50%);
   width: 30px;
   height: 30px;
-  cursor: pointer;
+  
 }
   .lang-switch {
     margin-left: 15px;
@@ -650,6 +646,10 @@ export default {
 
 .chat-button:hover {
   filter: brightness(0.9);
+}
+.ad-image {
+  width: 100px; /* Adjust the width as needed */
+  height: auto; /* Maintain aspect ratio */
 }
 
 
