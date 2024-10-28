@@ -200,6 +200,7 @@ export default {
           doctorSchedule: 'Doctor Schedule',
           appointments: 'Appointments',
           services: 'Services',
+          openChatbox: 'Open Chatbox',
           contactUs: 'Contact Us',
           hospitalName: 'Mfu Hospital',
           address: '123 Hospital Rd, City, Country',
@@ -207,13 +208,60 @@ export default {
           email: 'info@mfu-hospital.com',
           departments: {
             thaiMedicine: "Department of Thai Traditional Medicine",
-            chineseMedicine: "Department of Chinese Medicine",
-            physicalTherapy: "Physical Therapy Department",
-            outpatientClinic: "Outpatient Clinic"
-          },
+      chineseMedicine: "Department of Chinese Medicine",
+      physicalTherapy: "Physical Therapy Department",
+      outpatientClinic: "Outpatient Clinic"
+    },
+          service: {
+            service1: 'Chat Box'
+          }
         },
-        ไทย: { /* Thai translations */ },
-        မြန်မာ: { /* Myanmar translations */ }
+        ไทย: {
+          searchPlaceholder: 'ค้นหา...',
+          login: 'เข้าสู่ระบบ',
+          createAccount: 'สร้างบัญชี',
+          doctorSchedule: 'ตารางหมอ',
+          appointments: 'นัดหมาย',
+          services: 'บริการ',
+          openChatbox: 'เปิดแชทบ็อกซ์',
+          contactUs: 'ติดต่อเรา',
+          hospitalName: 'โรงพยาบาล Mfu',
+          address: '123 Hospital Rd, City, Country',
+          telephone: '+123 456 7890',
+          email: 'info@mfu-hospital.com',
+          departments: {
+            thaiMedicine: "แผนกการแพทย์แผนไทย",
+      chineseMedicine: "แผนกการแพทย์แผนจีน",
+      physicalTherapy: "แผนกกายภาพบำบัด",
+      outpatientClinic: "แผนกผู้ป่วยนอก"
+    },
+          service: {
+            service1: 'Chat Box'
+          }
+        },
+        မြန်မာ: {
+          searchPlaceholder: 'ရှာဖွေပါ...',
+          login: 'ဝင်ပါ',
+          createAccount: 'အကောင့်ဖွင့်ပါ',
+          doctorSchedule: 'ဆရာဝန်အစီအစဉ်',
+          appointments: 'ချိန်းဆိုချက်များ',
+          services: 'ဝန်ဆောင်မှုများ',
+          openChatbox: 'ချက်ဘော့ကို ဖွင့်မည်',
+          contactUs: 'ဆက်သွယ်ရန်',
+          hospitalName: 'Mfu ဆေးရုံ',
+          address: '123 Hospital Rd, မြို့, နိုင်ငံ',
+          telephone: '+123 456 7890',
+          email: 'info@mfu-hospital.com',
+          departments: {
+            thaiMedicine: "ထိုင်းထူးပြုဆေးရုံ",
+            chineseMedicine: "တရုတ် တိုင်းရင်းဆေး၀ါး ဌာန",
+      physicalTherapy: "ရုပ်ပိုင်းဆိုင်ရာကုထုံးဌာန",
+      outpatientClinic: "ပြင်ပလူနာဌာန"
+    },
+          service: {
+            service1: 'Chat Box'
+          }
+        }
       }
     };
   },
