@@ -115,24 +115,32 @@
       <!-- 1. Header Section -->
       <!-- 2. Navigation Section -->
       
-   <!-- 3. Content Section -->
-   <section class="content-section">
+ <!-- 3. Content Section -->
+ <section class="content-section">
     <h1>Ads</h1>
-    <div v-if="ads.length">
-      <div v-for="ad in ads" :key="ad.id" class="ad-card">
-        <h2>{{ ad.Ad }}</h2>
-        <img 
-           v-if="ad.Ads && ad.Ads.length > 0" 
-           :src="`http://localhost:1337${ad.Ads[0].url}`" 
-           alt="Ad Image" 
-           class="ad-image"
-           @error="handleImageError(ad)" 
-        />
-        <p v-else>No image available for this ad.</p>
+    <div class="ads-container">
+      <div v-if="ads.length">
+        <div v-for="ad in ads" :key="ad.id" class="ad-card">
+          <h2>{{ ad.Ad }}</h2>
+          <div class="ad-images-container">
+            <template v-if="ad.Ads && ad.Ads.length > 0">
+              <img 
+                v-for="(image, index) in ad.Ads" 
+                :key="index"
+                :src="`http://localhost:1337${image.url}`" 
+                alt="Ad Image" 
+                class="ad-image"
+                :style="{ width: '100px', height: 'auto' }" 
+                @error="handleImageError(ad)" 
+              />
+            </template>
+            <p v-else>No images available for this ad.</p>
+          </div>
+        </div>
       </div>
-    </div>
-    <div v-else>
-      No ads available
+      <div v-else>
+        No ads available
+      </div>
     </div>
   </section>
       <!-- 4. Footer Section -->
@@ -647,8 +655,26 @@ export default {
 .chat-button:hover {
   filter: brightness(0.9);
 }
+.ads-container {
+  display: flex; /* Use flexbox to align ads side by side */
+  flex-wrap: wrap; /* Allow wrapping to next line if necessary */
+  gap: 20px; /* Space between ad cards */
+}
+
+.ad-card {
+  border: 1px solid #ddd; /* Optional: style the ad card */
+  padding: 10px; /* Optional: space inside the ad card */
+  flex: 0 1 calc(33.33% - 20px); /* Responsive width: adjust as needed */
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); /* Optional: shadow for depth */
+}
+
+.ad-images-container {
+  display: flex; /* Flexbox for image layout */
+  gap: 10px; /* Space between images */
+}
+
 .ad-image {
-  width: 100px; /* Adjust the width as needed */
+  width: 100px; /* Set width for images */
   height: auto; /* Maintain aspect ratio */
 }
 
