@@ -6,13 +6,17 @@
       <div class="logo">
         <img alt="Mfu Logo" src="./assets/Hospital.png" @click="goToHomePage" style="cursor: pointer;"/>
       </div>
-      <!-- <div class="search-lang">
-        <input type="text" class="search-bar" :placeholder="translations[currentLang].searchPlaceholder" />
-        <div>
-          <ChatBubble @open-chat="isChatOpen = true" />
-        </div>
-      </div> -->
+      
       <div class="lang-switch">
+        <div class="search-lang">
+        <input type="text" class="search-bar" :placeholder="translations[currentLang].searchPlaceholder" />
+      </div>
+      <div class="chat-boutton">
+        <button class="chat-button" @click="isChatOpen = !isChatOpen">
+          <img src="./assets/chatbox.png" alt="Chat Icon" />
+          <span>{{ translations[currentLang].chat }}</span>
+        </button>
+      </div>
         <div class="lang-dropdown" @click="toggleLanguageDropdown">
           <span>{{ currentLang }}</span>
           <img
@@ -192,13 +196,45 @@ export default {
     CreateAcc
   },
   methods: {
-    toggleLanguageDropdown() { this.showLanguageDropdown = !this.showLanguageDropdown; },
-    toggleProfileDropdown() { this.showProfileDropdown = !this.showProfileDropdown; },
-    toggleDoctorDropdown() { this.showDoctorDropdown = !this.showDoctorDropdown; },
-    setLanguage(lang) { this.currentLang = lang; this.showLanguageDropdown = false; },
-    openLoginForm() { this.showLoginForm = true; },
-    openCreateAccountForm() { this.showCreateAccountForm = true; },
-    selectDoctorDepartment(department) { console.log(`Selected department: ${department}`); },
+    toggleLanguageDropdown() {
+      this.showLanguageDropdown = !this.showLanguageDropdown;
+      this.showProfileDropdown = false;
+      this.showDoctorDropdown = false;
+    },
+    toggleProfileDropdown() {
+      this.showProfileDropdown = !this.showProfileDropdown;
+      this.showLanguageDropdown = false;
+      this.showDoctorDropdown = false;
+    },
+    toggleDoctorDropdown() {
+      this.showDoctorDropdown = !this.showDoctorDropdown;
+      this.showLanguageDropdown = false;
+      this.showProfileDropdown = false;
+    },
+    toggleAppointmentsDropdown() {
+    this.showAppointmentsDropdown = !this.showAppointmentsDropdown;
+    },
+    toggleServicesDropdown() {
+      this.showServicesDropdown = !this.showServicesDropdown;
+    },
+    setLanguage(lang) {
+      this.currentLang = lang;
+      this.showLanguageDropdown = false;
+    },
+    openLoginForm() {
+      this.showLoginForm = true;
+      this.showProfileDropdown = false;
+    },
+    openCreateAccountForm() {
+      this.showCreateAccountForm = true;
+      this.showProfileDropdown = false;
+    },
+    selectDoctorDepartment(department) {
+      if (department === this.translations[this.currentLang].departments.thaiMedicine) {
+        this.$router.push({ name: 'thaiMedicine' });
+      }
+      this.showDoctorDropdown = false;
+    },
     goToHomePage() {
       this.$router.push({ name: 'App' }); // Ensure that 'home' route is defined in your router.
     },
@@ -235,30 +271,18 @@ export default {
 };
 </script>
 
-
-
-
-
-
-
 <!-- CSS -->
 <style scoped>
   .hospital-dashboard {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Ensure the body takes at least the full viewport height */
     justify-content: center;
   }
 
   .header {
-    position: fixed;
-    /* display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #ffffff; */
+    
     top: 0; 
     left: 0; 
-    width: 100%;
     background-color: #ffffff;
     z-index: 1000; 
     align-items: center;
@@ -358,7 +382,6 @@ export default {
 
   /* Navigation Tabs */
   .nav-tabs {
-    margin-top: 90px;
     display: flex;
     justify-content: space-around;
     background-color: #ffffff; /* Background color */
@@ -391,7 +414,7 @@ export default {
   .doctor-dropdown {
     position: absolute;
     top: 60px; /* Adjusted to appear below the nav bar */
-    left: 0;
+    left: 65px;
     background-color: #ffffff; /* Background color */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 6px;
@@ -488,4 +511,24 @@ export default {
     height: auto;
     border-radius: 4px;
   }
+  .chat-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.chat-button img {
+  width: 40px;
+  height: 40px;
+  margin-right: 5px;
+}
+
+.chat-button:hover {
+  filter: brightness(0.9);
+}
+
+
 </style>
