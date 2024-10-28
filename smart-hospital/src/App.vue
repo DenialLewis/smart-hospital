@@ -9,14 +9,14 @@
       
       <div class="lang-switch">
         <div class="search-bar">
-          <input
+    <input
       type="text"
       placeholder="Search..."
       v-model="query"
       @input="onSearch"
     />
-    <img src="./assets/search.png" alt="Search Icon" class="search-icon" />
-    </div>
+    <img src="@/assets/search.png" alt="Search Icon" class="search-icon" />
+  </div>
       <div class="chat-boutton">
         <button class="chat-button" @click="isChatOpen = !isChatOpen">
           <img src="./assets/chatbox.png" alt="Chat Icon" />
@@ -274,11 +274,7 @@ export default {
     CreateAcc
   },
   methods: {
-    onSearch() {
-      // Emit an event or handle the search query here
-      this.$emit("search", this.query);
-    },
-  },
+    
     toggleLanguageDropdown() {
       this.showLanguageDropdown = !this.showLanguageDropdown;
       this.showProfileDropdown = false;
@@ -365,7 +361,8 @@ export default {
       console.log(`Error loading image for ad: ${ad.Ad}`);
       // You could also set a default image or perform any other error handling
     }
-  };
+  }
+};
 </script>
 
 <!-- CSS -->
@@ -394,6 +391,7 @@ export default {
   }
 
   .search-bar {
+    right: 35px;
   position: relative;
   width: 100%;
   max-width: 400px;
@@ -415,7 +413,6 @@ export default {
   width: 30px;
   height: 30px;
   cursor: pointer;
-  
 }
   .lang-switch {
     margin-left: 15px;
@@ -648,7 +645,7 @@ export default {
 .chat-button img {
   width: 40px;
   height: 40px;
-  margin-right: 5px;
+  
 }
 
 .chat-button:hover {
