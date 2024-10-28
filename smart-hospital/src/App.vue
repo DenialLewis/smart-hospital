@@ -62,8 +62,12 @@
       <button class="tab" :class="{ 'active': showDoctorDropdown }" @click="toggleDoctorDropdown">
         {{ translations[currentLang].doctorSchedule }}
       </button>
-      <button class="tab">{{ translations[currentLang].appointments }}</button>
-      <button class="tab">{{ translations[currentLang].services }}</button>
+      <button class="tab" :class="{ 'active': showAppointmentsDropdown}" @click="toggleAppointmentsDropdown">
+        {{ translations[currentLang].appointments }}
+      </button>
+      <button class="tab" :class="{ 'active': showServicesDropdown}" @click="toggleServicesDropdown">
+        {{ translations[currentLang].services }}
+      </button>
       <!-- Doctor Dropdown -->
       <div v-if="showDoctorDropdown" class="doctor-dropdown">
         <router-link to="/thai-medicine">
@@ -81,6 +85,22 @@
           {{ translations[currentLang].departments.outpatientClinic }}
         </button>
       </div>
+      
+      <!-- Appointment Dropdown -->
+<div v-if="showAppointmentsDropdown" class="appointment-dropdown">
+  <button class="dropdown-item" @click="openAppointmentPage(1)">Appointment 1: General Check-up</button>
+  <button class="dropdown-item" @click="openAppointmentPage(2)" >Appointment 2: Dental Consultation</button>
+  <button class="dropdown-item" @click="openAppointmentPage(3)" >Appointment 3: Eye Examination</button>
+  <button class="dropdown-item" @click="openAppointmentPage(4)" >Appointment 4: Pediatric Check-up</button>
+</div>
+ <!-- Service Dropdown -->
+ <div v-if="showServicesDropdown" class="service-dropdown">
+  <button class="dropdown-item" @click="openServicePage(1)">Service 1: General Check-up</button>
+  <button class="dropdown-item" @click="openServicePage(2)" >Service 2: Dental Consultation</button>
+  <button class="dropdown-item" @click="openServicePage(3)" >Service 3: Eye Examination</button>
+  <button class="dropdown-item" @click="openServicePage(4)" >Service 4: Pediatric Check-up</button>
+</div>
+
     </nav>
 
     <!-- Main Dashboard -->
@@ -155,9 +175,12 @@ import CreateAcc from './components/create_acc.vue';
 export default {
   data() {
     return {
+      
       showLanguageDropdown: false,
       showProfileDropdown: false,
       showDoctorDropdown: false,
+      showAppointmentsDropdown: false,
+      showServicesDropdown: false,
       showLoginForm: false,
       showCreateAccountForm: false,
       currentLang: 'EN',
@@ -200,22 +223,37 @@ export default {
       this.showLanguageDropdown = !this.showLanguageDropdown;
       this.showProfileDropdown = false;
       this.showDoctorDropdown = false;
+      this.showAppointmentsDropdown = false;
+      this.showServicesDropdown = false;
     },
     toggleProfileDropdown() {
       this.showProfileDropdown = !this.showProfileDropdown;
       this.showLanguageDropdown = false;
       this.showDoctorDropdown = false;
+      this.showAppointmentsDropdown = false;
+      this.showServicesDropdown = false;
     },
     toggleDoctorDropdown() {
       this.showDoctorDropdown = !this.showDoctorDropdown;
       this.showLanguageDropdown = false;
       this.showProfileDropdown = false;
+      this.showAppointmentsDropdown = false;
+      this.showServicesDropdown = false;
     },
     toggleAppointmentsDropdown() {
-    this.showAppointmentsDropdown = !this.showAppointmentsDropdown;
+      this.showAppointmentsDropdown = !this.showAppointmentsDropdown;
+      this.showDoctorDropdown = false;
+      this.showLanguageDropdown = false;
+      this.showProfileDropdown = false;
+      this.showServicesDropdown = false;
+    
     },
     toggleServicesDropdown() {
       this.showServicesDropdown = !this.showServicesDropdown;
+      this.showAppointmentsDropdown = false;
+      this.showDoctorDropdown = false;
+      this.showLanguageDropdown = false;
+      this.showProfileDropdown = false;
     },
     setLanguage(lang) {
       this.currentLang = lang;
@@ -326,7 +364,7 @@ export default {
   .lang-switch span {
     font-weight: bold;
     margin-left: 8px;
-    color: #003d73; 
+    color: black; 
   }
 
   .lang-switch img, .profile-container img {
@@ -393,7 +431,7 @@ export default {
   .tab {
     background: none;
     border: none;
-    color: #003d73;
+    color: black;
     font-size: 16px;
     padding: 10px 20px;
     cursor: pointer;
@@ -401,7 +439,7 @@ export default {
   }
 
   .tab.active {
-    color: #003d73;
+    color: black;
     border-top: 3px solid #EBD5A0; /* Highlighted top border */
   }
 
@@ -415,6 +453,26 @@ export default {
     position: absolute;
     top: 60px; /* Adjusted to appear below the nav bar */
     left: 65px;
+    background-color: #ffffff; /* Background color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    border-top: 3px solid #EBD5A0; /* Highlighted border color */
+    z-index: 1000;
+  }
+  .appointment-dropdown {
+    position: absolute;
+    top: 60px; /* Adjusted to appear below the nav bar */
+    left: 41%;
+    background-color: #ffffff; /* Background color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    border-top: 3px solid #EBD5A0; /* Highlighted border color */
+    z-index: 1000;
+  }
+  .service-dropdown {
+    position: absolute;
+    top: 60px; /* Adjusted to appear below the nav bar */
+    left: 75%;
     background-color: #ffffff; /* Background color */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 6px;
