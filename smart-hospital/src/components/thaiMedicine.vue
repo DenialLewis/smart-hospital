@@ -117,6 +117,16 @@ export default {
           doctors: [
             { name: "Dr. Somchai", specialization: "Herbal Therapy", availableTime: "Mon-Fri 9:00 AM - 12:00 PM" },
             { name: "Dr. Anan", specialization: "Massage Therapy", availableTime: "Mon-Wed 1:00 PM - 4:00 PM" },
+            { name: "Dr. Somchai", specialization: "Herbal Therapy", availableTime: "Mon-Fri 9:00 AM - 12:00 PM" },
+            { name: "Dr. Anan", specialization: "Massage Therapy", availableTime: "Mon-Wed 1:00 PM - 4:00 PM" },
+            { name: "Dr. Somchai", specialization: "Herbal Therapy", availableTime: "Mon-Fri 9:00 AM - 12:00 PM" },
+            { name: "Dr. Anan", specialization: "Massage Therapy", availableTime: "Mon-Wed 1:00 PM - 4:00 PM" },
+            { name: "Dr. Somchai", specialization: "Herbal Therapy", availableTime: "Mon-Fri 9:00 AM - 12:00 PM" },
+            { name: "Dr. Anan", specialization: "Massage Therapy", availableTime: "Mon-Wed 1:00 PM - 4:00 PM" },
+            { name: "Dr. Somchai", specialization: "Herbal Therapy", availableTime: "Mon-Fri 9:00 AM - 12:00 PM" },
+            { name: "Dr. Anan", specialization: "Massage Therapy", availableTime: "Mon-Wed 1:00 PM - 4:00 PM" },
+            { name: "Dr. Somchai", specialization: "Herbal Therapy", availableTime: "Mon-Fri 9:00 AM - 12:00 PM" },
+            { name: "Dr. Anan", specialization: "Massage Therapy", availableTime: "Mon-Wed 1:00 PM - 4:00 PM" },
           ],
         },
         {
