@@ -8,15 +8,14 @@
       </div>
       
       <div class="lang-switch">
-        <div class="search-lang">
-        <input 
-            type="text" 
-            class="search-bar" 
-            :placeholder="translations[currentLang].searchPlaceholder" 
-        />
-        <button class="search-button">
-            <img src="./assets/search.png" alt="Search" class="search-icon" />
-        </button>
+        <div class="search-bar">
+          <input
+      type="text"
+      placeholder="Search..."
+      v-model="query"
+      @input="onSearch"
+    />
+    <img src="./assets/search.png" alt="Search Icon" class="search-icon" />
     </div>
       <div class="chat-boutton">
         <button class="chat-button" @click="isChatOpen = !isChatOpen">
@@ -180,9 +179,10 @@ import LogIn from './components/log_in.vue';
 import CreateAcc from './components/create_acc.vue';
 
 export default {
+  name: "SearchBar",
   data() {
     return {
-      
+     query: "",
       showLanguageDropdown: false,
       showProfileDropdown: false,
       showDoctorDropdown: false,
@@ -274,6 +274,11 @@ export default {
     CreateAcc
   },
   methods: {
+    onSearch() {
+      // Emit an event or handle the search query here
+      this.$emit("search", this.query);
+    },
+  },
     toggleLanguageDropdown() {
       this.showLanguageDropdown = !this.showLanguageDropdown;
       this.showProfileDropdown = false;
@@ -360,8 +365,7 @@ export default {
       console.log(`Error loading image for ad: ${ad.Ad}`);
       // You could also set a default image or perform any other error handling
     }
-  }
-};
+  };
 </script>
 
 <!-- CSS -->
@@ -389,27 +393,29 @@ export default {
     height: 70px;
   }
 
-  .search-lang {
-    display: flex;
-    align-items: center;
-  }
-
   .search-bar {
-    border: 1px solid #ddd;
-    padding: 8px;
-    border-radius: 25px;
-    width: 250px;
-    outline: none;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-  }
-  .search-button {
-    background-color: transparent;
-    cursor: pointer;
-  }
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
 
-.search-icon {
-    width: 20px;
-    height: 20px;
+.search-bar input {
+  width: 100%;
+  padding: 10px 40px 10px 10px; /* Add space for the icon */
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.search-bar .search-icon {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  
 }
   .lang-switch {
     margin-left: 15px;
