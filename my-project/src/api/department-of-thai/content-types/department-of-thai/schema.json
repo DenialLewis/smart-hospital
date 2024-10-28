@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "department_of_thais",
+  "info": {
+    "singularName": "department-of-thai",
+    "pluralName": "department-of-thais",
+    "displayName": "Department of Thai"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "DoctorName": {
+      "type": "string"
+    },
+    "Specialization": {
+      "type": "string"
+    },
+    "Time": {
+      "type": "string"
+    }
+  }
+}
