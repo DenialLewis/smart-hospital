@@ -63,9 +63,13 @@
           </button>
         </div>
       </div>
+      
     </header>
 
     <nav class="nav-tabs">
+      <button class="tab"  @click="goToHomePage">
+        {{ translations[currentLang].homepage }}
+      </button>      
       <button class="tab" :class="{ 'active': showDoctorDropdown }" @click="toggleDoctorDropdown">
         {{ translations[currentLang].doctorSchedule }}
       </button>
@@ -75,7 +79,6 @@
       <button class="tab" :class="{ 'active': showServicesDropdown}" @click="toggleServicesDropdown">
         {{ translations[currentLang].services }}
       </button>
-      <!-- Doctor Dropdown -->
       <div v-if="showDoctorDropdown" class="doctor-dropdown">
         <router-link to="/thai-medicine">
           <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.thaiMedicine)">
@@ -93,14 +96,12 @@
         </button>
       </div>
       
-      <!-- Appointment Dropdown -->
       <div v-if="showAppointmentsDropdown" class="appointment-dropdown">
         <button class="dropdown-item" @click="openAppointmentPage(1)">Appointment 1: General Check-up</button>
         <button class="dropdown-item" @click="openAppointmentPage(2)" >Appointment 2: Dental Consultation</button>
         <button class="dropdown-item" @click="openAppointmentPage(3)" >Appointment 3: Eye Examination</button>
         <button class="dropdown-item" @click="openAppointmentPage(4)" >Appointment 4: Pediatric Check-up</button>
       </div>
-      <!-- Service Dropdown -->
       <div v-if="showServicesDropdown" class="service-dropdown">
         <button class="dropdown-item" @click="openServicePage(1)">Service 1: General Check-up</button>
         <button class="dropdown-item" @click="openServicePage(2)" >Service 2: Dental Consultation</button>
@@ -109,42 +110,15 @@
       </div>
     </nav>
 
-    <!-- Main Dashboard -->
+    <!-- <nav>
+      <router-link to="/" class="button">HomePage</router-link>    
+      <router-link to="/thaiMedicine" class="button">thaiMedicine</router-link>
+      <router-link to="/appointment" class="button">appointment</router-link>
+    </nav> -->
+
     <div v-if="$route.name !== 'thaiMedicine'" class="hospital-dashboard">
-
-      <!-- 1. Header Section -->
-      <!-- 2. Navigation Section -->
-      
-      <!-- 3. Content Section -->
-      <section class="content-section">
-        <h1>Ads</h1>
-        <div class="ads-container">
-          <div v-if="ads.length">
-            <div v-for="ad in ads" :key="ad.id" class="ad-card">
-              <h2>{{ ad.Ad }}</h2>
-              <div class="ad-images-container">
-                <template v-if="ad.Ads && ad.Ads.length > 0">
-                  <img 
-                    v-for="(image, index) in ad.Ads" 
-                    :key="index"
-                    :src="`http://localhost:1337${image.url}`" 
-                    alt="Ad Image" 
-                    class="ad-image"
-                    :style="{ width: '100px', height: 'auto' }" 
-                    @error="handleImageError(ad)" 
-                  />
-                </template>
-                <p v-else>No images available for this ad.</p>
-              </div>
-            </div>
-          </div>
-          <div v-else>
-            No ads available
-          </div>
-        </div>
-      </section>
-
-      <!-- 4. Footer Section -->
+      <div class="content">
+      </div>
       <footer class="footer">
         <div class="contact-info">
           <p><strong>{{ translations[currentLang].contactUs }}</strong></p>
@@ -164,11 +138,8 @@
           </div>
         </div>
       </footer>
-
-      <!-- 5. ChatWindow -->
-      <ChatWindow v-if="isChatOpen" @close-chat="isChatOpen = false" :isOpen="isChatOpen" />
     </div>
-
+    
     <router-view></router-view>
     <!-- Login form as pop-up modal -->
     <LogIn v-if="showLoginForm" @close="showLoginForm = false" :currentLang="currentLang" />
@@ -203,6 +174,7 @@ export default {
           searchPlaceholder: 'Search...',
           login: 'Login',
           createAccount: 'Create Account',
+          homepage: 'Home',
           doctorSchedule: 'Doctor Schedule',
           appointments: 'Appointments',
           services: 'Services',
@@ -226,6 +198,7 @@ export default {
           searchPlaceholder: 'ค้นหา...',
           login: 'เข้าสู่ระบบ',
           createAccount: 'สร้างบัญชี',
+          homepage: 'pai home',
           doctorSchedule: 'ตารางหมอ',
           appointments: 'นัดหมาย',
           services: 'บริการ',
@@ -249,6 +222,7 @@ export default {
           searchPlaceholder: 'ရှာဖွေပါ...',
           login: 'ဝင်ပါ',
           createAccount: 'အကောင့်ဖွင့်ပါ',
+          homepage: 'aein thwear mae',
           doctorSchedule: 'ဆရာဝန်အစီအစဉ်',
           appointments: 'ချိန်းဆိုချက်များ',
           services: 'ဝန်ဆောင်မှုများ',
@@ -340,7 +314,7 @@ export default {
       this.showDoctorDropdown = false;
     },
     goToHomePage() {
-      this.$router.push({ name: 'App' }); // Ensure that 'home' route is defined in your router.
+      this.$router.push({ name: 'HomePage' }); // Ensure that 'home' route is defined in your router.
     },
     async fetchAds() {
       try {
