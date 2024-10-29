@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import thaiMedicine from '../components/thaiMedicine.vue'; // Adjust the path as necessary
 import ChatBubble from '../components/ChatBubble.vue';
+import appointment from '../components/appointment.vue';
+
 const routes = [
   {
     path: '/',
@@ -11,6 +13,11 @@ const routes = [
     path: '/thai-medicine',
     name: 'thaiMedicine',
     component: thaiMedicine,
+  },
+  {
+    path: '/appointment',
+    name: 'appointment',
+    component: appointment, 
   },
   {
     path: '/chat-bot',

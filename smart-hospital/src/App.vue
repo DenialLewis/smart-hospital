@@ -9,20 +9,20 @@
       
       <div class="lang-switch">
         <div class="search-bar">
-    <input
-      type="text"
-      placeholder="Search..."
-      v-model="query"
-      @input="onSearch"
-    />
-    <img src="@/assets/search.png" alt="Search Icon" class="search-icon" />
-  </div>
-      <div class="chat-boutton">
-        <button class="chat-button" @click="isChatOpen = !isChatOpen">
-          <img src="./assets/chatbox.png" alt="Chat Icon" />
-          <span>{{ translations[currentLang].chat }}</span>
-        </button>
-      </div>
+          <input
+            type="text"
+            placeholder="Search..."
+            v-model="query"
+            @input="onSearch"
+          />
+          <img src="@/assets/search.png" alt="Search Icon" class="search-icon" />
+        </div>
+        <div class="chat-boutton">
+          <button class="chat-button" @click="isChatOpen = !isChatOpen">
+            <img src="./assets/chatbox.png" alt="Chat Icon" />
+            <span>{{ translations[currentLang].chat }}</span>
+          </button>
+        </div>
         <div class="lang-dropdown" @click="toggleLanguageDropdown">
           <span>{{ currentLang }}</span>
           <img
@@ -64,11 +64,12 @@
         </div>
       </div>
     </header>
+
     <nav class="nav-tabs">
       <button class="tab" :class="{ 'active': showDoctorDropdown }" @click="toggleDoctorDropdown">
         {{ translations[currentLang].doctorSchedule }}
       </button>
-      <button class="tab" :class="{ 'active': showAppointmentsDropdown}" @click="toggleAppointmentsDropdown">
+      <button class="tab"  @click="goToAppointmentPage">
         {{ translations[currentLang].appointments }}
       </button>
       <button class="tab" :class="{ 'active': showServicesDropdown}" @click="toggleServicesDropdown">
@@ -93,20 +94,19 @@
       </div>
       
       <!-- Appointment Dropdown -->
-<div v-if="showAppointmentsDropdown" class="appointment-dropdown">
-  <button class="dropdown-item" @click="openAppointmentPage(1)">Appointment 1: General Check-up</button>
-  <button class="dropdown-item" @click="openAppointmentPage(2)" >Appointment 2: Dental Consultation</button>
-  <button class="dropdown-item" @click="openAppointmentPage(3)" >Appointment 3: Eye Examination</button>
-  <button class="dropdown-item" @click="openAppointmentPage(4)" >Appointment 4: Pediatric Check-up</button>
-</div>
- <!-- Service Dropdown -->
- <div v-if="showServicesDropdown" class="service-dropdown">
-  <button class="dropdown-item" @click="openServicePage(1)">Service 1: General Check-up</button>
-  <button class="dropdown-item" @click="openServicePage(2)" >Service 2: Dental Consultation</button>
-  <button class="dropdown-item" @click="openServicePage(3)" >Service 3: Eye Examination</button>
-  <button class="dropdown-item" @click="openServicePage(4)" >Service 4: Pediatric Check-up</button>
-</div>
-
+      <div v-if="showAppointmentsDropdown" class="appointment-dropdown">
+        <button class="dropdown-item" @click="openAppointmentPage(1)">Appointment 1: General Check-up</button>
+        <button class="dropdown-item" @click="openAppointmentPage(2)" >Appointment 2: Dental Consultation</button>
+        <button class="dropdown-item" @click="openAppointmentPage(3)" >Appointment 3: Eye Examination</button>
+        <button class="dropdown-item" @click="openAppointmentPage(4)" >Appointment 4: Pediatric Check-up</button>
+      </div>
+      <!-- Service Dropdown -->
+      <div v-if="showServicesDropdown" class="service-dropdown">
+        <button class="dropdown-item" @click="openServicePage(1)">Service 1: General Check-up</button>
+        <button class="dropdown-item" @click="openServicePage(2)" >Service 2: Dental Consultation</button>
+        <button class="dropdown-item" @click="openServicePage(3)" >Service 3: Eye Examination</button>
+        <button class="dropdown-item" @click="openServicePage(4)" >Service 4: Pediatric Check-up</button>
+      </div>
     </nav>
 
     <!-- Main Dashboard -->
@@ -115,34 +115,35 @@
       <!-- 1. Header Section -->
       <!-- 2. Navigation Section -->
       
- <!-- 3. Content Section -->
- <section class="content-section">
-    <h1>Ads</h1>
-    <div class="ads-container">
-      <div v-if="ads.length">
-        <div v-for="ad in ads" :key="ad.id" class="ad-card">
-          <h2>{{ ad.Ad }}</h2>
-          <div class="ad-images-container">
-            <template v-if="ad.Ads && ad.Ads.length > 0">
-              <img 
-                v-for="(image, index) in ad.Ads" 
-                :key="index"
-                :src="`http://localhost:1337${image.url}`" 
-                alt="Ad Image" 
-                class="ad-image"
-                :style="{ width: '100px', height: 'auto' }" 
-                @error="handleImageError(ad)" 
-              />
-            </template>
-            <p v-else>No images available for this ad.</p>
+      <!-- 3. Content Section -->
+      <section class="content-section">
+        <h1>Ads</h1>
+        <div class="ads-container">
+          <div v-if="ads.length">
+            <div v-for="ad in ads" :key="ad.id" class="ad-card">
+              <h2>{{ ad.Ad }}</h2>
+              <div class="ad-images-container">
+                <template v-if="ad.Ads && ad.Ads.length > 0">
+                  <img 
+                    v-for="(image, index) in ad.Ads" 
+                    :key="index"
+                    :src="`http://localhost:1337${image.url}`" 
+                    alt="Ad Image" 
+                    class="ad-image"
+                    :style="{ width: '100px', height: 'auto' }" 
+                    @error="handleImageError(ad)" 
+                  />
+                </template>
+                <p v-else>No images available for this ad.</p>
+              </div>
+            </div>
+          </div>
+          <div v-else>
+            No ads available
           </div>
         </div>
-      </div>
-      <div v-else>
-        No ads available
-      </div>
-    </div>
-  </section>
+      </section>
+
       <!-- 4. Footer Section -->
       <footer class="footer">
         <div class="contact-info">
@@ -167,7 +168,6 @@
       <!-- 5. ChatWindow -->
       <ChatWindow v-if="isChatOpen" @close-chat="isChatOpen = false" :isOpen="isChatOpen" />
     </div>
-
 
     <router-view></router-view>
     <!-- Login form as pop-up modal -->
@@ -280,6 +280,10 @@ export default {
     CreateAcc
   },
   methods: {
+
+    goToAppointmentPage() {
+      this.$router.push('/appointment'); // Ensure your route name is 'appointment'
+    },
     
     toggleLanguageDropdown() {
       this.showLanguageDropdown = !this.showLanguageDropdown;
