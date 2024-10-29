@@ -65,7 +65,7 @@
       </div>
       
     </header>
-
+<!-- 
     <nav class="nav-tabs">
       <button class="tab"  @click="goToHomePage">
         {{ translations[currentLang].homepage }}
@@ -108,13 +108,49 @@
         <button class="dropdown-item" @click="openServicePage(3)" >Service 3: Eye Examination</button>
         <button class="dropdown-item" @click="openServicePage(4)" >Service 4: Pediatric Check-up</button>
       </div>
-    </nav>
-
-    <!-- <nav>
-      <router-link to="/" class="button">HomePage</router-link>    
-      <router-link to="/thaiMedicine" class="button">thaiMedicine</router-link>
-      <router-link to="/appointment" class="button">appointment</router-link>
     </nav> -->
+
+    <nav class="nav-tabs">
+      <router-link to="/" class="tab" @click.native="goToHomePage">
+      {{ translations[currentLang].homepage }}
+      </router-link>      
+
+      <router-link to="/thaiMedicine" class="tab" :class="{ 'active': showDoctorDropdown }" @click.native="toggleDoctorDropdown">
+      {{ translations[currentLang].doctorSchedule }}
+      </router-link>
+
+      <router-link to="/appointment" class="tab">
+      {{ translations[currentLang].appointments }}
+      </router-link> 
+
+      <router-link to="/service" class="tab" :class="{ 'active': showServicesDropdown }" @click.native="toggleServicesDropdown">
+      {{ translations[currentLang].services }}
+      </router-link>
+
+      <div v-if="showDoctorDropdown" class="doctor-dropdown">
+        <router-link to="/thai-medicine">
+          <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.thaiMedicine)">
+            {{ translations[currentLang].departments.thaiMedicine }}
+          </button>
+        </router-link>
+        <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.chineseMedicine)">
+          {{ translations[currentLang].departments.chineseMedicine }}
+        </button>
+        <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.physicalTherapy)">
+          {{ translations[currentLang].departments.physicalTherapy }}
+        </button>
+        <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.outpatientClinic)">
+          {{ translations[currentLang].departments.outpatientClinic }}
+        </button>
+      </div>
+
+      <div v-if="showServicesDropdown" class="service-dropdown">
+        <button class="dropdown-item" @click="openServicePage(1)">Service 1: General Check-up</button>
+        <button class="dropdown-item" @click="openServicePage(2)" >Service 2: Dental Consultation</button>
+        <button class="dropdown-item" @click="openServicePage(3)" >Service 3: Eye Examination</button>
+        <button class="dropdown-item" @click="openServicePage(4)" >Service 4: Pediatric Check-up</button>
+      </div>
+    </nav>
 
     <div v-if="$route.name !== 'thaiMedicine'" class="hospital-dashboard">
       <div class="content">
