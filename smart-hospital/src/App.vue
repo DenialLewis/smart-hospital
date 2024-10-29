@@ -65,7 +65,7 @@
       </div>
       
     </header>
-<!-- 
+    <!-- 
     <nav class="nav-tabs">
       <button class="tab"  @click="goToHomePage">
         {{ translations[currentLang].homepage }}
