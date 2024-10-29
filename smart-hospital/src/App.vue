@@ -381,7 +381,7 @@ export default {
       this.showDoctorDropdown = false;
     },
     goToHomePage() {
-      this.$router.push({ name: 'HomePage' }); // Ensure that 'home' route is defined in your router.
+      this.$router.push({ name: 'App' }); // Ensure that 'home' route is defined in your router.
     },
     async fetchAds() {
       try {
