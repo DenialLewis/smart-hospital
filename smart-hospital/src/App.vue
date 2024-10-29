@@ -65,53 +65,9 @@
       </div>
       
     </header>
-    <!-- 
-    <nav class="nav-tabs">
-      <button class="tab"  @click="goToHomePage">
-        {{ translations[currentLang].homepage }}
-      </button>      
-      <button class="tab" :class="{ 'active': showDoctorDropdown }" @click="toggleDoctorDropdown">
-        {{ translations[currentLang].doctorSchedule }}
-      </button>
-      <button class="tab"  @click="goToAppointmentPage">
-        {{ translations[currentLang].appointments }}
-      </button>
-      <button class="tab" :class="{ 'active': showServicesDropdown}" @click="toggleServicesDropdown">
-        {{ translations[currentLang].services }}
-      </button>
-      <div v-if="showDoctorDropdown" class="doctor-dropdown">
-        <router-link to="/thai-medicine">
-          <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.thaiMedicine)">
-            {{ translations[currentLang].departments.thaiMedicine }}
-          </button>
-        </router-link>
-        <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.chineseMedicine)">
-          {{ translations[currentLang].departments.chineseMedicine }}
-        </button>
-        <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.physicalTherapy)">
-          {{ translations[currentLang].departments.physicalTherapy }}
-        </button>
-        <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.outpatientClinic)">
-          {{ translations[currentLang].departments.outpatientClinic }}
-        </button>
-      </div>
-      
-      <div v-if="showAppointmentsDropdown" class="appointment-dropdown">
-        <button class="dropdown-item" @click="openAppointmentPage(1)">Appointment 1: General Check-up</button>
-        <button class="dropdown-item" @click="openAppointmentPage(2)" >Appointment 2: Dental Consultation</button>
-        <button class="dropdown-item" @click="openAppointmentPage(3)" >Appointment 3: Eye Examination</button>
-        <button class="dropdown-item" @click="openAppointmentPage(4)" >Appointment 4: Pediatric Check-up</button>
-      </div>
-      <div v-if="showServicesDropdown" class="service-dropdown">
-        <button class="dropdown-item" @click="openServicePage(1)">Service 1: General Check-up</button>
-        <button class="dropdown-item" @click="openServicePage(2)" >Service 2: Dental Consultation</button>
-        <button class="dropdown-item" @click="openServicePage(3)" >Service 3: Eye Examination</button>
-        <button class="dropdown-item" @click="openServicePage(4)" >Service 4: Pediatric Check-up</button>
-      </div>
-    </nav> -->
 
-    <nav class="nav-tabs">
-      <router-link to="/" class="tab" @click.native="goToHomePage">
+    <!-- <nav class="nav-tabs">
+      <router-link to="/" class="tab">
       {{ translations[currentLang].homepage }}
       </router-link>      
 
@@ -119,7 +75,7 @@
       {{ translations[currentLang].doctorSchedule }}
       </router-link>
 
-      <router-link to="/appointment" class="tab">
+      <router-link to="/appointment" class="tab" @click="goToAppointmentPage">
       {{ translations[currentLang].appointments }}
       </router-link> 
 
@@ -150,11 +106,83 @@
         <button class="dropdown-item" @click="openServicePage(3)" >Service 3: Eye Examination</button>
         <button class="dropdown-item" @click="openServicePage(4)" >Service 4: Pediatric Check-up</button>
       </div>
+    </nav> -->
+
+    <nav class="nav-tabs">
+      <button class="tab" :class="{ 'active': showDoctorDropdown }" @click="toggleDoctorDropdown">
+        {{ translations[currentLang].doctorSchedule }}
+      </button>
+      <button class="tab" :class="{ 'active': showAppointmentsDropdown }" @click="toggleDoctorDropdown">
+        {{ translations[currentLang].appointments }}
+      </button>
+      <button class="tab" :class="{ 'active': showServicesDropdown}" @click="toggleServicesDropdown">
+        {{ translations[currentLang].services }}
+      </button>
+      <!-- Doctor Dropdown -->
+      <div v-if="showDoctorDropdown" class="doctor-dropdown">
+        <router-link to="/thai-medicine">
+          <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.thaiMedicine)">
+            {{ translations[currentLang].departments.thaiMedicine }}
+          </button>
+        </router-link>
+        <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.chineseMedicine)">
+          {{ translations[currentLang].departments.chineseMedicine }}
+        </button>
+        <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.physicalTherapy)">
+          {{ translations[currentLang].departments.physicalTherapy }}
+        </button>
+        <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.outpatientClinic)">
+          {{ translations[currentLang].departments.outpatientClinic }}
+        </button>
+      </div>
+      
+      <!-- Appointment Dropdown -->
+      <div v-if="showAppointmentsDropdown" class="appointment-dropdown">
+        <button class="dropdown-item" @click="openAppointmentPage(1)">Appointment 1: General Check-up</button>
+        <button class="dropdown-item" @click="openAppointmentPage(2)" >Appointment 2: Dental Consultation</button>
+        <button class="dropdown-item" @click="openAppointmentPage(3)" >Appointment 3: Eye Examination</button>
+        <button class="dropdown-item" @click="openAppointmentPage(4)" >Appointment 4: Pediatric Check-up</button>
+      </div>
+      <!-- Service Dropdown -->
+      <div v-if="showServicesDropdown" class="service-dropdown">
+        <button class="dropdown-item" @click="openServicePage(1)">Service 1: General Check-up</button>
+        <button class="dropdown-item" @click="openServicePage(2)" >Service 2: Dental Consultation</button>
+        <button class="dropdown-item" @click="openServicePage(3)" >Service 3: Eye Examination</button>
+        <button class="dropdown-item" @click="openServicePage(4)" >Service 4: Pediatric Check-up</button>
+      </div>
     </nav>
 
+
     <div v-if="$route.name !== 'thaiMedicine'" class="hospital-dashboard">
-      <div class="content">
-      </div>
+      <section class="content-section">
+        <h1> this is home HomePage</h1>
+        <h1>Ads</h1>
+        <div class="ads-container">
+          <div v-if="ads.length">
+            <div v-for="ad in ads" :key="ad.id" class="ad-card">
+              <h2>{{ ad.Ad }}</h2>
+              <div class="ad-images-container">
+                <template v-if="ad.Ads && ad.Ads.length > 0">
+                  <img 
+                    v-for="(image, index) in ad.Ads" 
+                    :key="index"
+                    :src="`http://localhost:1337${image.url}`" 
+                    alt="Ad Image" 
+                    class="ad-image"
+                    :style="{ width: '100px', height: 'auto' }" 
+                    @error="handleImageError(ad)" 
+                  />
+                </template>
+                <p v-else>No images available for this ad.</p>
+              </div>
+            </div>
+          </div>
+          <div v-else>
+            No ads available
+          </div>
+        </div>
+      </section>
+
       <footer class="footer">
         <div class="contact-info">
           <p><strong>{{ translations[currentLang].contactUs }}</strong></p>
@@ -174,12 +202,14 @@
           </div>
         </div>
       </footer>
+      <ChatWindow v-if="isChatOpen" @close-chat="isChatOpen=false" :isOpen="isChatOpen"/> 
     </div>
-    
+
     <router-view></router-view>
     <!-- Login form as pop-up modal -->
     <LogIn v-if="showLoginForm" @close="showLoginForm = false" :currentLang="currentLang" />
     <CreateAcc v-if="showCreateAccountForm" @close="showCreateAccountForm = false" :currentLang="currentLang" />
+
   </div>
 </template>
 
@@ -190,6 +220,7 @@
 import axios from 'axios';
 import LogIn from './components/log_in.vue';
 import CreateAcc from './components/create_acc.vue';
+import ChatWindow from './components/ChatWindow.vue';
 
 export default {
   name: "SearchBar",

@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <div>
         <h1> this is home HomePage</h1>
         <h1>Ads</h1>
@@ -98,4 +98,4 @@
   height: auto; /* Maintain aspect ratio */
 }
 
-</style>
+</style> -->
