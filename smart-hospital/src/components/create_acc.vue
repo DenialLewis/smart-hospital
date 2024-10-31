@@ -153,6 +153,8 @@ export default {
     border-radius: 5px;
     font-size: 16px;
     transition: border-color 0.3s ease;
+    display: block; /* Make input a block element */
+    margin: 0 auto; /* Center input horizontally */
   }
 
   .input-group input:focus {
