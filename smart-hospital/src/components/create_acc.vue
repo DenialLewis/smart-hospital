@@ -42,6 +42,8 @@
 
 
 <script>
+import axios from 'axios'; 
+
 export default {
   props: ['currentLang'],
   data() {
@@ -57,7 +59,8 @@ export default {
           email: "Email",
           password: "Password",
           confirmPassword: "Confirm Password",
-          createAccount: "Create Account"
+          createAccount: "Create Account",
+          passwordMismatch: "Password do not match"
         },
         ไทย: {
           createAccountTitle: "สร้างบัญชี",
@@ -65,7 +68,8 @@ export default {
           email: "อีเมล",
           password: "รหัสผ่าน",
           confirmPassword: "ยืนยันรหัสผ่าน",
-          createAccount: "สร้างบัญชี"
+          createAccount: "สร้างบัญชี",
+          passwordMismatch: "รหัสผ่าน"
         },
         မြန်မာ: {
           createAccountTitle: "အကောင့်ဖွင့်ပါ",
@@ -73,7 +77,8 @@ export default {
           email: "အီးမေးလ်",
           password: "စကားဝှက်",
           confirmPassword: "စကားဝှက်အတည်ပြုပါ",
-          createAccount: "အကောင့်ဖွင့်ပါ"
+          createAccount: "အကောင့်ဖွင့်ပါ",
+          passwordMismatch: "စကားဝှက်များမတူညီပါ"
         }
       }
     };
@@ -82,13 +87,37 @@ export default {
     goBack() {
       this.$emit('close');
     },
-    submitForm() {
-      if (this.password !== this.confirmPassword) {
-        alert(this.translations[this.currentLang].passwordMismatch);
-        return;
+    // submitForm() {
+    //   if (this.password !== this.confirmPassword) {
+    //     alert(this.translations[this.currentLang].passwordMismatch);
+    //     return;
+    //   }
+    //   alert('Account created successfully!');
+    //   this.$emit('close');
+    // }
+    async submitForm() {
+      if (this.password !== this.confirmPassword){
+        alert(this.translation[this.currentLang].passwordMismatch)
       }
-      alert('Account created successfully!');
-      this.$emit('close');
+      try {
+        const response = await axios.post('http://localhost:1337/api/patients', {
+          data: {
+            name: this.name,
+            email: this.email, 
+            password: this.password, 
+          }
+        });
+        alert('Account created successfully!');
+        this.$emit('close'); 
+        this.name = ''; 
+        this.email = '';
+        this.password = ''; 
+        this.confirmPassword = ''; 
+      }
+      catch (error){
+        console.error ('Error creating account:', error.response.data);
+        alert('Failed to create account. Please try again.');
+      }
     }
   }
 };
