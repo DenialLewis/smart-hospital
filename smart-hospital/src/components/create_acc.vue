@@ -2,12 +2,12 @@
   <div class="create-account-container">
     <!-- Close Icon -->
     <button aria-label="Close account form" class="close-btn" @click="goBack">
-      <i class="fas fa-times">X</i>
+      <span class="close-icon">✖</span>
     </button>
 
     <!-- Image Section -->
     <div class="image-section">
-      <img :src="require('@/assets/Hpic.png')" alt="Welcome Image" class="welcome-image" />
+      <img class="full-image" />
     </div>
 
     <!-- Form Section -->
@@ -39,6 +39,7 @@
     </div>
   </div>
 </template>
+
 
 <script>
 export default {
@@ -93,97 +94,110 @@ export default {
 };
 </script>
 
+
 <style scoped>
-.create-account-container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-  width: 450px;
-  max-width: 90%;
-}
 
-body {
-  overflow: hidden;
-}
+  .create-account-container {
+    display: flex;
+    width: 80%;
+    max-width: 900px;
+    height: 600px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
 
-.close-btn {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: none;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-  color: #999;
-}
+  .image-section {
+    flex: 1;
+    background: url('@/assets/medcenter.jpeg') center center / cover no-repeat; /* Set background image */
+    display: flex;
+    align-items: center; /* Center align image vertically */
+    justify-content: center; /* Center align image horizontally */
+  }
 
-.close-btn:hover {
-  color: #333;
-}
+  .full-image {
+    width: 100%;
+    height: auto; /* Maintain aspect ratio */
+  }
 
-.image-section {
-  text-align: center;
-  margin-bottom: 20px;
-}
+  .form-section {
+    flex: 1; /* Make form section take up equal space */
+    padding: 20px; /* Add some padding for better spacing */
+  }
 
-.welcome-image {
-  width: 100%;
-  max-width: 200px;
-  border-radius: 50%;
-  margin-bottom: 20px;
-}
+  .form-section h1 {
+    font-family: Arial, Helvetica, sans-serif;
+  }
 
-.form-section h1 {
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  color: #333;
-  text-align: center;
-}
+  .input-group {
+    margin-bottom: 15px;
+  }
 
-.input-group {
-  margin-bottom: 15px;
-}
+  .input-group label {
+    display: block;
+    font-size: 14px;
+    font-family:Arial, Helvetica, sans-serif;
+    margin-bottom: 5px;
+    color: #666;
+  }
 
-.input-group label {
-  display: block;
-  font-size: 14px;
-  margin-bottom: 5px;
-  color: #666;
-}
+  .input-group input {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+  }
 
-.input-group input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  transition: border-color 0.3s ease;
-}
+  .input-group input:focus {
+    border-color: #007BFF;
+  }
 
-.input-group input:focus {
-  border-color: #007BFF;
-}
+  .primary-btn {
+    width: 90%;
+    background-color: #007BFF;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    /* margin-top: 20px; */
+    margin: 20px auto 0; /* Center the button horizontally */
+    display: block;
+    transition: background-color 0.3s ease;
+  }
 
-.primary-btn {
-  width: 100%;
-  background-color: #007BFF;
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 20px;
-  transition: background-color 0.3s ease;
-}
+  .primary-btn:hover {
+    background-color: #0056b3;
+  }
 
-.primary-btn:hover {
-  background-color: #0056b3;
-}
+  .close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: #f5f5f5;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+    cursor: pointer;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .close-btn:hover {
+    background-color: #a0a0a0;
+    color: #000000;
+  }
 </style>
