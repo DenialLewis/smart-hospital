@@ -147,9 +147,10 @@ export default {
     },
     
     async submitForm() {
+      this.errorMessage = ''; 
       try {
         // Make an API request to Strapi to authenticate the user
-        const response = await axios.post('http://localhost:1337/auth/local', {
+        const response = await axios.post('http://localhost:1337/api/auth/local', {
           identifier: this.email,
           password: this.password
         });
@@ -161,7 +162,7 @@ export default {
       } catch (error) {
         // Handle error response from Strapi
         if (error.response && error.response.status === 401) {
-          this.errorMessage = this.currentTranslation.invalidCredentials;
+          this.errorMessage = this.translations[this.currentLang].invalidCredentials;
         } else {
           this.errorMessage = 'An error occurred. Please try again.'; // Generic error message
         }
