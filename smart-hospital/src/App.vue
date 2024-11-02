@@ -184,7 +184,7 @@
       </footer>
       <ChatWindow v-if="isChatOpen" @close-chat="isChatOpen=false" :isOpen="isChatOpen"/> 
     </div>
-
+    <router-view></router-view>
     <!-- Modal Components -->
     <LogIn v-if="showLoginForm" @close="showLoginForm = false" :currentLang="currentLang" />
     <CreateAcc v-if="showCreateAccountForm" @close="showCreateAccountForm = false" :currentLang="currentLang" />
