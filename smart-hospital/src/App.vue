@@ -6,7 +6,9 @@
         <img alt="Mfu Logo" src="./assets/Hospital.png" />
       </div>
 
+
       <div class="lang-switch">
+        <!--search bar-->
         <div class="search-bar">
           <input
             type="text"
@@ -17,6 +19,7 @@
           <img src="@/assets/search.png" alt="Search Icon" class="search-icon" />
         </div>
 
+        <!--chat-->
         <div class="chat-boutton">
           <button class="chat-button" @click="toggleChat">
             <img src="./assets/chatbox.png" alt="Chat Icon" />
@@ -24,6 +27,7 @@
           </button>
         </div>
 
+        <!--language choices-->
         <div class="lang-dropdown" @click="toggleLanguageDropdown">
           <span>{{ currentLang }}</span>
           <img
@@ -32,7 +36,6 @@
             class="down-arrow"
           />
         </div>
-
         <!-- Language Dropdown Menu -->
         <div v-if="showLanguageDropdown" class="dropdown-menu">
           <button v-if="currentLang !== 'EN'" @click="setLanguage('EN')" class="dropdown-item">
@@ -46,7 +49,7 @@
           </button>
         </div>
 
-        <!-- Profile Dropdown -->
+        <!-- Profile -->
         <div class="profile-container" @click="toggleProfileDropdown">
           <img src="./assets/profile.png" alt="Profile Icon" />
           <img
@@ -55,16 +58,31 @@
             class="down-arrow"
           />
         </div>
+        <!--Profile Dropdown Menu-->
         <div v-if="showProfileDropdown" class="dropdown-menu">
-          <button class="dropdown-item" @click="openLoginForm">
-            <img src="./assets/profile.png" alt="Login Logo" class="dropdown-icon" />
-            {{ translations[currentLang].login }}
-          </button>
-          <button class="dropdown-item" @click="openCreateAccountForm">
-            <img src="./assets/create-acc.png" alt="Create Account Icon" class="dropdown-icon" />
-            {{ translations[currentLang].createAccount }}
-          </button>
+          <template v-if="!isLoggedIn">
+            <button class="dropdown-item" @click="openLoginForm">
+              <img src="./assets/profile.png" alt="Login Logo" class="dropdown-icon" />
+              {{ translations[currentLang].login }}
+            </button>
+            <button class="dropdown-item" @click="openCreateAccountForm">
+              <img src="./assets/create-acc.png" alt="Create Account Icon" class="dropdown-icon" />
+              {{ translations[currentLang].createAccount }}
+            </button>
+          </template>
+          <template v-else>
+            <button class="dropdown-item" @click="profileDetail">
+              <img src="./assets/profile.png" alt="Login Logo" class="dropdown-icon" />
+              {{ translations[currentLang].profileDetail }}
+            </button>
+            <button class="dropdown-item" @click="Logout">
+              <img src="./assets/create-acc.png" alt="Create Account Icon" class="dropdown-icon" />
+              {{ translations[currentLang].logout }}
+            </button>
+          </template>
+          
         </div>
+
       </div>
     </header>
 
@@ -195,6 +213,8 @@ export default {
       showServicesDropdown: false,
       showLoginForm: false,
       showCreateAccountForm: false,
+      isLoggedIn: false, 
+      user: {},
       currentLang: 'EN',
       ads: [],
       translations: {
@@ -202,6 +222,8 @@ export default {
           searchPlaceholder: 'Search...',
           login: 'Login',
           createAccount: 'Create Account',
+          profileDetail: 'Profile Details',
+          logout: 'Log Out',
           homepage: 'Home',
           doctorSchedule: 'Doctor Schedule',
           appointments: 'Appointments',
@@ -283,6 +305,8 @@ export default {
   },
   methods: {
 
+
+
     goToAppointmentPage() {
       this.$router.push('/appointment'); // Ensure your route name is 'appointment'
     },
@@ -300,6 +324,19 @@ export default {
       this.showDoctorDropdown = false;
       this.showAppointmentsDropdown = false;
       this.showServicesDropdown = false;
+    },
+    async login(){
+      try {
+        const response = await axios.post('http://localhost:1337/api/auth/local', {
+          identifier: this.email,
+          password: this.password,
+        });
+        this.user = response.data.user; 
+        this.isLoggedIn = true; 
+        this.showProfileDropdown = false; 
+      } catch (error){
+        console.error('Login failed:', error.response.data.message);
+      }
     },
     toggleDoctorDropdown() {
       this.showDoctorDropdown = !this.showDoctorDropdown;
@@ -334,6 +371,12 @@ export default {
     openCreateAccountForm() {
       this.showCreateAccountForm = true;
       this.showProfileDropdown = false;
+    },
+    profileDetail() {
+      alert('this is profile details');
+    },
+    Logout(){
+      alert('this is log out'); 
     },
     selectDoctorDepartment(department) {
       if (department === this.translations[this.currentLang].departments.thaiMedicine) {

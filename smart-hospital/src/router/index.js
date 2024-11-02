@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import thaiMedicine from '../components/thaiMedicine.vue'; // Adjust the path as necessary
 import ChatBubble from '../components/ChatBubble.vue';
 import appointment from '../components/appointment.vue';
+import Profile from '@/components/Profile.vue';
 // import HomePage from '../components/HomePage.vue';
 
 const routes = [
@@ -24,6 +25,11 @@ const routes = [
     path: '/chat-bot',
     name: 'chatBubble',
     component: ChatBubble,
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: Profile,
   }
 ];
 
