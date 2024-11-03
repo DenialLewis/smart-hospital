@@ -1,6 +1,5 @@
-<template> 
+<!-- <template> 
   <div>
-    <!-- <section class="content-section"> -->
       <h1>This is Home Page</h1>
       <h1>Ads</h1>
       <div class="ads-container">
@@ -25,7 +24,6 @@
         </div>
         <div v-else>No ads available</div>
       </div>
-      <!-- </section> -->
   </div>
 </template>
 
@@ -99,4 +97,18 @@ export default{
     width: 100px; /* Set width for images */
     height: auto; /* Maintain aspect ratio */
   }
-</style>
+</style> -->
+
+
+<template>
+<div>
+  <h1>THis is home </h1>
+</div>
+</template>
+
+
+<script>
+export default{
+  name: 'HomePage'
+}
+</script>

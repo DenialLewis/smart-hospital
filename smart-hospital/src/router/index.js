@@ -1,12 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import thaiMedicine from '../components/thaiMedicine.vue'; 
+import ThaiMedicine from '@/components/ThaiMedicine.vue'; 
 import ChatBubble from '../components/ChatBubble.vue';
 import HomePage from '@/components/HomePage.vue';
+import ChineseMedicine from '@/components/ChineseMedicine.vue';
 
 const routes = [
     {path: '/', name: 'HomePage', component: HomePage}, 
-    {path: '/thai-medicine', name:'thaiMedicine', component: thaiMedicine},
+    {path: '/thai-medicine',  component: ThaiMedicine},
     {path: '/chat-bot', name: 'chatBubble', component: ChatBubble},
+    {path: '/chinese-medicine', component: ChineseMedicine},
 ];
 
 const router = createRouter({

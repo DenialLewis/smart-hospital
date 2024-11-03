@@ -85,22 +85,18 @@
 
     <!-- Navigation Tabs -->
     <nav class="nav-tabs">
-        <button class="tab" :class="{ 'active': showDoctorDropdown }" @click="toggleDoctorDropdown">
+        <router-link to="/thai-medicine">Thai Medicine</router-link>
+        <router-link to="/chinese-medicine">Chinese Medicine</router-link>
+
+        <!-- <button class="tab" :class="{'active': showDoctorDropdown }" @click="toggleDoctorDropdown">
             {{ translations[currentLang].doctorSchedule }}
         </button>
-        <button class="tab" :class="{ 'active': showAppointmentsDropdown }" @click="toggleAppointmentsDropdown">
-            {{ translations[currentLang].appointments }}
-        </button>
-        <button class="tab" :class="{ 'active': showServicesDropdown}" @click="toggleServicesDropdown">
-            {{ translations[currentLang].services }}
-        </button>
-
-        <!-- Doctor Dropdown -->
         <div v-if="showDoctorDropdown" class="doctor-dropdown">
-            <router-link to="/thai-medicine">
-            <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.thaiMedicine)">
+            
+            <router-link to="/thai-medicine" @click="selectDoctorDepartment(translations[currentLang].departments.thaiMedicine)" >
+                <button class="dropdown-item">
                 {{ translations[currentLang].departments.thaiMedicine }}
-            </button>
+                </button>
             </router-link>
             <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.chineseMedicine)">
             {{ translations[currentLang].departments.chineseMedicine }}
@@ -111,9 +107,18 @@
             <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.outpatientClinic)">
             {{ translations[currentLang].departments.outpatientClinic }}
             </button>
-        </div>
+        </div> -->
 
-        <!-- Appointment Dropdown -->
+
+        <!-- <button class="tab" :class="{ 'active': showAppointmentsDropdown }" @click="toggleAppointmentsDropdown">
+            {{ translations[currentLang].appointments }}
+        </button>
+        <button class="tab" :class="{ 'active': showServicesDropdown}" @click="toggleServicesDropdown">
+            {{ translations[currentLang].services }}
+        </button>
+
+       
+
         <div v-if="showAppointmentsDropdown" class="appointment-dropdown">
             <button class="dropdown-item" @click="openAppointmentPage(1)">Appointment 1: General Check-up</button>
             <button class="dropdown-item" @click="openAppointmentPage(2)">Appointment 2: Dental Consultation</button>
@@ -121,13 +126,12 @@
             <button class="dropdown-item" @click="openAppointmentPage(4)">Appointment 4: Pediatric Check-up</button>
         </div>
 
-        <!-- Service Dropdown -->
         <div v-if="showServicesDropdown" class="service-dropdown">
             <button class="dropdown-item" @click="openServicePage(1)">Service 1: General Check-up</button>
             <button class="dropdown-item" @click="openServicePage(2)">Service 2: Dental Consultation</button>
             <button class="dropdown-item" @click="openServicePage(3)">Service 3: Eye Examination</button>
             <button class="dropdown-item" @click="openServicePage(4)">Service 4: Pediatric Check-up</button>
-        </div>
+        </div> -->
     </nav>
 
     <router-view/> 
@@ -553,4 +557,5 @@ export default {
         height: 100px;
         width: 100px; 
     }
+
 </style>
