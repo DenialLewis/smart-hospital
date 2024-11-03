@@ -13,10 +13,11 @@
         <tbody>
           <tr v-for="department in departments" :key="department.id">
             <td>
-              <a href="#" @click.prevent="showDoctorDetails(department)">
-                {{ department.DoctorName || "Unnamed Department" }}
-              </a>
-            </td>
+                <router-link :to="{ name: 'DoctorDetails', params: { doctorId: department.id } }">
+  {{ department.DoctorName || "Unnamed Department" }}
+</router-link>
+
+          </td>
             <td>{{ department.Specialization }}</td>
             <td>{{ department.Time }}</td>
             <td>
@@ -64,22 +65,28 @@
       this.fetchDepartments();
     },
     methods: {
-      async fetchDepartments() {
-        try {
-          const response = await fetch("http://localhost:1337/api/department-of-chineses");
-          const data = await response.json();
-          console.log("Fetched data:", data);
-          this.departments = data.data || [];
-        } catch (error) {
-          console.error("Error fetching departments:", error);
-        }
-      },
-      bookAppointment(doctor) {
+        async fetchDepartments() {
+  try {
+    const response = await fetch("http://localhost:1337/api/department-of-chineses");
+    const data = await response.json();
+    console.log("Fetched data:", data);
+    // Ensure that the fetched data has the correct structure
+    this.departments = data.data.map(department => ({
+      id: department.id, // Ensure this matches your API's response structure
+      DoctorName: department.DoctorName,
+      Specialization: department.Specialization,
+      Time: department.Time,
+    })) || [];
+  } catch (error) {
+    console.error("Error fetching departments:", error);
+  }
+},
+
+  
+  bookAppointment(doctor) {
         alert(`Booking appointment with ${doctor.DoctorName}`);
       },
-      showDoctorDetails(doctor) {
-        alert(`Showing details for ${doctor.DoctorName}`);
-      },
+      
     },
   };
   </script>

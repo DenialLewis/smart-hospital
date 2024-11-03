@@ -417,6 +417,10 @@ export interface ApiDepartmentOfChineseDepartmentOfChinese
       'api::department-of-chinese.department-of-chinese'
     > &
       Schema.Attribute.Private;
+    Profile: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
     publishedAt: Schema.Attribute.DateTime;
     Specialization: Schema.Attribute.String;
     Time: Schema.Attribute.String;
