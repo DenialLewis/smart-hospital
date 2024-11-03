@@ -121,7 +121,6 @@
             {{ translations[currentLang].appointments }}
         </router-link>
 
-
         <!-- <button class="tab" >
             {{ translations[currentLang].appointments }}
         </button>

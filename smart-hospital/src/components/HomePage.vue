@@ -1,12 +1,11 @@
 <template>
   <section class="content-section">
     <div>
-  <h1>Home လည်းရသွားပါပြီ error မတက်တော့ပါ </h1>
-    <h1> 
-      Doctor schedule က dropdown ကအကုန်ရသွားပြီ 🙂🙂</h1>
+      <h1>Home လည်းရသွားပါပြီ error မတက်တော့ပါ </h1>
+      <h1>Doctor schedule က dropdown ကအကုန်ရသွားပြီ 🙂🙂</h1>
       <h1>မယုံရင်နှိပ်ကြည့်ပါ</h1>
       <h1>Home ကိုပြန်သွားချင်ရင် logo လေးနှိပ်ပါ ပြန်ရသွားပါပြီ</h1>
-</div>
+    </div>
     <div class="ads-container">
       <div v-if="ads.length">
         <div v-for="ad in ads" :key="ad.id" class="ad-card">
@@ -29,6 +28,9 @@
       </div>
       <div v-else>No ads available</div>
     </div>
+
+
+
   </section>
 </template>
 
@@ -94,4 +96,5 @@ export default {
     display: flex;
     gap: 10px;
   }
+
 </style>
