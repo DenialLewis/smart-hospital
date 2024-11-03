@@ -116,7 +116,13 @@
             </router-link>
         </div>
 
-        <button class="tab" :class="{ 'active': showAppointmentsDropdown }" @click="toggleAppointmentsDropdown">
+
+        <router-link to="/appointment" class="tab">
+            {{ translations[currentLang].appointments }}
+        </router-link>
+
+
+        <!-- <button class="tab" >
             {{ translations[currentLang].appointments }}
         </button>
         <div v-if="showAppointmentsDropdown" class="appointment-dropdown">
@@ -124,7 +130,7 @@
             <button class="dropdown-item" @click="openAppointmentPage(2)">Appointment 2: Dental Consultation</button>
             <button class="dropdown-item" @click="openAppointmentPage(3)">Appointment 3: Eye Examination</button>
             <button class="dropdown-item" @click="openAppointmentPage(4)">Appointment 4: Pediatric Check-up</button>
-        </div>
+        </div> -->
 
         <button class="tab" :class="{ 'active': showServicesDropdown}" @click="toggleServicesDropdown">
             {{ translations[currentLang].services }}
