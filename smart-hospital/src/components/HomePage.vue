@@ -103,6 +103,12 @@ export default{
 <template>
 <div>
   <h1>THis is home </h1>
+  <h1>Home ကို comment ပေးပြီးခနဖြုတ်ထားတယ် 
+    Home က error ဖြစ်နေလို့ </h1>
+    <h1> 
+      Doctor schedule က dropdown ကအကုန်ရသွားပြီ 🙂🙂</h1>
+      <h1>မယုံရင်နှိပ်ကြည့်ပါ</h1>
+      <h1>Home ကိုပြန်သွားချင်ရင် logo လေးနှိပ်ပါ ပြန်ရသွားပါပြီ</h1>
 </div>
 </template>
 
