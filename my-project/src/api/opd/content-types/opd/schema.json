@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "opds",
+  "info": {
+    "singularName": "opd",
+    "pluralName": "opds",
+    "displayName": "OPD"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "DoctorName": {
+      "type": "string"
+    },
+    "Specialization": {
+      "type": "string"
+    },
+    "Time": {
+      "type": "string"
+    }
+  }
+}

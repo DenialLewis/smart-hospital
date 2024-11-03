@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "department_of_chineses",
+  "info": {
+    "singularName": "department-of-chinese",
+    "pluralName": "department-of-chineses",
+    "displayName": "Department of Chinese"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "DoctorName": {
+      "type": "string"
+    },
+    "Specialization": {
+      "type": "string"
+    },
+    "Time": {
+      "type": "string"
+    }
+  }
+}

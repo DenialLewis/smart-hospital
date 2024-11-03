@@ -395,6 +395,37 @@ export interface ApiAdAd extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiDepartmentOfChineseDepartmentOfChinese
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'department_of_chineses';
+  info: {
+    displayName: 'Department of Chinese';
+    pluralName: 'department-of-chineses';
+    singularName: 'department-of-chinese';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    DoctorName: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::department-of-chinese.department-of-chinese'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    Specialization: Schema.Attribute.String;
+    Time: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiDepartmentOfThaiDepartmentOfThai
   extends Struct.CollectionTypeSchema {
   collectionName: 'department_of_thais';
@@ -415,6 +446,64 @@ export interface ApiDepartmentOfThaiDepartmentOfThai
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::department-of-thai.department-of-thai'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    Specialization: Schema.Attribute.String;
+    Time: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiOpdOpd extends Struct.CollectionTypeSchema {
+  collectionName: 'opds';
+  info: {
+    displayName: 'OPD';
+    pluralName: 'opds';
+    singularName: 'opd';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    DoctorName: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::opd.opd'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    Specialization: Schema.Attribute.String;
+    Time: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPhysicalTherapyPhysicalTherapy
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'physical_therapies';
+  info: {
+    displayName: 'Physical Therapy';
+    pluralName: 'physical-therapies';
+    singularName: 'physical-therapy';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    DoctorName: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::physical-therapy.physical-therapy'
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
@@ -932,7 +1021,10 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::ad.ad': ApiAdAd;
+      'api::department-of-chinese.department-of-chinese': ApiDepartmentOfChineseDepartmentOfChinese;
       'api::department-of-thai.department-of-thai': ApiDepartmentOfThaiDepartmentOfThai;
+      'api::opd.opd': ApiOpdOpd;
+      'api::physical-therapy.physical-therapy': ApiPhysicalTherapyPhysicalTherapy;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
