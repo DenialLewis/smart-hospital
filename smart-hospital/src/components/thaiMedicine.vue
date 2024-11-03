@@ -37,7 +37,7 @@
 
 <script>
 export default {
-  name: 'ThaiMedicine',
+  name: 'thaiMedicine',
   data() {
     return {
       currentLang: 'EN',

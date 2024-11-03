@@ -38,9 +38,28 @@
       </section> -->
 
       <!-- Footer -->
-      <!-- <ChatWindow v-if="isChatOpen" @close-chat="isChatOpen=false" :isOpen="isChatOpen"/>  -->
-    <!-- </div> -->
-
+      <footer class="footer">
+        <div class="contact-info">
+          <p><strong>{{ translations[currentLang].contactUs }}</strong></p>
+          <p>{{ translations[currentLang].hospitalName }}</p>
+          <p>{{ translations[currentLang].address }}</p>
+          <p>{{ translations[currentLang].telephone }}</p>
+          <p>{{ translations[currentLang].email }}</p>
+        </div>
+        <div class="footer-bottom">
+          <div class="social-media">
+            <img src="./assets/facebook.png" alt="Facebook" class="social-icon" />
+            <img src="./assets/tiktok.png" alt="TikTok" class="social-icon" />
+            <img src="./assets/qr.png" alt="QR Code" class="qr-icon" />
+          </div>
+          <div class="mh-logo">
+            <img src="./assets/MH_logo.png" alt="MH Logo" />
+          </div>
+        </div>
+      </footer>
+      <ChatWindow v-if="isChatOpen" @close-chat="isChatOpen=false" :isOpen="isChatOpen"/> 
+    </div>
+    <router-view></router-view>
     <!-- Modal Components -->
     <!-- <LogIn v-if="showLoginForm" @close="showLoginForm = false" :currentLang="currentLang" />
     <CreateAcc v-if="showCreateAccountForm" @close="showCreateAccountForm = false" :currentLang="currentLang" /> -->
