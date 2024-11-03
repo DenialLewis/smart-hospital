@@ -6,8 +6,7 @@ import ChineseMedicine from '@/components/ChineseMedicine.vue';
 import PhysicalTherapy from '@/components/PhysicalTherapy.vue';
 import Opd from '@/components/Opd.vue';
 import Appointment from '@/components/appointment.vue';
-import DoctorDetails from '../components/DoctorDetails.vue'; // Adjust the path as necessary
-
+import DoctorDetails from '../components/DoctorDetails.vue';
 
 
 const routes = [

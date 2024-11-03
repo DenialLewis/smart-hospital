@@ -1,39 +1,27 @@
 <template>
   <section class="content-section">
-    <div>
-      <h1>Home လည်းရသွားပါပြီ error မတက်တော့ပါ </h1>
-      <h1>Doctor schedule က dropdown ကအကုန်ရသွားပြီ 🙂🙂</h1>
-      <h1>မယုံရင်နှိပ်ကြည့်ပါ</h1>
-      <h1>Home ကိုပြန်သွားချင်ရင် logo လေးနှိပ်ပါ ပြန်ရသွားပါပြီ</h1>
-    </div>
     <div class="ads-container">
-      <div v-if="ads.length">
-        <div v-for="ad in ads" :key="ad.id" class="ad-card">
-          <h2>{{ ad.Ad || 'Ad Title Not Available' }}</h2>
+      <template v-for="ad in ads" :key="ad.id">
+        <div class="ad-card">
+          <h2 class="ad-title">{{ ad.Ad || 'Ad Title Not Available' }}</h2>
           <div class="ad-images-container">
             <template v-if="ad.Ads && ad.Ads.length > 0">
-              <img 
-                v-for="(image, index) in ad.Ads" 
+              <img
+                v-for="(image, index) in ad.Ads"
                 :key="index"
-                :src="`http://localhost:1337${image.url}`" 
-                alt="Ad Image" 
+                :src="`http://localhost:1337${image.url}`"
+                alt="Ad Image"
                 class="ad-image"
-                :style="{ width: '100px', height: 'auto' }" 
-                @error="handleImageError(ad)" 
+                @error="handleImageError(ad)"
               />
             </template>
             <p v-else>No images available for this ad.</p>
           </div>
         </div>
-      </div>
-      <div v-else>No ads available</div>
+      </template>
     </div>
-
-
-
   </section>
 </template>
-
 <script>
 import axios from 'axios';
 
@@ -51,7 +39,6 @@ export default {
     async fetchAds() {
       try {
         const response = await axios.get('http://localhost:1337/api/ads?populate=*');
-        console.log(response.data); // Log the entire response to confirm structure
         this.ads = response.data.data.map(ad => ({
           id: ad.id,
           Ad: ad.Ad,
@@ -69,32 +56,64 @@ export default {
 </script>
 
 <style scoped>
-  .ad-card {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 16px;
-    margin: 10px;
-  }
-  .ad-image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px;
-  }
-  .ads-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  .ad-card {
-    border: 1px solid #ddd;
-    padding: 10px;
-    flex: 0 1 calc(33.33% - 20px);
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  .ad-images-container {
-    display: flex;
-    gap: 10px;
-  }
+.content-section {
+  padding: 20px;
+}
 
+.ads-container {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px;
+  scrollbar-width: thin;
+  -ms-overflow-style: none;
+}
+
+.ads-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.ads-container::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+.ads-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.ad-card {
+  flex: 0 0 auto;
+  margin-right: 15px;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ad-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.ad-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.ad-images-container {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.ad-image {
+  width: 120px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
 </style>

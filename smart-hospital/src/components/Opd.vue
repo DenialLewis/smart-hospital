@@ -124,7 +124,6 @@
     background-color: #45a049;
   }
   
-  /* Centering styles for nodoc message */
   .nodoc {
     display: flex;
     flex-direction: column;

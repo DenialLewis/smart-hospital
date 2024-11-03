@@ -70,9 +70,9 @@
     const response = await fetch("http://localhost:1337/api/department-of-chineses");
     const data = await response.json();
     console.log("Fetched data:", data);
-    // Ensure that the fetched data has the correct structure
+    
     this.departments = data.data.map(department => ({
-      id: department.id, // Ensure this matches your API's response structure
+      id: department.id,
       DoctorName: department.DoctorName,
       Specialization: department.Specialization,
       Time: department.Time,
@@ -131,7 +131,6 @@
     background-color: #45a049;
   }
   
-  /* Centering styles for nodoc message */
   .nodoc {
     display: flex;
     flex-direction: column;

@@ -45,11 +45,8 @@ export default {
       const data = await response.json();
       console.log('Fetched data:', data);
       
-      // Assuming there's only one doctor in the response data
-      this.doctor = data.data[0]; // Directly accessing the first element
       
-      // If you want to find the doctor by ID, uncomment the following:
-      // this.doctor = data.data.find(doc => doc.id === Number(this.doctorId));
+      this.doctor = data.data[0];
       
       if (!this.doctor) {
         console.error('Doctor not found for ID:', this.doctorId);
@@ -65,16 +62,16 @@ export default {
 <style scoped>
 .doctor-image-container {
   display: flex;
-  justify-content: center; /* Center the image horizontally */
-  align-items: center; /* Center the image vertically */
-  margin: 20px 0; /* Add some space above and below the image */
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
 }
 
 .doctor-image {
-  max-width: 150px; /* Set a maximum width for the image */
-  width: 100%; /* Make it responsive */
-  height: auto; /* Maintain aspect ratio */
-  border-radius: 8px; /* Optional: Add rounded corners for a smoother look */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+  max-width: 150px;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 </style>

@@ -279,7 +279,7 @@ export default {
 
     methods: {
         goToHomePage() {
-            this.$router.push({ name: 'HomePage' }); // Ensure that 'home' route is defined in your router.
+            this.$router.push({ name: 'HomePage' });
         },
         toggleLanguageDropdown() {
             this.showLanguageDropdown = !this.showLanguageDropdown;
@@ -342,7 +342,7 @@ export default {
             this.showDoctorDropdown = false;
         },
         goToAppointmentPage() {
-            this.$router.push('/appointment'); // Ensure your route name is 'appointment'
+            this.$router.push('/appointment'); 
         },
     },
 }
@@ -396,7 +396,7 @@ export default {
     }
     .search-bar input {
         width: 100%;
-        padding: 10px 40px 10px 10px; /* Add space for the icon */
+        padding: 10px 40px 10px 10px;
         border-radius: 20px;
         border: 1px solid #ccc;
         font-size: 16px;
@@ -435,9 +435,9 @@ export default {
         background-color: #ffffff;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border-radius: 6px;
-        border-top: 3px solid #EBD5A0; /* Highlighted border color */
+        border-top: 3px solid #EBD5A0;
         z-index: 1000;
-        padding: 0; /* Ensure no extra padding around the menu */
+        padding: 0;
     }
     .dropdown-item {
         padding: 12px 20px;
@@ -449,33 +449,33 @@ export default {
         color: #333;
         display: flex;
         align-items: center;
-        width: 100%; /* Ensures the button takes full width */
+        width: 100%;
         transition: background-color 0.3s ease, color 0.3s ease;
     }
     .dropdown-item:hover {
-        background-color: #B5DEE0; /* Hover background color */
-        color: #ffffff; /* Hover text color */
+        background-color: #B5DEE0;
+        color: #ffffff;
     }
     .dropdown-icon {
         height: 20px;
         width: 20px;
-        margin-right: 10px; /* Space between icon and text */
-        transition: filter 0.3s ease; /* Smooth transition for icon */
+        margin-right: 10px;
+        transition: filter 0.3s ease;
     }
     .dropdown-item:hover .dropdown-icon {
-        filter: brightness(0) invert(1); /* Changes the icon color to white on hover */
+        filter: brightness(0) invert(1);
     }
     .down-arrow {
-        transition: transform 0.3s ease; /* Smooth transition for arrow rotation */
+        transition: transform 0.3s ease;
     }
     
     .nav-tabs {
         display: flex;
         justify-content: space-around;
-        background-color: #ffffff; /* Background color */
+        background-color: #ffffff;
         padding: 10px 0;
         border-bottom: 1px solid #e0e0e0;
-        position: relative; /* Ensures dropdown is positioned correctly */
+        position: relative;
     }
     .tab {
         background: none;
@@ -488,41 +488,41 @@ export default {
     }
     .tab.active {
         color: black;
-        border-top: 3px solid #EBD5A0; /* Highlighted top border */
+        border-top: 3px solid #EBD5A0;
     }
     .tab:hover {
-        color: #B5DEE0; /* Changed to #B5DEE0 */
+        color: #B5DEE0;
     }
 
 
     .doctor-dropdown {
         position: absolute;
-        top: 60px; /* Adjusted to appear below the nav bar */
+        top: 60px;
         left: 65px;
-        background-color: #ffffff; /* Background color */
+        background-color: #ffffff;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border-radius: 6px;
-        border-top: 3px solid #EBD5A0; /* Highlighted border color */
+        border-top: 3px solid #EBD5A0;
         z-index: 1000;
     }
     .appointment-dropdown {
         position: absolute;
-        top: 60px; /* Adjusted to appear below the nav bar */
+        top: 60px;
         left: 41%;
-        background-color: #ffffff; /* Background color */
+        background-color: #ffffff;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border-radius: 6px;
-        border-top: 3px solid #EBD5A0; /* Highlighted border color */
+        border-top: 3px solid #EBD5A0;
         z-index: 1000;
     }
     .service-dropdown {
         position: absolute;
-        top: 60px; /* Adjusted to appear below the nav bar */
+        top: 60px;
         left: 75%;
-        background-color: #ffffff; /* Background color */
+        background-color: #ffffff;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border-radius: 6px;
-        border-top: 3px solid #EBD5A0; /* Highlighted border color */
+        border-top: 3px solid #EBD5A0;
         z-index: 1000;
     }
 
@@ -532,7 +532,7 @@ export default {
         color: #003d73;
         padding: 20px;
         display: flex;
-        justify-content: space-between; /* Space between contact info and images */
+        justify-content: space-between;
         align-items: center;
         flex-wrap: wrap;
         
@@ -544,8 +544,8 @@ export default {
     }
     .contact-info {
         text-align: left;
-        max-width: 600px; /* Adjust as needed */
-        margin-right: 20px; /* Space between contact info and images */
+        max-width: 600px;
+        margin-right: 20px;
     }
     .mh-logo img {
         height: 80px;
