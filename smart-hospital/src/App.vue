@@ -1,140 +1,15 @@
 <template>
   <div id="app">
+
+    <router-view/> 
     <!-- Header -->
-    <header class="header">
-      <div class="logo" @click="goToHomePage" style="cursor: pointer;">
-        <img alt="Mfu Logo" src="./assets/Hospital.png" />
-      </div>
-
-
-      <div class="lang-switch">
-        <!--search bar-->
-        <div class="search-bar">
-          <input
-            type="text"
-            placeholder="Search..."
-            v-model="query"
-            @input="onSearch"
-          />
-          <img src="@/assets/search.png" alt="Search Icon" class="search-icon" />
-        </div>
-
-        <!--chat-->
-        <div class="chat-boutton">
-          <button class="chat-button" @click="toggleChat">
-            <img src="./assets/chatbox.png" alt="Chat Icon" />
-            <span>{{ translations[currentLang].chat }}</span>
-          </button>
-        </div>
-
-        <!--language choices-->
-        <div class="lang-dropdown" @click="toggleLanguageDropdown">
-          <span>{{ currentLang }}</span>
-          <img
-            :src="showLanguageDropdown ? require('@/assets/up_arr.png') : require('@/assets/down_arr.png')"
-            alt="Dropdown Arrow Icon"
-            class="down-arrow"
-          />
-        </div>
-        <!-- Language Dropdown Menu -->
-        <div v-if="showLanguageDropdown" class="dropdown-menu">
-          <button v-if="currentLang !== 'EN'" @click="setLanguage('EN')" class="dropdown-item">
-            <img src="./assets/uk.png" alt="English Icon" class="dropdown-icon" /> EN
-          </button>
-          <button v-if="currentLang !== 'ไทย'" @click="setLanguage('ไทย')" class="dropdown-item">
-            <img src="./assets/th.png" alt="Thai Icon" class="dropdown-icon" /> ไทย
-          </button>
-          <button v-if="currentLang !== 'မြန်မာ'" @click="setLanguage('မြန်မာ')" class="dropdown-item">
-            <img src="./assets/mm.png" alt="Myanmar Icon" class="dropdown-icon" /> မြန်မာ
-          </button>
-        </div>
-
-        <!-- Profile -->
-        <div class="profile-container" @click="toggleProfileDropdown">
-          <img src="./assets/profile.png" alt="Profile Icon" />
-          <img
-            :src="showProfileDropdown ? require('@/assets/up_arr.png') : require('@/assets/down_arr.png')"
-            alt="Dropdown Arrow Icon"
-            class="down-arrow"
-          />
-        </div>
-        <!--Profile Dropdown Menu-->
-        <div v-if="showProfileDropdown" class="dropdown-menu">
-          <template v-if="!isLoggedIn">
-            <button class="dropdown-item" @click="openLoginForm">
-              <img src="./assets/profile.png" alt="Login Logo" class="dropdown-icon" />
-              {{ translations[currentLang].login }}
-            </button>
-            <button class="dropdown-item" @click="openCreateAccountForm">
-              <img src="./assets/create-acc.png" alt="Create Account Icon" class="dropdown-icon" />
-              {{ translations[currentLang].createAccount }}
-            </button>
-          </template>
-          <template v-else>
-            <button class="dropdown-item" @click="profileDetail">
-              <img src="./assets/profile.png" alt="Login Logo" class="dropdown-icon" />
-              {{ translations[currentLang].profileDetail }}
-            </button>
-            <button class="dropdown-item" @click="Logout">
-              <img src="./assets/create-acc.png" alt="Create Account Icon" class="dropdown-icon" />
-              {{ translations[currentLang].logout }}
-            </button>
-          </template>
-          
-        </div>
-
-      </div>
-    </header>
+    
 
     <!-- Navigation Tabs -->
-    <nav class="nav-tabs">
-      <button class="tab" :class="{ 'active': showDoctorDropdown }" @click="toggleDoctorDropdown">
-        {{ translations[currentLang].doctorSchedule }}
-      </button>
-      <button class="tab" :class="{ 'active': showAppointmentsDropdown }" @click="toggleAppointmentsDropdown">
-        {{ translations[currentLang].appointments }}
-      </button>
-      <button class="tab" :class="{ 'active': showServicesDropdown}" @click="toggleServicesDropdown">
-        {{ translations[currentLang].services }}
-      </button>
-
-      <!-- Doctor Dropdown -->
-      <div v-if="showDoctorDropdown" class="doctor-dropdown">
-        <router-link to="/thai-medicine">
-          <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.thaiMedicine)">
-            {{ translations[currentLang].departments.thaiMedicine }}
-          </button>
-        </router-link>
-        <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.chineseMedicine)">
-          {{ translations[currentLang].departments.chineseMedicine }}
-        </button>
-        <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.physicalTherapy)">
-          {{ translations[currentLang].departments.physicalTherapy }}
-        </button>
-        <button class="dropdown-item" @click="selectDoctorDepartment(translations[currentLang].departments.outpatientClinic)">
-          {{ translations[currentLang].departments.outpatientClinic }}
-        </button>
-      </div>
-
-      <!-- Appointment Dropdown -->
-      <div v-if="showAppointmentsDropdown" class="appointment-dropdown">
-        <button class="dropdown-item" @click="openAppointmentPage(1)">Appointment 1: General Check-up</button>
-        <button class="dropdown-item" @click="openAppointmentPage(2)">Appointment 2: Dental Consultation</button>
-        <button class="dropdown-item" @click="openAppointmentPage(3)">Appointment 3: Eye Examination</button>
-        <button class="dropdown-item" @click="openAppointmentPage(4)">Appointment 4: Pediatric Check-up</button>
-      </div>
-
-      <!-- Service Dropdown -->
-      <div v-if="showServicesDropdown" class="service-dropdown">
-        <button class="dropdown-item" @click="openServicePage(1)">Service 1: General Check-up</button>
-        <button class="dropdown-item" @click="openServicePage(2)">Service 2: Dental Consultation</button>
-        <button class="dropdown-item" @click="openServicePage(3)">Service 3: Eye Examination</button>
-        <button class="dropdown-item" @click="openServicePage(4)">Service 4: Pediatric Check-up</button>
-      </div>
-    </nav>
+    
 
     <!-- Hospital Dashboard -->
-    <div v-if="$route.name !== 'thaiMedicine'" class="hospital-dashboard">
+    <!-- <div v-if="$route.name !== 'thaiMedicine'" class="hospital-dashboard">
       <section class="content-section">
         <h1>This is Home Page</h1>
         <h1>Ads</h1>
@@ -160,34 +35,15 @@
           </div>
           <div v-else>No ads available</div>
         </div>
-      </section>
+      </section> -->
 
       <!-- Footer -->
-      <footer class="footer">
-        <div class="contact-info">
-          <p><strong>{{ translations[currentLang].contactUs }}</strong></p>
-          <p>{{ translations[currentLang].hospitalName }}</p>
-          <p>{{ translations[currentLang].address }}</p>
-          <p>{{ translations[currentLang].telephone }}</p>
-          <p>{{ translations[currentLang].email }}</p>
-        </div>
-        <div class="footer-bottom">
-          <div class="social-media">
-            <img src="./assets/facebook.png" alt="Facebook" class="social-icon" />
-            <img src="./assets/tiktok.png" alt="TikTok" class="social-icon" />
-            <img src="./assets/qr.png" alt="QR Code" class="qr-icon" />
-          </div>
-          <div class="mh-logo">
-            <img src="./assets/MH_logo.png" alt="MH Logo" />
-          </div>
-        </div>
-      </footer>
-      <ChatWindow v-if="isChatOpen" @close-chat="isChatOpen=false" :isOpen="isChatOpen"/> 
-    </div>
+      <!-- <ChatWindow v-if="isChatOpen" @close-chat="isChatOpen=false" :isOpen="isChatOpen"/>  -->
+    <!-- </div> -->
 
     <!-- Modal Components -->
-    <LogIn v-if="showLoginForm" @close="showLoginForm = false" :currentLang="currentLang" />
-    <CreateAcc v-if="showCreateAccountForm" @close="showCreateAccountForm = false" :currentLang="currentLang" />
+    <!-- <LogIn v-if="showLoginForm" @close="showLoginForm = false" :currentLang="currentLang" />
+    <CreateAcc v-if="showCreateAccountForm" @close="showCreateAccountForm = false" :currentLang="currentLang" /> -->
 
   </div>
 </template>
@@ -196,226 +52,226 @@
 
 <!-- JS -->
 <script>
-import axios from 'axios';
-import LogIn from './components/log_in.vue';
-import CreateAcc from './components/create_acc.vue';
-import ChatWindow from './components/ChatWindow.vue';
+// import axios from 'axios';
+// import LogIn from './components/log_in.vue';
+// import CreateAcc from './components/create_acc.vue';
+// import ChatWindow from './components/ChatWindow.vue';
 
-export default {
-  name: "SearchBar",
-  data() {
-    return {
-     query: "",
-      showLanguageDropdown: false,
-      showProfileDropdown: false,
-      showDoctorDropdown: false,
-      showAppointmentsDropdown: false,
-      showServicesDropdown: false,
-      showLoginForm: false,
-      showCreateAccountForm: false,
-      isLoggedIn: false, 
-      user: {},
-      currentLang: 'EN',
-      ads: [],
-      translations: {
-        EN: {
-          searchPlaceholder: 'Search...',
-          login: 'Login',
-          createAccount: 'Create Account',
-          profileDetail: 'Profile Details',
-          logout: 'Log Out',
-          homepage: 'Home',
-          doctorSchedule: 'Doctor Schedule',
-          appointments: 'Appointments',
-          services: 'Services',
-          openChatbox: 'Open Chatbox',
-          contactUs: 'Contact Us',
-          hospitalName: 'Mfu Hospital',
-          address: '123 Hospital Rd, City, Country',
-          telephone: '+123 456 7890',
-          email: 'info@mfu-hospital.com',
-          departments: {
-            thaiMedicine: "Department of Thai Traditional Medicine",
-      chineseMedicine: "Department of Chinese Medicine",
-      physicalTherapy: "Physical Therapy Department",
-      outpatientClinic: "Outpatient Clinic"
-    },
-          service: {
-            service1: 'Chat Box'
-          }
-        },
-        ไทย: {
-          searchPlaceholder: 'ค้นหา...',
-          login: 'เข้าสู่ระบบ',
-          createAccount: 'สร้างบัญชี',
-          homepage: 'pai home',
-          doctorSchedule: 'ตารางหมอ',
-          appointments: 'นัดหมาย',
-          services: 'บริการ',
-          openChatbox: 'เปิดแชทบ็อกซ์',
-          contactUs: 'ติดต่อเรา',
-          hospitalName: 'โรงพยาบาล Mfu',
-          address: '123 Hospital Rd, City, Country',
-          telephone: '+123 456 7890',
-          email: 'info@mfu-hospital.com',
-          departments: {
-            thaiMedicine: "แผนกการแพทย์แผนไทย",
-      chineseMedicine: "แผนกการแพทย์แผนจีน",
-      physicalTherapy: "แผนกกายภาพบำบัด",
-      outpatientClinic: "แผนกผู้ป่วยนอก"
-    },
-          service: {
-            service1: 'Chat Box'
-          }
-        },
-        မြန်မာ: {
-          searchPlaceholder: 'ရှာဖွေပါ...',
-          login: 'ဝင်ပါ',
-          createAccount: 'အကောင့်ဖွင့်ပါ',
-          homepage: 'aein thwear mae',
-          doctorSchedule: 'ဆရာဝန်အစီအစဉ်',
-          appointments: 'ချိန်းဆိုချက်များ',
-          services: 'ဝန်ဆောင်မှုများ',
-          openChatbox: 'ချက်ဘော့ကို ဖွင့်မည်',
-          contactUs: 'ဆက်သွယ်ရန်',
-          hospitalName: 'Mfu ဆေးရုံ',
-          address: '123 Hospital Rd, မြို့, နိုင်ငံ',
-          telephone: '+123 456 7890',
-          email: 'info@mfu-hospital.com',
-          departments: {
-            thaiMedicine: "ထိုင်းထူးပြုဆေးရုံ",
-            chineseMedicine: "တရုတ် တိုင်းရင်းဆေး၀ါး ဌာန",
-      physicalTherapy: "ရုပ်ပိုင်းဆိုင်ရာကုထုံးဌာန",
-      outpatientClinic: "ပြင်ပလူနာဌာန"
-    },
-          service: {
-            service1: 'Chat Box'
-          }
-        }
-      }
-    };
-  },
-  mounted() {
-    this.fetchAds();
-  },
+// export default {
+//   name: "App",
+//   data() {
+//     return {
+//      query: "",
+//       showLanguageDropdown: false,
+//       showProfileDropdown: false,
+//       showDoctorDropdown: false,
+//       showAppointmentsDropdown: false,
+//       showServicesDropdown: false,
+//       showLoginForm: false,
+//       showCreateAccountForm: false,
+//       isLoggedIn: false, 
+//       user: {},
+//       currentLang: 'EN',
+//       ads: [],
+//       translations: {
+//         EN: {
+//           searchPlaceholder: 'Search...',
+//           login: 'Login',
+//           createAccount: 'Create Account',
+//           profileDetail: 'Profile Details',
+//           logout: 'Log Out',
+//           homepage: 'Home',
+//           doctorSchedule: 'Doctor Schedule',
+//           appointments: 'Appointments',
+//           services: 'Services',
+//           openChatbox: 'Open Chatbox',
+//           contactUs: 'Contact Us',
+//           hospitalName: 'Mfu Hospital',
+//           address: '123 Hospital Rd, City, Country',
+//           telephone: '+123 456 7890',
+//           email: 'info@mfu-hospital.com',
+//           departments: {
+//             thaiMedicine: "Department of Thai Traditional Medicine",
+//       chineseMedicine: "Department of Chinese Medicine",
+//       physicalTherapy: "Physical Therapy Department",
+//       outpatientClinic: "Outpatient Clinic"
+//     },
+//           service: {
+//             service1: 'Chat Box'
+//           }
+//         },
+//         ไทย: {
+//           searchPlaceholder: 'ค้นหา...',
+//           login: 'เข้าสู่ระบบ',
+//           createAccount: 'สร้างบัญชี',
+//           homepage: 'pai home',
+//           doctorSchedule: 'ตารางหมอ',
+//           appointments: 'นัดหมาย',
+//           services: 'บริการ',
+//           openChatbox: 'เปิดแชทบ็อกซ์',
+//           contactUs: 'ติดต่อเรา',
+//           hospitalName: 'โรงพยาบาล Mfu',
+//           address: '123 Hospital Rd, City, Country',
+//           telephone: '+123 456 7890',
+//           email: 'info@mfu-hospital.com',
+//           departments: {
+//             thaiMedicine: "แผนกการแพทย์แผนไทย",
+//       chineseMedicine: "แผนกการแพทย์แผนจีน",
+//       physicalTherapy: "แผนกกายภาพบำบัด",
+//       outpatientClinic: "แผนกผู้ป่วยนอก"
+//     },
+//           service: {
+//             service1: 'Chat Box'
+//           }
+//         },
+//         မြန်မာ: {
+//           searchPlaceholder: 'ရှာဖွေပါ...',
+//           login: 'ဝင်ပါ',
+//           createAccount: 'အကောင့်ဖွင့်ပါ',
+//           homepage: 'aein thwear mae',
+//           doctorSchedule: 'ဆရာဝန်အစီအစဉ်',
+//           appointments: 'ချိန်းဆိုချက်များ',
+//           services: 'ဝန်ဆောင်မှုများ',
+//           openChatbox: 'ချက်ဘော့ကို ဖွင့်မည်',
+//           contactUs: 'ဆက်သွယ်ရန်',
+//           hospitalName: 'Mfu ဆေးရုံ',
+//           address: '123 Hospital Rd, မြို့, နိုင်ငံ',
+//           telephone: '+123 456 7890',
+//           email: 'info@mfu-hospital.com',
+//           departments: {
+//             thaiMedicine: "ထိုင်းထူးပြုဆေးရုံ",
+//             chineseMedicine: "တရုတ် တိုင်းရင်းဆေး၀ါး ဌာန",
+//       physicalTherapy: "ရုပ်ပိုင်းဆိုင်ရာကုထုံးဌာန",
+//       outpatientClinic: "ပြင်ပလူနာဌာန"
+//     },
+//           service: {
+//             service1: 'Chat Box'
+//           }
+//         }
+//       }
+//     };
+//   },
+//   mounted() {
+//     this.fetchAds();
+//   },
 
-  components: {
-    LogIn,
-    CreateAcc
-  },
-  methods: {
+//   components: {
+//     LogIn,
+//     CreateAcc
+//   },
+//   methods: {
 
 
 
-    goToAppointmentPage() {
-      this.$router.push('/appointment'); // Ensure your route name is 'appointment'
-    },
+//     goToAppointmentPage() {
+//       this.$router.push('/appointment'); // Ensure your route name is 'appointment'
+//     },
     
-    toggleLanguageDropdown() {
-      this.showLanguageDropdown = !this.showLanguageDropdown;
-      this.showProfileDropdown = false;
-      this.showDoctorDropdown = false;
-      this.showAppointmentsDropdown = false;
-      this.showServicesDropdown = false;
-    },
-    toggleProfileDropdown() {
-      this.showProfileDropdown = !this.showProfileDropdown;
-      this.showLanguageDropdown = false;
-      this.showDoctorDropdown = false;
-      this.showAppointmentsDropdown = false;
-      this.showServicesDropdown = false;
-    },
-    async login(){
-      try {
-        const response = await axios.post('http://localhost:1337/api/auth/local', {
-          identifier: this.email,
-          password: this.password,
-        });
-        this.user = response.data.user; 
-        this.isLoggedIn = true; 
-        this.showProfileDropdown = false; 
-      } catch (error){
-        console.error('Login failed:', error.response.data.message);
-      }
-    },
-    toggleDoctorDropdown() {
-      this.showDoctorDropdown = !this.showDoctorDropdown;
-      this.showLanguageDropdown = false;
-      this.showProfileDropdown = false;
-      this.showAppointmentsDropdown = false;
-      this.showServicesDropdown = false;
-    },
-    toggleAppointmentsDropdown() {
-      this.showAppointmentsDropdown = !this.showAppointmentsDropdown;
-      this.showDoctorDropdown = false;
-      this.showLanguageDropdown = false;
-      this.showProfileDropdown = false;
-      this.showServicesDropdown = false;
+//     toggleLanguageDropdown() {
+//       this.showLanguageDropdown = !this.showLanguageDropdown;
+//       this.showProfileDropdown = false;
+//       this.showDoctorDropdown = false;
+//       this.showAppointmentsDropdown = false;
+//       this.showServicesDropdown = false;
+//     },
+//     toggleProfileDropdown() {
+//       this.showProfileDropdown = !this.showProfileDropdown;
+//       this.showLanguageDropdown = false;
+//       this.showDoctorDropdown = false;
+//       this.showAppointmentsDropdown = false;
+//       this.showServicesDropdown = false;
+//     },
+//     async login(){
+//       try {
+//         const response = await axios.post('http://localhost:1337/api/auth/local', {
+//           identifier: this.email,
+//           password: this.password,
+//         });
+//         this.user = response.data.user; 
+//         this.isLoggedIn = true; 
+//         this.showProfileDropdown = false; 
+//       } catch (error){
+//         console.error('Login failed:', error.response.data.message);
+//       }
+//     },
+//     toggleDoctorDropdown() {
+//       this.showDoctorDropdown = !this.showDoctorDropdown;
+//       this.showLanguageDropdown = false;
+//       this.showProfileDropdown = false;
+//       this.showAppointmentsDropdown = false;
+//       this.showServicesDropdown = false;
+//     },
+//     toggleAppointmentsDropdown() {
+//       this.showAppointmentsDropdown = !this.showAppointmentsDropdown;
+//       this.showDoctorDropdown = false;
+//       this.showLanguageDropdown = false;
+//       this.showProfileDropdown = false;
+//       this.showServicesDropdown = false;
     
-    },
-    toggleServicesDropdown() {
-      this.showServicesDropdown = !this.showServicesDropdown;
-      this.showAppointmentsDropdown = false;
-      this.showDoctorDropdown = false;
-      this.showLanguageDropdown = false;
-      this.showProfileDropdown = false;
-    },
-    setLanguage(lang) {
-      this.currentLang = lang;
-      this.showLanguageDropdown = false;
-    },
-    openLoginForm() {
-      this.showLoginForm = true;
-      this.showProfileDropdown = false;
-    },
-    openCreateAccountForm() {
-      this.showCreateAccountForm = true;
-      this.showProfileDropdown = false;
-    },
-    profileDetail() {
-      alert('this is profile details');
-    },
-    Logout(){
-      alert('this is log out'); 
-    },
-    selectDoctorDepartment(department) {
-      if (department === this.translations[this.currentLang].departments.thaiMedicine) {
-        this.$router.push({ name: 'thaiMedicine' });
-      }
-      this.showDoctorDropdown = false;
-    },
-    goToHomePage() {
-      this.$router.push({ name: 'App' }); // Ensure that 'home' route is defined in your router.
-    },
-    async fetchAds() {
-      try {
-        const response = await axios.get('http://localhost:1337/api/ads?populate=*'); // Ensure to populate media
-        console.log(response.data); // Log the entire response to check the structure
-        this.ads = response.data.data; // Adjust this according to your actual response
-        this.logAdImageUrls();
-      } catch (error) {
-        console.error('Error fetching ads:', error);
-      }
-    },
-    logAdImageUrls() {
-      if (this.ads.length) {
-        this.ads.forEach(ad => {
-          // Log to see the structure of each ad
-          console.log(ad);
-          if (ad.Ads && ad.Ads.length > 0) {
-            console.log(`Ad Image URL: http://localhost:1337${ad.Ads[0].url}`);
-          }
-        });
-      } else {
-        console.log('No ads available.');
-      }
-    },
-    handleImageError(ad) {
-      console.log(`Error loading image for ad: ${ad.Ad}`);
-      // You could also set a default image or perform any other error handling
-    }
-  }
-};
+//     },
+//     toggleServicesDropdown() {
+//       this.showServicesDropdown = !this.showServicesDropdown;
+//       this.showAppointmentsDropdown = false;
+//       this.showDoctorDropdown = false;
+//       this.showLanguageDropdown = false;
+//       this.showProfileDropdown = false;
+//     },
+//     setLanguage(lang) {
+//       this.currentLang = lang;
+//       this.showLanguageDropdown = false;
+//     },
+//     openLoginForm() {
+//       this.showLoginForm = true;
+//       this.showProfileDropdown = false;
+//     },
+//     openCreateAccountForm() {
+//       this.showCreateAccountForm = true;
+//       this.showProfileDropdown = false;
+//     },
+//     profileDetail() {
+//       alert('this is profile details');
+//     },
+//     Logout(){
+//       alert('this is log out'); 
+//     },
+//     selectDoctorDepartment(department) {
+//       if (department === this.translations[this.currentLang].departments.thaiMedicine) {
+//         this.$router.push({ name: 'thaiMedicine' });
+//       }
+//       this.showDoctorDropdown = false;
+//     },
+//     goToHomePage() {
+//       this.$router.push({ name: 'App' }); // Ensure that 'home' route is defined in your router.
+//     },
+//     async fetchAds() {
+//       try {
+//         const response = await axios.get('http://localhost:1337/api/ads?populate=*'); // Ensure to populate media
+//         console.log(response.data); // Log the entire response to check the structure
+//         this.ads = response.data.data; // Adjust this according to your actual response
+//         this.logAdImageUrls();
+//       } catch (error) {
+//         console.error('Error fetching ads:', error);
+//       }
+//     },
+//     logAdImageUrls() {
+//       if (this.ads.length) {
+//         this.ads.forEach(ad => {
+//           // Log to see the structure of each ad
+//           console.log(ad);
+//           if (ad.Ads && ad.Ads.length > 0) {
+//             console.log(`Ad Image URL: http://localhost:1337${ad.Ads[0].url}`);
+//           }
+//         });
+//       } else {
+//         console.log('No ads available.');
+//       }
+//     },
+//     handleImageError(ad) {
+//       console.log(`Error loading image for ad: ${ad.Ad}`);
+//       // You could also set a default image or perform any other error handling
+//     }
+//   }
+// };
 </script>
 
 <!-- CSS -->
