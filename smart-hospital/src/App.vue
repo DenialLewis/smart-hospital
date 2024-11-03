@@ -38,7 +38,7 @@
       </section> -->
 
       <!-- Footer -->
-      <footer class="footer">
+      <!-- <footer class="footer">
         <div class="contact-info">
           <p><strong>{{ translations[currentLang].contactUs }}</strong></p>
           <p>{{ translations[currentLang].hospitalName }}</p>
@@ -59,7 +59,7 @@
       </footer>
       <ChatWindow v-if="isChatOpen" @close-chat="isChatOpen=false" :isOpen="isChatOpen"/> 
     </div>
-    <router-view></router-view>
+    <router-view></router-view> -->
     <!-- Modal Components -->
     <!-- <LogIn v-if="showLoginForm" @close="showLoginForm = false" :currentLang="currentLang" />
     <CreateAcc v-if="showCreateAccountForm" @close="showCreateAccountForm = false" :currentLang="currentLang" /> -->
