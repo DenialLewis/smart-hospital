@@ -63,109 +63,77 @@
             </div>
             <!--Profile Dropdown Menu-->
             <div v-if="showProfileDropdown" class="dropdown-menu">
-                <template v-if="!isLoggedIn">
-                        <button class="dropdown-item" @click="openLoginForm">
-                        <img src="./assets/profile.png" alt="Login Logo" class="dropdown-icon" />
-                        {{ translations[currentLang].login }}
-                        </button>
-                        <button class="dropdown-item" @click="openCreateAccountForm">
-                        <img src="./assets/create-acc.png" alt="Create Account Icon" class="dropdown-icon" />
-                        {{ translations[currentLang].createAccount }}
-                        </button>
-                </template>
-                <template v-else>
-                    <button class="dropdown-item" @click="profileDetail">
-                    <img src="./assets/profile.png" alt="Login Logo" class="dropdown-icon" />
-                    {{ translations[currentLang].profileDetail }}
-                    </button>
-                    <button class="dropdown-item" @click="Logout">
-                    <img src="./assets/create-acc.png" alt="Create Account Icon" class="dropdown-icon" />
-                    {{ translations[currentLang].logout }}
-                    </button>
-                </template>
-            </div>
+      <template v-if="!isLoggedIn">
+        <button class="dropdown-item" @click="openLoginForm">
+          <img src="./assets/profile.png" alt="Login Logo" class="dropdown-icon" />
+          {{ translations[currentLang].login }}
+        </button>
+        <button class="dropdown-item" @click="openCreateAccountForm">
+          <img src="./assets/create-acc.png" alt="Create Account Icon" class="dropdown-icon" />
+          {{ translations[currentLang].createAccount }}
+        </button>
+      </template>
+      <template v-else>
+        <button class="dropdown-item" @click="profileDetail">
+          <img src="./assets/profile.png" alt="Profile Logo" class="dropdown-icon" />
+          {{ translations[currentLang].profileDetail }}
+        </button>
+        <button class="dropdown-item" @click="logout">
+          <img src="./assets/logout.png" alt="Logout Icon" class="dropdown-icon" />
+          {{ translations[currentLang].logout }}
+        </button>
+      </template>
+    </div>
         </div>
     </header>
 
     <!-- Navigation Tabs -->
-   <nav class="nav-tabs">
-        <!-- <router-link to="/thai-medicine">Thai Medicine</router-link>
-        <router-link to="/chinese-medicine">Chinese Medicine</router-link> -->
-
-        <button class="tab" :class="{'active': showDoctorDropdown }" @click="toggleDoctorDropdown">
+    <nav class="nav-tabs">
+        <div @mouseenter="showDoctorDropdown = true" @mouseleave="showDoctorDropdown = false">
+          <button class="tab" :class="{ 'active': showDoctorDropdown }">
             {{ translations[currentLang].doctorSchedule }}
-        </button>
-        <div v-if="showDoctorDropdown" class="doctor-dropdown">
-            <router-link to="/thai-medicine" @click="selectDoctorDepartment(translations[currentLang].departments.thaiMedicine)" >
-                <button class="dropdown-item">
-                {{ translations[currentLang].departments.thaiMedicine }}
-                </button>
+          </button>
+          <div v-if="showDoctorDropdown" class="doctor-dropdown">
+            <router-link to="/thai-medicine" @click="selectDoctorDepartment(translations[currentLang].departments.thaiMedicine)">
+              <button class="dropdown-item">{{ translations[currentLang].departments.thaiMedicine }}</button>
             </router-link>
             <router-link to="/chinese-medicine" @click="selectDoctorDepartment(translations[currentLang].departments.chineseMedicine)">
-                <button class="dropdown-item" >
-                {{ translations[currentLang].departments.chineseMedicine }}
-                </button>
+              <button class="dropdown-item">{{ translations[currentLang].departments.chineseMedicine }}</button>
             </router-link>
-            
             <router-link to="/physical-therapy" @click="selectDoctorDepartment(translations[currentLang].departments.physicalTherapy)">
-                <button class="dropdown-item" >
-                {{ translations[currentLang].departments.physicalTherapy }}
-                </button>
+              <button class="dropdown-item">{{ translations[currentLang].departments.physicalTherapy }}</button>
             </router-link>
-            
             <router-link to="/opd" @click="selectDoctorDepartment(translations[currentLang].departments.outpatientClinic)">
-                <button class="dropdown-item" >
-                {{ translations[currentLang].departments.outpatientClinic }}
-                </button>
+              <button class="dropdown-item">{{ translations[currentLang].departments.outpatientClinic }}</button>
             </router-link>
+          </div>
         </div>
-
-
+  
         <router-link to="/appointment" class="tab">
-            {{ translations[currentLang].appointments }}
+          {{ translations[currentLang].appointments }}
         </router-link>
-
-        <!-- <button class="tab" >
-            {{ translations[currentLang].appointments }}
-        </button>
-        <div v-if="showAppointmentsDropdown" class="appointment-dropdown">
-            <button class="dropdown-item" @click="openAppointmentPage(1)">Appointment 1: General Check-up</button>
-            <button class="dropdown-item" @click="openAppointmentPage(2)">Appointment 2: Dental Consultation</button>
-            <button class="dropdown-item" @click="openAppointmentPage(3)">Appointment 3: Eye Examination</button>
-            <button class="dropdown-item" @click="openAppointmentPage(4)">Appointment 4: Pediatric Check-up</button>
-        </div> -->
-
-        <button class="tab" :class="{ 'active': showServicesDropdown}" @click="toggleServicesDropdown">
+  
+        <div @mouseenter="showServicesDropdown = true" @mouseleave="showServicesDropdown = false">
+          <button class="tab" :class="{ 'active': showServicesDropdown }">
             {{ translations[currentLang].services }}
-        </button>
-        <div v-if="showServicesDropdown" class="service-dropdown">
-            <router-link to="/check-up" @click="toggleServicesDropdown"> <!-- Navigate to Service1.vue -->
-            <button class="dropdown-item">
-                Service 1: General Check-up
-            </button>
-        </router-link>
-
-        <router-link to="/dental-consult" @click="toggleServicesDropdown">
-                <button class="dropdown-item">
-                    Service 2: Dental Consultation
-                </button>
+          </button>
+          <div v-if="showServicesDropdown" class="service-dropdown">
+            <router-link to="/check-up" @click="toggleServicesDropdown">
+              <button class="dropdown-item">Service 1: General Check-up</button>
             </router-link>
-           
-            <router-link to="/eye-exam" @click="toggleServicesDropdown"> <!-- Navigate to Service1.vue -->
-            <button class="dropdown-item">
-                Service 3: Eye Examination 
-            </button>
-        </router-link>
-            <!-- <router-link to="/check-up" @click="toggleServicesDropdown"> Navigate to Service1.vue -->
-                <router-link to="/pediatric" @click="toggleServicesDropdown"> <!-- Navigate to Service1.vue -->
-            <button class="dropdown-item">
-                Service 4: Pediatric Check-up
-            </button>
-        </router-link>   
-            
-            
+            <router-link to="/dental-consult" @click="toggleServicesDropdown">
+              <button class="dropdown-item">Service 2: Dental Consultation</button>
+            </router-link>
+            <router-link to="/eye-exam" @click="toggleServicesDropdown">
+              <button class="dropdown-item">Service 3: Eye Examination</button>
+            </router-link>
+            <router-link to="/pediatric" @click="toggleServicesDropdown">
+              <button class="dropdown-item">Service 4: Pediatric Check-up</button>
+            </router-link>
+          </div>
         </div>
-    </nav>
+      </nav>
+  
 
     <router-view/> 
     <footer class="footer">
@@ -595,6 +563,15 @@
         goToAppointmentPage() {
             this.$router.push('/appointment'); 
         },
+        handleLogin() {
+      this.isLoggedIn = true;
+    },
+
+    logout() {
+      this.isLoggedIn = false;
+      localStorage.removeItem('jwtToken');
+      localStorage.removeItem('userId');
+    },
     },
 }
 </script>

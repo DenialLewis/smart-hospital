@@ -14,35 +14,6 @@
     <div class="form-section">
       <h1>{{ translations[currentLang].welcomeMessage }}</h1>
       <p>{{ translations[currentLang].accessInfo }}</p>
-
-      <!-- Primary Login Options -->
-      <!-- <div class="primary-login-options">
-        <button @click="loginWithEmail" class="primary-btn">
-          <i class="fas fa-envelope"></i> {{ translations[currentLang].continueWithEmail }}
-        </button>
-        <button @click="loginWithPhone" class="primary-btn">
-          <i class="fas fa-phone"></i> {{ translations[currentLang].continueWithPhone }}
-        </button>
-      </div>
-
-      <div class="divider">{{ translations[currentLang].or }}</div> -->
-
-      <!-- Social Login Options -->
-      <!-- <div class="social-login">
-        <button @click="loginWithGoogle" class="social-btn google-btn">
-          <i class="fab fa-google"></i> {{ translations[currentLang].continueWithGoogle }}
-        </button>
-        <button @click="loginWithApple" class="social-btn apple-btn">
-          <i class="fab fa-apple"></i> {{ translations[currentLang].continueWithApple }}
-        </button>
-        <button @click="loginWithFacebook" class="social-btn facebook-btn">
-          <i class="fab fa-facebook-f"></i> {{ translations[currentLang].continueWithFacebook }}
-        </button>
-        <button @click="loginWithX" class="social-btn x-btn">
-          <i class="fab fa-twitter"></i> {{ translations[currentLang].continueWithX }}
-        </button>
-      </div> -->
-
       <form @submit.prevent="submitForm">
 
         <div class="input-group">
