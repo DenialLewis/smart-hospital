@@ -145,7 +145,15 @@
             </button>
         </router-link>
              <button class="dropdown-item" @click="openServicePage(2)">Service 2: Dental Consultation</button>
-            <button class="dropdown-item" @click="openServicePage(3)">Service 3: Eye Examination</button>
+           
+            <router-link to="/check-up" @click="toggleServicesDropdown"> <!-- Navigate to Service1.vue -->
+            <button class="dropdown-item">
+                Service 3: Eye Examination 
+            </button>
+        </router-link>
+            <!-- <router-link to="/check-up" @click="toggleServicesDropdown"> Navigate to Service1.vue -->
+                
+            
             <button class="dropdown-item" @click="openServicePage(4)">Service 4: Pediatric Check-up</button>
         </div>
     </nav>
