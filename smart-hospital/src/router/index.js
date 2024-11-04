@@ -9,6 +9,8 @@ import Appointment from '@/components/Appointment.vue';
 import DoctorDetails from '../components/DoctorDetails.vue';
 import PatientProfile from '@/components/PatientProfile.vue';
 import Service1 from '@/components/Service1.vue';
+import Service3 from '@/components/Service3.vue';
+
 
 const routes = [
     {path: '/', name: 'HomePage', component: HomePage}, 
