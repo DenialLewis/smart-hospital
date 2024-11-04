@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import ThaiMedicine from '@/components/ThaiMedicine.vue'; 
+import ThaiMedicine from '@/components/thaiMedicine.vue'; 
 import ChatBubble from '../components/ChatBubble.vue';
 import HomePage from '@/components/HomePage.vue';
 import ChineseMedicine from '@/components/ChineseMedicine.vue';
 import PhysicalTherapy from '@/components/PhysicalTherapy.vue';
 import Opd from '@/components/Opd.vue';
-import Appointment from '@/components/Appointment.vue';
+import Appointment from '@/components/appointment.vue';
 import DoctorDetails from '../components/DoctorDetails.vue';
 
 

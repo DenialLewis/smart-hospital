@@ -144,39 +144,56 @@
 
     <router-view/> 
     <footer class="footer">
-        <div class="footer-content">
-            <div class="contact-info">
-                <h3>{{ translations[currentLang].contactUs }}</h3>
-                <div class="info-item">
-                    <img src="./assets/location-icon.png" alt="Address" class="info-icon" />
-                    <p>{{ translations[currentLang].hospitalName }}</p>
-                    <p>{{ translations[currentLang].address }}</p>
-                </div>
-                <div class="info-item">
-                    <img src="./assets/phone-icon.png" alt="Telephone" class="info-icon" />
-                    <p>{{ translations[currentLang].telephone }}</p>
-                </div>
-                <div class="info-item">
-                    <img src="./assets/email-icon.png" alt="Email" class="email-icon" />
-                    <p>{{ translations[currentLang].email }}</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <div class="social-media">
-                    <a href="https://www.facebook.com/MFUMedicalCenter?mibextid=LQQJ4d" target="_blank">
-                    <img src="./assets/facebook.png" alt="Facebook" class="social-icon" />
-                    </a>
-                    <a href="https://www.tiktok.com/@mfumyanmaradmission?_t=8r6KG0ymqjH&_r=1" target="_blank">
-                    <img src="./assets/tiktok.png" alt="TikTok" class="social-icon" />
-                    </a>
-                    <img src="./assets/qr.png" alt="QR Code" class="qr-icon" />
-                </div>
-                <div class="mh-logo">
-                    <img src="./assets/MH_logo.png" alt="MH Logo" />
-                </div>
-            </div>
-        </div>
-    </footer>
+  <div class="footer-content">
+    <div class="contact-info">
+      <h3>{{ translations[currentLang].contactUs }}</h3>
+      <div class="info-item">
+  <img src="@/assets/location-icon.png" alt="Address" class="info-icon" />
+  <p><strong>Mae Fah Luang University Hospital</strong></p>
+  <p>333 Village No. 1, Tha Sut Subdistrict, Mueang District</p>
+  <p>Chiang Rai Province 57100</p>
+</div>
+
+<div class="info-item">
+  <img src="@/assets/phone-icon.png" alt="Telephone" class="info-icon" />
+  <p><strong>Telephone:</strong> 0 5391 7563, 0 5391 7659</p>
+</div>
+
+<div class="info-item">
+  <img src="@/assets/email-icon.png" alt="Email" class="info-icon" />
+  <p><strong>Email:</strong> hospital@mfu.ac.th</p>
+</div>
+
+      <div class="info-hour">
+  <img src="@/assets/hours-icon.png" alt="Business Hours" class="info-icon" />
+  <p>
+    <strong>Business days and hours:</strong> <br>
+    Monday-Friday: 8:00 AM - 8:00 PM <br>
+    Saturday: 8:00 AM - 4:00 PM <br>
+    <span class="closed-info">(Closed every Sunday and public holidays)</span>
+  </p>
+</div>
+
+
+    </div>
+    
+    <div class="footer-bottom">
+      <div class="social-media">
+        <a href="https://www.facebook.com/MFUMedicalCenter?mibextid=LQQJ4d" target="_blank">
+          <img src="@/assets/facebook.png" alt="Facebook" class="social-icon" />
+        </a>
+        <a href="https://www.tiktok.com/@mfumyanmaradmission?_t=8r6KG0ymqjH&_r=1" target="_blank">
+          <img src="@/assets/tiktok.png" alt="TikTok" class="social-icon" />
+        </a>
+        <img src="@/assets/qr.png" alt="QR Code" class="qr-icon" />
+      </div>
+      <div class="mh-logo">
+        <img src="@/assets/MH_logo.png" alt="MH Logo" />
+      </div>
+    </div>
+  </div>
+</footer>
+
 
 
     <LogIn v-if="showLoginForm" @close="showLoginForm = false" :currentLang="currentLang" />
@@ -563,23 +580,63 @@ export default {
     }
 
     .info-item {
-    display: flex; /* Flexbox for alignment */
-    align-items: center; /* Center the items vertically */
-    margin: 10px 0; /* Spacing between items */
-    }
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  max-width: 400px;
+}
+    .info-hour {
+  display: flex;
+  align-items: flex-start;
+  border-radius: 8px;
+  padding: 15px;
+  max-width: 400px;
+  gap: 15px;
+}
+.info-hour p {
+  color: #e0e0e0;
+  font-size: 0.95em;
+  line-height: 1.6;
+  margin: 0;
+}
 
-    .info-icon {
-    width: 20px; /* Icon size */
-    height: 20px;
-    margin-right: 10px; /* Space between icon and text */
-    }
+.info-hour strong {
+  color: #B5DEE0;
+  font-size: 1em;
+}
+
+.closed-info {
+  color: #FFB6C1;
+  font-style: italic;
+  display: block;
+  margin-top: 5px;
+}
+
+.info-icon {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  filter: brightness(0.8);
+}
     .email-icon {
     width: 30px;
     height: 20px;
     margin-right: 10px;
     
     }
+    .info-item p {
+  color: #e0e0e0;
+  font-size: 0.95em;
+  margin: 0;
+  line-height: 1.6;
+}
 
+.info-item strong {
+  color: #B5DEE0;
+}
     .contact-info p {
     margin: 0; /* Remove default margin */
     font-size: 1em;
