@@ -1,5 +1,6 @@
 <template>
   <div class="login-container">
+
     <!-- Close Icon -->
     <button aria-label="Close account form" class="close-btn" @click="goBack">
       <span class="close-icon">✖</span>
@@ -15,27 +16,20 @@
       <h1>{{ translations[currentLang].welcomeMessage }}</h1>
       <p>{{ translations[currentLang].accessInfo }}</p>
       <form @submit.prevent="submitForm">
-
         <div class="input-group">
           <label for="email">{{ translations[currentLang].email }}</label>
           <input type="email" id="email" v-model="email" required>
         </div>
-
         <div class="input-group">
           <label for="password">{{ translations[currentLang].password }}</label>
           <input type="password" id="password" v-model="password" required>
         </div>
-
         <button type="submit" class="primary-btn">{{ translations[currentLang].createAccount }}</button>
       </form>
-
       <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
-
-
     </div>
   </div>
 </template>
-
 
 <script>
 import axios from 'axios'; 
@@ -118,54 +112,28 @@ export default {
     },
     
     async submitForm() {
-      this.errorMessage = ''; 
-      try {
-        // Make an API request to Strapi to authenticate the user
-        const response = await axios.post('http://localhost:1337/api/auth/local', {
-          identifier: this.email,
-          password: this.password
-        });
+  this.errorMessage = ''; 
+  try {
+    const response = await axios.post('http://localhost:1337/api/auth/local', {
+      identifier: this.email,
+      password: this.password
+    });
+    console.log(response.data);
+    localStorage.setItem('jwtToken', response.data.jwt);
+    localStorage.setItem('userId', response.data.user.id);
 
-        console.log(response.data);
-
-        localStorage.setItem('jwtToken', response.data.jwt);
-        localStorage.setItem('userId', response.data.user.id);
-
-
-        // If successful, you can handle the response here
-        alert('Login successful!');
-        // You can redirect the user or perform further actions
-        this.$emit('close'); // Close the login form
-      } catch (error) {
-        // Handle error response from Strapi
-        if (error.response && error.response.status === 401) {
-          this.errorMessage = this.translations[this.currentLang].invalidCredentials;
-        } else {
-          this.errorMessage = 'An error occurred. Please try again.'; // Generic error message
-        }
-      }
-    },
-
-
-
-    loginWithEmail() {
-      console.log("Logging in with email...");
-    },
-    loginWithPhone() {
-      console.log("Logging in with phone...");
-    },
-    loginWithGoogle() {
-      console.log("Logging in with Google...");
-    },
-    loginWithApple() {
-      console.log("Logging in with Apple...");
-    },
-    loginWithFacebook() {
-      console.log("Logging in with Facebook...");
-    },
-    loginWithX() {
-      console.log("Logging in with X...");
+    // Emit an event to notify parent component that login was successful
+    this.$emit('login-success'); // Emit the event here
+    alert('Login successful!');
+    this.$emit('close');
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      this.errorMessage = this.translations[this.currentLang].invalidCredentials;
+    } else {
+      this.errorMessage = 'An error occurred. Please try again.'; // Generic error message
     }
+  }
+},
   }
 };
 </script>

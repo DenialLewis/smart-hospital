@@ -88,28 +88,30 @@ export default {
       this.$emit('close');
     },
     async submitForm() {
-      if (this.password !== this.confirmPassword){
-        alert(this.translation[this.currentLang].passwordMismatch)
-        return;
-      }
-      try {
-        const response = await axios.post('http://localhost:1337/api/auth/local/register', {
-            username: this.name,
-            email: this.email, 
-            password: this.password, 
-        });
-        alert('Account created successfully!');
-        this.$emit('close'); 
-        this.name = ''; 
-        this.email = '';
-        this.password = ''; 
-        this.confirmPassword = ''; 
-      }
-      catch (error){
-        console.error ('Error creating account:', error.response.data);
-        alert('Failed to create account. Please try again.');
-      }
-    }
+  if (this.password !== this.confirmPassword) {
+    alert(this.translations[this.currentLang].passwordMismatch);
+    return;
+  }
+  try {
+    const response = await axios.post('http://localhost:1337/api/auth/local/register', {
+      username: this.name,
+      email: this.email, 
+      password: this.password, 
+    });
+    alert('Account created successfully!');
+    this.$emit('account-created'); // Emit event here
+    this.$emit('close'); 
+    // Reset form fields
+    this.name = ''; 
+    this.email = '';
+    this.password = ''; 
+    this.confirmPassword = ''; 
+  } catch (error) {
+    console.error('Error creating account:', error.response.data);
+    alert('Failed to create account. Please try again.');
+  }
+}
+
   }
 };
 </script>
