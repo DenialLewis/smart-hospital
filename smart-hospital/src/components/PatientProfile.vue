@@ -33,25 +33,28 @@ export default {
       };
     },
     async created() {
-      const token = localStorage.getItem('jwtToken');
-      console.log('Stored JWT:', token); // Check that this logs a valid token
-  
-      if (token) {
-        try {
-          // Fetch all user profiles
-          const response = await axios.get('http://localhost:1337/users', {
+   const token = localStorage.getItem('jwtToken');
+   const userId = localStorage.getItem('userId');
+   
+   console.log('Token:', token);
+  console.log('User ID:', userId);
+   if (token && userId) {
+      try {
+         // Fetch the logged-in user's profile
+         const response = await axios.get(`http://localhost:1337/api/users/${userId}`, {
             headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          this.users = response.data;
-        } catch (error) {
-          console.error('Error fetching user profiles:', error);
-        }
-      } else {
-        console.error('No JWT token found in localStorage');
+               Authorization: `Bearer ${token}`
+            }
+         });
+         this.users = [response.data]; // Assuming users array holds individual user data for simplicity
+      } catch (error) {
+         console.error('Error fetching user profile:', error);
       }
-    },
+   } else {
+      console.error('No JWT token found in localStorage');
+   }
+}
+
   };
   </script>
   

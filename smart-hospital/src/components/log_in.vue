@@ -155,6 +155,12 @@ export default {
           password: this.password
         });
 
+        console.log(response.data);
+
+        localStorage.setItem('jwtToken', response.data.jwt);
+        localStorage.setItem('userId', response.data.user.id);
+
+
         // If successful, you can handle the response here
         alert('Login successful!');
         // You can redirect the user or perform further actions

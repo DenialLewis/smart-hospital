@@ -20,12 +20,22 @@ const routes = [
     {path: '/opd', name: 'opd', component: Opd},
     {path: '/appointment', name: 'appointment', component: Appointment},
     {path: '/patient-profile', name: 'PatientProfile', component: PatientProfile},
-    {path: '/check-up', name: 'Service1', component: Service1}
+    {path: '/check-up', name: 'Service1', component: Service1},
+    {path: '/patient-profile', name: 'PatientProfile', component: PatientProfile, meta:{requiresAuth: true}}
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+// Navigation guard for authentication
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('jwtToken');
+  if (to.matched.some(record => record.meta.requiresAuth) && !token) {
+      next({ name: 'LogIn' }); // Redirect to login page
+  } else {
+      next();
+  }
 });
 
 export default router;
