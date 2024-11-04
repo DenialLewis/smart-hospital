@@ -17,7 +17,8 @@ const routes = [
     {path: '/physical-therapy', name: 'physicalTherapy', component: PhysicalTherapy},
     {path: '/doctor-details/:doctorId', name: 'DoctorDetails', component: DoctorDetails},
     {path: '/opd', name: 'opd', component: Opd},
-    {path: '/appointment', name: 'appointment', component: Appointment}
+    {path: '/appointment', name: 'appointment', component: Appointment},
+    {path: '/patient-profile', name: 'PatientProfile', component: PatientProfile}
 
 ];
 

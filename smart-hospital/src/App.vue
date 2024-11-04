@@ -26,6 +26,10 @@
                 </button>
             </div>
 
+            <!--patient profile par-->
+            <router-link to="/patient-profile">Profile details</router-link>
+
+            
             <!--language choices-->
             <div class="lang-dropdown" @click="toggleLanguageDropdown">
                 <span>{{ currentLang }}</span>
