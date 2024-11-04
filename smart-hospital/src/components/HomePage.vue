@@ -4,6 +4,9 @@
     <h1>Doctor schedule က dropdown ကအကုန်ရသွားပြီ 🙂🙂</h1>
     <h1>မယုံရင်နှိပ်ကြည့်ပါ</h1>
     <h1>Home ကိုပြန်သွားချင်ရင် logo လေးနှိပ်ပါ ပြန်ရသွားပါပြီ</h1>
+    <h1>Login နဲ့ Create Acc မှာ password ကို seen and Unseen လုပ်ထားတယ်</h1>
+    <h1>Login ဝင်လိုက်ရင် button တွေပြောင်းသွားပြီ</h1>
+    <h1>Dropdown ပေါ် cursor ချလိုက်ရင် တန်းပီး drop down ကျပြီ</h1>
 
     <div class="ads-container-wrapper">
       <button v-if="isOverflowing" @click="scrollLeft" class="scroll-button left">&lt;</button>
