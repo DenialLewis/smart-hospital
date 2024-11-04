@@ -149,39 +149,65 @@
     <router-view/> 
     <footer class="footer">
   <div class="footer-content">
+    
+    <!-- Contact Information Section -->
     <div class="contact-info">
       <h3>{{ translations[currentLang].contactUs }}</h3>
-      <div class="info-item">
-  <img src="@/assets/location-icon.png" alt="Address" class="info-icon" />
-  <p><strong>Mae Fah Luang University Hospital</strong></p>
-  <p>333 Village No. 1, Tha Sut Subdistrict, Mueang District</p>
-  <p>Chiang Rai Province 57100</p>
-</div>
+      
+      <!-- Two-Column Layout for Contact Information -->
+      <div class="contact-columns">
+        
+        <!-- Column 1: Address and Phone Information -->
+        <div class="contact-column">
+          <!-- Address Information -->
+          <div class="info-item">
+            <img src="@/assets/location-icon.png" alt="Address" class="info-icon" />
+            <div class="info-text">
+              <p><strong>Mae Fah Luang University Hospital</strong></p>
+              <p>333 Village No. 1, Tha Sut Subdistrict, Mueang District</p>
+              <p>Chiang Rai Province 57100</p>
+            </div>
+          </div>
 
-<div class="info-item">
-  <img src="@/assets/phone-icon.png" alt="Telephone" class="info-icon" />
-  <p><strong>Telephone:</strong> 0 5391 7563, 0 5391 7659</p>
-</div>
+          <!-- Phone Information -->
+          <div class="info-item">
+            <img src="@/assets/phone-icon.png" alt="Telephone" class="info-icon" />
+            <div class="info-text">
+              <p><strong>Telephone:</strong> 0 5391 7563, 0 5391 7659</p>
+            </div>
+          </div>
+        </div>
 
-<div class="info-item">
-  <img src="@/assets/email-icon.png" alt="Email" class="info-icon" />
-  <p><strong>Email:</strong> hospital@mfu.ac.th</p>
-</div>
+        <!-- Column 2: Email and Business Hours Information -->
+        <div class="contact-column">
+          <!-- Email Information -->
+          <div class="info-item">
+            <img src="@/assets/email-icon.png" alt="Email" class="info-icon" />
+            <div class="info-text">
+              <p><strong>Email:</strong> hospital@mfu.ac.th</p>
+            </div>
+          </div>
 
-      <div class="info-hour">
-  <img src="@/assets/hours-icon.png" alt="Business Hours" class="info-icon" />
-  <p>
-    <strong>Business days and hours:</strong> <br>
-    Monday-Friday: 8:00 AM - 8:00 PM <br>
-    Saturday: 8:00 AM - 4:00 PM <br>
-    <span class="closed-info">(Closed every Sunday and public holidays)</span>
-  </p>
-</div>
-
-
+          <!-- Business Hours Information -->
+          <div class="info-item">
+            <img src="@/assets/hours-icon.png" alt="Business Hours" class="info-icon" />
+            <div class="info-text">
+              <p>
+                <strong>Business days and hours:</strong><br>
+                Monday-Friday: 8:00 AM - 8:00 PM<br>
+                Saturday: 8:00 AM - 4:00 PM<br>
+                <span class="closed-info">(Closed every Sunday and public holidays)</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        
+      </div>
     </div>
     
+    <!-- Footer Bottom Section -->
     <div class="footer-bottom">
+      <!-- Social Media Links -->
       <div class="social-media">
         <a href="https://www.facebook.com/MFUMedicalCenter?mibextid=LQQJ4d" target="_blank">
           <img src="@/assets/facebook.png" alt="Facebook" class="social-icon" />
@@ -191,12 +217,18 @@
         </a>
         <img src="@/assets/qr.png" alt="QR Code" class="qr-icon" />
       </div>
+      
+      <!-- Logo -->
       <div class="mh-logo">
         <img src="@/assets/MH_logo.png" alt="MH Logo" />
       </div>
     </div>
+    
   </div>
 </footer>
+
+
+
 
 
 
@@ -564,52 +596,71 @@ export default {
     }
 
     .footer {
-    background: linear-gradient(135deg, #2C3E50, #34495E);
-    padding: 40px 20px;
-    color: #fff;
-    text-align: center;
-    }
+  background: linear-gradient(135deg, #2C3E50, #34495E);
+  padding: 40px 20px;
+  color: #fff;
+  text-align: center;
+}
 
-    .contact-info {
-    background-color: rgba(255, 255, 255, 0.1); /* Lighter background for contrast */
-    border-radius: 10px; /* Rounded corners */
-    padding: 20px; /* Padding inside the contact info */
-    margin-bottom: 20px; /* Space below the contact info */
-    }
+.contact-info {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
-    .contact-info h3 {
-    font-size: 1.5em; /* Larger heading */
-    font-family: Arial, Helvetica, sans-serif;
-    margin-bottom: 10px;
-    }
+.contact-info h3 {
+  font-size: 1.5em;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-bottom: 15px;
+  color: #B5DEE0;
+}
 
-    .info-item {
+.contact-columns {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.contact-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.info-item {
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  max-width: 400px;
-}
-    .info-hour {
-  display: flex;
-  align-items: flex-start;
-  border-radius: 8px;
   padding: 15px;
-  max-width: 400px;
-  gap: 15px;
-}
-.info-hour p {
-  color: #e0e0e0;
-  font-size: 0.95em;
-  line-height: 1.6;
-  margin: 0;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  gap: 20px;
 }
 
-.info-hour strong {
+.info-icon {
+  width: 30px;
+  height: 30px;
+  filter: brightness(0.8);
+  flex-shrink: 0;
+}
+
+.info-text {
+  text-align: left;
+}
+
+.info-text p {
+  margin: 0;
+  font-size: 0.95em;
+  line-height: 1.5;
+  color: #e0e0e0;
+}
+
+.info-text strong {
   color: #B5DEE0;
-  font-size: 1em;
 }
 
 .closed-info {
@@ -619,44 +670,14 @@ export default {
   margin-top: 5px;
 }
 
-.info-icon {
-  width: 30px;
-  height: 30px;
-  flex-shrink: 0;
-  filter: brightness(0.8);
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin-top: 20px;
 }
-    .email-icon {
-    width: 30px;
-    height: 20px;
-    margin-right: 10px;
-    
-    }
-    .info-item p {
-  color: #e0e0e0;
-  font-size: 0.95em;
-  margin: 0;
-  line-height: 1.6;
-}
-
-.info-item strong {
-  color: #B5DEE0;
-}
-    .contact-info p {
-    margin: 0; /* Remove default margin */
-    font-size: 1em;
-    font-family: Arial, Helvetica, sans-serif;
-    line-height: 1.6;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Subtle text shadow */
-    }
-
-    .footer-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    margin-top: 20px;
-    }
 
 .social-media {
   display: flex;
@@ -674,7 +695,7 @@ export default {
 
 .social-icon:hover {
   transform: scale(1.1);
-  background-color: #B5DEE0; 
+  background-color: #B5DEE0;
 }
 
 .qr-icon {
@@ -685,5 +706,6 @@ export default {
 .mh-logo img {
   width: 220px;
 }
+
 
 </style>
