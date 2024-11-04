@@ -128,11 +128,8 @@
   <!-- Contact Information Section -->
   <div class="contact-info">
     <h3>{{ translations[currentLang].contactUs }}</h3>
-    <!-- Two-Column Layout for Contact Information -->
     <div class="contact-columns">
-      <!-- Column 1: Address and Phone Information -->
       <div class="contact-column">
-        <!-- Address Information -->
         <div class="info-item">
           <img src="@/assets/location-icon.png" alt="Address" class="info-icon" />
           <div class="info-text">
@@ -140,7 +137,6 @@
             <p>{{ translations[currentLang].address }}</p>
           </div>
         </div>
-        <!-- Phone Information -->
         <div class="info-item">
           <img src="@/assets/phone-icon.png" alt="Telephone" class="info-icon" />
           <div class="info-text">
@@ -148,16 +144,13 @@
           </div>
         </div>
       </div>
-      <!-- Column 2: Email and Business Hours Information -->
       <div class="contact-column">
-        <!-- Email Information -->
         <div class="info-item">
           <img src="@/assets/email-icon.png" alt="Email" class="info-icon" />
           <div class="info-text">
             <p><strong>{{ translations[currentLang].email }}</strong></p>
           </div>
         </div>
-        <!-- Business Hours Information -->
         <div class="info-item">
           <img src="@/assets/hours-icon.png" alt="Business Hours" class="info-icon" />
           <div class="info-text">
@@ -170,9 +163,7 @@
       </div>
     </div>
   </div>
-  <!-- Footer Bottom Section -->
   <div class="footer-bottom">
-    <!-- Social Media Links -->
     <div class="social-media">
       <a href="https://www.facebook.com/MFUMedicalCenter?mibextid=LQQJ4d" target="_blank">
         <img src="@/assets/facebook.png" alt="Facebook" class="social-icon" />
@@ -182,7 +173,6 @@
       </a>
       <img src="@/assets/qr.png" alt="QR Code" class="qr-icon" />
     </div>
-    <!-- Logo -->
     <div class="mh-logo">
       <img src="@/assets/MH_logo.png" alt="MH Logo" />
     </div>
@@ -200,7 +190,6 @@
       @account-created="handleAccountCreated" 
       :currentLang="currentLang" 
     />
-    <!-- Other components and code -->
     <CreateAcc v-if="showCreateAccountForm" @close="showCreateAccountForm = false" :currentLang="currentLang" />
   </div>
 </template>
@@ -377,13 +366,12 @@
       this.isLoggedIn = true;
     },
     handleLoginSuccess() {
-      this.isLoggedIn = true; // Set isLoggedIn to true
-      this.showLoginForm = false; // Close the login form
+      this.isLoggedIn = true;
+      this.showLoginForm = false;
     },
     handleAccountCreated() {
-      this.isLoggedIn = true; // Update logged-in state
-      this.showCreateAccountForm = false; // Close the create account form
-      // Additional logic for account creation success if necessary
+      this.isLoggedIn = true;
+      this.showCreateAccountForm = false;
     },
 
     logout() {

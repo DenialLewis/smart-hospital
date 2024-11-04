@@ -50,14 +50,14 @@ export default {
     currentLang: {
       type: String,
       required: true,
-      default: 'EN' // Provide a default language in case it's not passed properly
+      default: 'EN'
     }
   },
   data() {
     return {
       email: '',
       password: '',
-      passwordVisible: false, // New data property for password visibility
+      passwordVisible: false,
       errorMessage: '',
       translations: {
         EN: {
@@ -89,11 +89,11 @@ export default {
   },
   methods: {
     goBack() {
-      this.$emit('close'); // Close the pop-up when clicked
+      this.$emit('close');
     },
 
     togglePasswordVisibility() {
-      this.passwordVisible = !this.passwordVisible; // Toggle the password visibility
+      this.passwordVisible = !this.passwordVisible;
     },
     
     async submitForm() {
@@ -106,14 +106,14 @@ export default {
         console.log(response.data);
         localStorage.setItem('jwtToken', response.data.jwt);
         localStorage.setItem('userId', response.data.user.id);
-        this.$emit('login-success'); // Emit the event here
+        this.$emit('login-success');
         alert('Login successful!');
         this.$emit('close');
       } catch (error) {
         if (error.response && error.response.status === 401) {
           this.errorMessage = this.translations[this.currentLang].invalidCredentials;
         } else {
-          this.errorMessage = 'An error occurred. Please try again.'; // Generic error message
+          this.errorMessage = 'An error occurred. Please try again.';
         }
       }
     },
@@ -127,15 +127,15 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+    background: rgba(255, 255, 255, 0.9);
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5); /* Adjust shadow for better contrast */
-    width: 400px; /* Set width as needed */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+    width: 400px;
   }
 
   body {
-    overflow: hidden; /* Prevent the background from scrolling when the modal is open */
+    overflow: hidden;
   }
 
   .close-btn {
@@ -157,7 +157,7 @@ export default {
   }
 
   .close-btn:hover {
-    background-color: #a0a0a0;
+    background-color: #B5DEE0;
     color: #000000;
   }
 
@@ -184,13 +184,14 @@ export default {
   }
 
   .primary-btn {
+    width:200px;
     background-color: #007BFF;
     color: #fff;
     border: none;
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
-    margin: 20px auto 0; /* Center the button horizontally */
+    margin: 20px auto 0;
     display: block;
     transition: background-color 0.3s ease;
   }
@@ -218,8 +219,8 @@ export default {
     border-radius: 5px;
     font-size: 16px;
     transition: border-color 0.3s ease;
-    display: block; /* Make input a block element */
-    margin: 0 auto; /* Center input horizontally */
+    display: block;
+    margin: 0 auto;
   }
 
   .input-group input:focus {
@@ -245,7 +246,7 @@ export default {
     margin-right: 10px;
     width: 20px;
     height: 20px;
-    color: black; /* Color for the eye icon */
+    color: black;
   }
 
   .error {

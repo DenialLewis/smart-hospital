@@ -120,9 +120,8 @@ export default {
           password: this.password, 
         });
         alert('Account created successfully!');
-        this.$emit('account-created'); // Emit event here
+        this.$emit('account-created');
         this.$emit('close'); 
-        // Reset form fields
         this.name = ''; 
         this.email = '';
         this.password = ''; 
@@ -144,6 +143,44 @@ export default {
 </script>
 
 <style scoped>
+ .primary-btn {
+    width:200px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 20px auto 0;
+    display: block;
+    transition: background-color 0.3s ease;
+  }
+
+.primary-btn:hover {
+    background-color: #0056b3;
+  }
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: #f5f5f5;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+    cursor: pointer;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .close-btn:hover {
+    background-color: #B5DEE0;
+    color: #000000;
+  }
 .create-account-container {
   display: flex;
   width: 80%;
@@ -161,20 +198,20 @@ export default {
 
 .image-section {
   flex: 1;
-  background: url('@/assets/medcenter.jpeg') center center / cover no-repeat; /* Set background image */
+  background: url('@/assets/medcenter.jpeg') center center / cover no-repeat;
   display: flex;
-  align-items: center; /* Center align image vertically */
-  justify-content: center; /* Center align image horizontally */
+  align-items: center;
+  justify-content: center;
 }
 
 .full-image {
   width: 100%;
-  height: auto; /* Maintain aspect ratio */
+  height: auto;
 }
 
 .form-section {
-  flex: 1; /* Make form section take up equal space */
-  padding: 20px; /* Add some padding for better spacing */
+  flex: 1;
+  padding: 20px;
 }
 
 .form-section h1 {
@@ -202,48 +239,25 @@ export default {
 }
 
 .password-group {
-  position: relative; /* Position relative for positioning the toggle button */
+  position: relative;
 }
 
 .toggle-password {
   position: absolute;
-  right: 10px; /* Adjust the distance from the right */
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
   cursor: pointer;
-  color: #333; /* Color for the eye icon */
-}
-
-.primary-btn {
-  background-color: #EBD5A0;
   color: #333;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
 }
 
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-size: 24px;
-  color: #333; /* Close button color */
-}
-
-.close-icon {
-  font-weight: bold; /* Make close icon bold */
-}
 .eye-icon {
     margin-top: 20px;
     margin-right: 10px;
     width: 25px;
     height: 20px;
-    color: black; /* Color for the eye icon */
+    color: black;
   }
 </style>
