@@ -143,26 +143,42 @@
     </nav>
 
     <router-view/> 
-
     <footer class="footer">
-        <div class="contact-info">
-            <p><strong>{{ translations[currentLang].contactUs }}</strong></p>
-            <p>{{ translations[currentLang].hospitalName }}</p>
-            <p>{{ translations[currentLang].address }}</p>
-            <p>{{ translations[currentLang].telephone }}</p>
-            <p>{{ translations[currentLang].email }}</p>
-        </div>
-        <div class="footer-bottom">
-            <div class="social-media">
-                <img src="./assets/facebook.png" alt="Facebook" class="social-icon" />
-                <img src="./assets/tiktok.png" alt="TikTok" class="social-icon" />
-                <img src="./assets/qr.png" alt="QR Code" class="qr-icon" />
-            </div>
-            <div class="mh-logo">
-                <img src="./assets/MH_logo.png" alt="MH Logo" />
-            </div>
-        </div>
-    </footer>
+  <div class="footer-content">
+    <div class="contact-info">
+      <h3>{{ translations[currentLang].contactUs }}</h3>
+      <div class="info-item">
+        <img src="./assets/location-icon.png" alt="Address" class="info-icon" />
+        <p>{{ translations[currentLang].hospitalName }}</p>
+        <p>{{ translations[currentLang].address }}</p>
+      </div>
+      <div class="info-item">
+        <img src="./assets/phone-icon.png" alt="Telephone" class="info-icon" />
+        <p>{{ translations[currentLang].telephone }}</p>
+      </div>
+      <div class="info-item">
+        <img src="./assets/email-icon.png" alt="Email" class="email-icon" />
+        <p>{{ translations[currentLang].email }}</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="social-media">
+        <a href="https://www.facebook.com/MFUMedicalCenter?mibextid=LQQJ4d" target="_blank">
+          <img src="./assets/facebook.png" alt="Facebook" class="social-icon" />
+        </a>
+        <a href="https://www.tiktok.com/@mfumyanmaradmission?_t=8r6KG0ymqjH&_r=1" target="_blank">
+          <img src="./assets/tiktok.png" alt="TikTok" class="social-icon" />
+        </a>
+        <img src="./assets/qr.png" alt="QR Code" class="qr-icon" />
+      </div>
+      <div class="mh-logo">
+        <img src="./assets/MH_logo.png" alt="MH Logo" />
+      </div>
+    </div>
+  </div>
+</footer>
+
+
     <LogIn v-if="showLoginForm" @close="showLoginForm = false" :currentLang="currentLang" />
     <CreateAcc v-if="showCreateAccountForm" @close="showCreateAccountForm = false" :currentLang="currentLang" />
     
@@ -526,44 +542,85 @@ export default {
         z-index: 1000;
     }
 
-
     .footer {
-        background-color: #B5DEE0;
-        color: #003d73;
-        padding: 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        
-    }
-    .footer-bottom {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-    }
-    .contact-info {
-        text-align: left;
-        max-width: 600px;
-        margin-right: 20px;
-    }
-    .mh-logo img {
-        height: 80px;
-        width: auto;
-    }
-    .social-media {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-    }
-    .social-icon {
-        height: 24px;
-        width: 24px;
-    }
+  background: linear-gradient(135deg, #2C3E50, #34495E);
+  padding: 40px 20px;
+  color: #fff;
+  text-align: center;
+}
 
-    .qr-icon {
-        height: 100px;
-        width: 100px; 
-    }
+.contact-info {
+  background-color: rgba(255, 255, 255, 0.1); /* Lighter background for contrast */
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px; /* Padding inside the contact info */
+  margin-bottom: 20px; /* Space below the contact info */
+}
+
+.contact-info h3 {
+  font-size: 1.5em; /* Larger heading */
+  margin-bottom: 10px;
+}
+
+.info-item {
+  display: flex; /* Flexbox for alignment */
+  align-items: center; /* Center the items vertically */
+  margin: 10px 0; /* Spacing between items */
+}
+
+.info-icon {
+  width: 20px; /* Icon size */
+  height: 20px;
+  margin-right: 10px; /* Space between icon and text */
+}
+.email-icon {
+  width: 30px;
+  height: 20px;
+  margin-right: 10px;
+  
+}
+
+.contact-info p {
+  margin: 0; /* Remove default margin */
+  font-size: 1em;
+  line-height: 1.6;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Subtle text shadow */
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin-top: 20px;
+}
+
+.social-media {
+  display: flex;
+  gap: 20px;
+}
+
+.social-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.social-icon:hover {
+  transform: scale(1.1);
+  background-color: #B5DEE0; 
+}
+
+.qr-icon {
+  width: 80px;
+  height: 80px;
+}
+
+.mh-logo img {
+  width: 220px;
+}
 
 </style>
