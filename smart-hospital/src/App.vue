@@ -144,17 +144,26 @@
                 Service 1: General Check-up
             </button>
         </router-link>
-             <button class="dropdown-item" @click="openServicePage(2)">Service 2: Dental Consultation</button>
+
+        <router-link to="/dental-consult" @click="toggleServicesDropdown">
+                <button class="dropdown-item">
+                    Service 2: Dental Consultation
+                </button>
+            </router-link>
            
-            <router-link to="/check-up" @click="toggleServicesDropdown"> <!-- Navigate to Service1.vue -->
+            <router-link to="/eye-exam" @click="toggleServicesDropdown"> <!-- Navigate to Service1.vue -->
             <button class="dropdown-item">
                 Service 3: Eye Examination 
             </button>
         </router-link>
             <!-- <router-link to="/check-up" @click="toggleServicesDropdown"> Navigate to Service1.vue -->
-                
+                <router-link to="/pediatric" @click="toggleServicesDropdown"> <!-- Navigate to Service1.vue -->
+            <button class="dropdown-item">
+                Service 4: Pediatric Check-up
+            </button>
+        </router-link>   
             
-            <button class="dropdown-item" @click="openServicePage(4)">Service 4: Pediatric Check-up</button>
+            
         </div>
     </nav>
 

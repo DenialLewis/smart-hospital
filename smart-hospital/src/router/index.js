@@ -9,7 +9,9 @@ import Appointment from '@/components/Appointment.vue';
 import DoctorDetails from '../components/DoctorDetails.vue';
 import PatientProfile from '@/components/PatientProfile.vue';
 import Service1 from '@/components/Service1.vue';
+import Service2 from '@/components/Service2.vue';
 import Service3 from '@/components/Service3.vue';
+import Service4 from '@/components/Service4.vue';
 
 
 const routes = [
@@ -23,6 +25,9 @@ const routes = [
     {path: '/appointment', name: 'appointment', component: Appointment},
     {path: '/patient-profile', name: 'PatientProfile', component: PatientProfile},
     {path: '/check-up', name: 'Service1', component: Service1},
+    {path: '/dental-consult', name: 'Service2', component: Service2},
+    {path: '/eye-exam', name: 'Service3', component: Service3},
+    {path: '/pediatric', name: 'Service4', component: Service4},
     {path: '/patient-profile', name: 'PatientProfile', component: PatientProfile, meta:{requiresAuth: true}}
 ];
 
