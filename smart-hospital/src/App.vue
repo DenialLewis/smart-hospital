@@ -169,88 +169,155 @@
 
     <router-view/> 
     <footer class="footer">
-  <div class="footer-content">
-    
-    <!-- Contact Information Section -->
-    <div class="contact-info">
-      <h3>{{ translations[currentLang].contactUs }}</h3>
-      
-      <!-- Two-Column Layout for Contact Information -->
-      <div class="contact-columns">
-        
-        <!-- Column 1: Address and Phone Information -->
-        <div class="contact-column">
-          <!-- Address Information -->
-          <div class="info-item">
-            <img src="@/assets/location-icon.png" alt="Address" class="info-icon" />
-            <div class="info-text">
-              <p><strong>Mae Fah Luang University Hospital</strong></p>
-              <p>333 Village No. 1, Tha Sut Subdistrict, Mueang District</p>
-              <p>Chiang Rai Province 57100</p>
-            </div>
+
+<div class="footer-content">
+
+ 
+
+  <!-- Contact Information Section -->
+
+  <div class="contact-info">
+
+    <h3>{{ translations[currentLang].contactUs }}</h3>
+
+   
+
+    <!-- Two-Column Layout for Contact Information -->
+
+    <div class="contact-columns">
+
+     
+
+      <!-- Column 1: Address and Phone Information -->
+
+      <div class="contact-column">
+
+        <!-- Address Information -->
+
+        <div class="info-item">
+
+          <img src="@/assets/location-icon.png" alt="Address" class="info-icon" />
+
+          <div class="info-text">
+
+            <p><strong>{{ translations[currentLang].hospitalName }}</strong></p>
+
+            <p>{{ translations[currentLang].address }}</p>
+
           </div>
 
-          <!-- Phone Information -->
-          <div class="info-item">
-            <img src="@/assets/phone-icon.png" alt="Telephone" class="info-icon" />
-            <div class="info-text">
-              <p><strong>Telephone:</strong> 0 5391 7563, 0 5391 7659</p>
-            </div>
-          </div>
         </div>
 
-        <!-- Column 2: Email and Business Hours Information -->
-        <div class="contact-column">
-          <!-- Email Information -->
-          <div class="info-item">
-            <img src="@/assets/email-icon.png" alt="Email" class="info-icon" />
-            <div class="info-text">
-              <p><strong>Email:</strong> hospital@mfu.ac.th</p>
-            </div>
+
+
+        <!-- Phone Information -->
+
+        <div class="info-item">
+
+          <img src="@/assets/phone-icon.png" alt="Telephone" class="info-icon" />
+
+          <div class="info-text">
+
+            <p><strong>{{ translations[currentLang].telephone }}</strong></p>
+
           </div>
 
-          <!-- Business Hours Information -->
-          <div class="info-item">
-            <img src="@/assets/hours-icon.png" alt="Business Hours" class="info-icon" />
-            <div class="info-text">
-              <p>
-                <strong>Business days and hours:</strong><br>
-                Monday-Friday: 8:00 AM - 8:00 PM<br>
-                Saturday: 8:00 AM - 4:00 PM<br>
-                <span class="closed-info">(Closed every Sunday and public holidays)</span>
-              </p>
-            </div>
-          </div>
         </div>
-        
+
       </div>
+
+
+
+      <!-- Column 2: Email and Business Hours Information -->
+
+      <div class="contact-column">
+
+        <!-- Email Information -->
+
+        <div class="info-item">
+
+          <img src="@/assets/email-icon.png" alt="Email" class="info-icon" />
+
+          <div class="info-text">
+
+            <p><strong>{{ translations[currentLang].email }}</strong></p>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- Business Hours Information -->
+
+        <div class="info-item">
+
+          <img src="@/assets/hours-icon.png" alt="Business Hours" class="info-icon" />
+
+          <div class="info-text">
+
+            <p>
+
+              <strong>{{ translations[currentLang].businessHoursTitle || 'Business days and hours:' }}</strong><br>
+
+              {{ translations[currentLang].businessHours || 'Monday-Friday: 8:00 AM - 8:00 PM<br>Saturday: 8:00 AM - 4:00 PM<br>(Closed every Sunday and public holidays)' }}
+
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+     
+
     </div>
-    
-    <!-- Footer Bottom Section -->
-    <div class="footer-bottom">
-      <!-- Social Media Links -->
-      <div class="social-media">
-        <a href="https://www.facebook.com/MFUMedicalCenter?mibextid=LQQJ4d" target="_blank">
-          <img src="@/assets/facebook.png" alt="Facebook" class="social-icon" />
-        </a>
-        <a href="https://www.tiktok.com/@mfumyanmaradmission?_t=8r6KG0ymqjH&_r=1" target="_blank">
-          <img src="@/assets/tiktok.png" alt="TikTok" class="social-icon" />
-        </a>
-        <img src="@/assets/qr.png" alt="QR Code" class="qr-icon" />
-      </div>
-      
-      <!-- Logo -->
-      <div class="mh-logo">
-        <img src="@/assets/MH_logo.png" alt="MH Logo" />
-      </div>
-    </div>
-    
+
   </div>
+
+ 
+
+  <!-- Footer Bottom Section -->
+
+  <div class="footer-bottom">
+
+    <!-- Social Media Links -->
+
+    <div class="social-media">
+
+      <a href="https://www.facebook.com/MFUMedicalCenter?mibextid=LQQJ4d" target="_blank">
+
+        <img src="@/assets/facebook.png" alt="Facebook" class="social-icon" />
+
+      </a>
+
+      <a href="https://www.tiktok.com/@mfumyanmaradmission?_t=8r6KG0ymqjH&_r=1" target="_blank">
+
+        <img src="@/assets/tiktok.png" alt="TikTok" class="social-icon" />
+
+      </a>
+
+      <img src="@/assets/qr.png" alt="QR Code" class="qr-icon" />
+
+    </div>
+
+   
+
+    <!-- Logo -->
+
+    <div class="mh-logo">
+
+      <img src="@/assets/MH_logo.png" alt="MH Logo" />
+
+    </div>
+
+  </div>
+ 
+
+</div>
+
 </footer>
-
-
-
-
 
 
     <LogIn v-if="showLoginForm" @close="showLoginForm = false" :currentLang="currentLang" />
@@ -263,100 +330,194 @@
 
 <!-- JS -->
 <script>
-import axios from 'axios';
-import LogIn from './components/log_in.vue';
-import CreateAcc from './components/create_acc.vue';
-import ChatWindow from './components/ChatWindow.vue';
-export default {
-    name: 'App',
-    data() {
-        return {
-            query: "",
-            showLanguageDropdown: false,
-            showProfileDropdown: false,
-            showDoctorDropdown: false,
-            showAppointmentsDropdown: false,
-            showServicesDropdown: false,
-            showLoginForm: false,
-            showCreateAccountForm: false,
-            isLoggedIn: false, 
-            user: {},
-            currentLang: 'EN',
-            ads: [],
-            translations: {
-                EN: {
-                    searchPlaceholder: 'Search...',
-                    login: 'Login',
-                    createAccount: 'Create Account',
-                    profileDetail: 'Profile Details',
-                    logout: 'Log Out',
-                    homepage: 'Home',
-                    doctorSchedule: 'Doctor Schedule',
-                    appointments: 'Appointments',
-                    services: 'Services',
-                    openChatbox: 'Open Chatbox',
-                    contactUs: 'Contact Us',
-                    hospitalName: 'Mfu Hospital',
-                    address: '123 Hospital Rd, City, Country',
-                    telephone: '+123 456 7890',
-                    email: 'info@mfu-hospital.com',
-                    departments: {
-                        thaiMedicine: "Department of Thai Traditional Medicine",
-                        chineseMedicine: "Department of Chinese Medicine",
-                        physicalTherapy: "Physical Therapy Department",
-                        outpatientClinic: "Outpatient Clinic"
-                        },
-                    service: {
-                        service1: 'Chat Box'
-                    }
-                },
-                ไทย: {
-                    searchPlaceholder: 'ค้นหา...',
-                    login: 'เข้าสู่ระบบ',
-                    createAccount: 'สร้างบัญชี',
-                    homepage: 'หน้าแรก',
-                    doctorSchedule: 'ตารางหมอ',
-                    appointments: 'นัดหมาย',
-                    services: 'บริการ',
-                    openChatbox: 'เปิดแชทบ็อกซ์',
-                    contactUs: 'ติดต่อเรา',
-                    hospitalName: 'โรงพยาบาล Mfu',
-                    address: '333 ,หมู่ที่1 ,ตําบลท่าสด ,อําเภอเมือง ,จังหวัดเชียงราย ,57100',
-                    telephone: '0-5391-6000,0-5391-7034',
-                    email: 'info@mfu-hospital.com',
-                    departments: {
-                        thaiMedicine: "แผนกการแพทย์แผนไทย",
-                        chineseMedicine: "แผนกการแพทย์แผนจีน",
-                        physicalTherapy: "แผนกกายภาพบำบัด",
-                        outpatientClinic: "แผนกผู้ป่วยนอก"
-                    },
-                    service: {
-                        service1: 'Chat Box'
-                    }
-                },
-                မြန်မာ: {
-                    searchPlaceholder: 'ရှာဖွေပါ...',
-                    login: 'ဝင်ပါ',
-                    createAccount: 'အကောင့်ဖွင့်ပါ',
-                    homepage: 'aein thwear mae',
-                    doctorSchedule: 'ဆရာဝန်အစီအစဉ်',
-                    appointments: 'ချိန်းဆိုချက်များ',
-                    services: 'ဝန်ဆောင်မှုများ',
-                    openChatbox: 'ချက်ဘော့ကို ဖွင့်မည်',
-                    contactUs: 'ဆက်သွယ်ရန်',
-                    hospitalName: 'Mfu ဆေးရုံ',
-                    address: '123 Hospital Rd, မြို့, နိုင်ငံ',
-                    telephone: '+123 456 7890',
-                    email: 'info@mfu-hospital.com',
-                    departments: {
-                        thaiMedicine: "ထိုင်းထူးပြုဆေးရုံ",
-                        chineseMedicine: "တရုတ် တိုင်းရင်းဆေး၀ါး ဌာန",
-                        physicalTherapy: "ရုပ်ပိုင်းဆိုင်ရာကုထုံးဌာန",
-                        outpatientClinic: "ပြင်ပလူနာဌာန"
-                    },
-                    service: {
-                        service1: 'Chat Box'
-                    }
+
+  import axios from 'axios';
+
+  import LogIn from './components/log_in.vue';
+
+  import CreateAcc from './components/create_acc.vue';
+
+  import ChatWindow from './components/ChatWindow.vue';
+
+  export default {
+
+      name: 'App',
+
+      data() {
+
+          return {
+
+              query: "",
+
+              showLanguageDropdown: false,
+
+              showProfileDropdown: false,
+
+              showDoctorDropdown: false,
+
+              showAppointmentsDropdown: false,
+
+              showServicesDropdown: false,
+
+              showLoginForm: false,
+
+              showCreateAccountForm: false,
+
+              isLoggedIn: false,
+
+              user: {},
+
+              currentLang: 'EN',
+
+              ads: [],
+
+              translations: {
+
+                  EN: {
+
+                      searchPlaceholder: 'Search...',
+
+                      login: 'Login',
+
+                      createAccount: 'Create Account',
+
+                      profileDetail: 'Profile Details',
+
+                      logout: 'Log Out',
+
+                      homepage: 'Home',
+
+                      doctorSchedule: 'Doctor Schedule',
+
+                      appointments: 'Appointments',
+
+                      services: 'Services',
+
+                      openChatbox: 'Open Chatbox',
+
+                      contactUs: 'Contact Us',
+
+                      hospitalName: 'Address',
+
+                      address: '333 Moo 1, Tha Sut Subdistrict, Mueang District, Chiang Rai Province 57100',
+
+                      telephone: 'Tel. 0-5391-6000, 0-5391-7034',
+
+                      email: 'pr@mfu.ac.th',
+
+                      departments: {
+
+                          thaiMedicine: "Department of Thai Traditional Medicine",
+
+                          chineseMedicine: "Department of Chinese Medicine",
+
+                          physicalTherapy: "Physical Therapy Department",
+
+                          outpatientClinic: "Outpatient Clinic"
+
+                          },
+
+                      service: {
+
+                          service1: 'Chat Box'
+
+                      }
+
+                  },
+
+                  ไทย: {
+
+                      searchPlaceholder: 'ค้นหา...',
+
+            login: 'เข้าสู่ระบบ',
+
+            createAccount: 'สร้างบัญชี',
+
+            homepage: 'หน้าแรก',
+
+            doctorSchedule: 'ตารางหมอ',
+
+            appointments: 'การนัดหมาย',
+
+            services: 'บริการ',
+
+            openChatbox: 'เปิดแชทบ็อกซ์',
+
+            contactUs: 'ติดต่อเรา',
+
+            hospitalName: 'โรงพยาบาล Mfu',
+
+            address: '333 ,หมู่ที่1 ,ตําบลท่าสด ,อําเภอเมือง ,จังหวัดเชียงราย ,57100',
+
+            telephone: '0-5391-6000,0-5391-7034',
+
+                      email: 'pr@mfu.ac.th',
+
+                      departments: {
+
+                          thaiMedicine: "แผนกการแพทย์แผนไทย",
+
+                          chineseMedicine: "แผนกการแพทย์แผนจีน",
+
+                          physicalTherapy: "แผนกกายภาพบำบัด",
+
+                          outpatientClinic: "แผนกผู้ป่วยนอก"
+
+                      },
+
+                      service: {
+
+                          service1: 'Chat Box'
+
+                      }
+
+                  },
+
+                  မြန်မာ: {
+
+                      searchPlaceholder: 'ရှာဖွေပါ...',
+
+                      login: 'လော့အင် ဝင်ပါ',
+
+                      createAccount: 'အကောင့်ဖွင့်ပါ',
+
+                      homepage: 'အိမ်စာမျက်နှာ',
+
+                      doctorSchedule: 'ဆရာဝန် အချိန်ဇယား',
+
+                      appointments: 'ချိန်းဆိုချက်များ',
+
+                      services: 'ဝန်ဆောင်မှုများ',
+
+                      openChatbox: 'ချက်ဘော့ကိုဖွင့်မည်',
+
+                      contactUs: 'ဆက်သွယ်ရန်',
+
+                      hospitalName: 'လိပ်စာ',
+
+                      address: '၃၃၃ မူး ၁, သစွတ် မြို့နယ်, မောင်း ခရိုင်ခွဲ, ချင်းရိုင် ခရိုင် ၅၇၁၀၀',
+
+                      telephone: 'ဖုန်း  ၀-၅၃၉၁-၆၀၀၀, ၀-၅၃၉၁-၇၀၃၄ ',
+
+                      email: 'pr@mfu.ac.th',
+
+                      departments: {
+
+                          thaiMedicine: "ထိုင်း တိုင်းရင်းဆေးဝါး ဌာန",
+
+                          chineseMedicine: "တရုတ် တိုင်းရင်းဆေး၀ါး ဌာန",
+
+                          physicalTherapy: "ရုပ်ပိုင်းဆိုင်ရာကုထုံး ဌာန",
+
+                          outpatientClinic: "ပြင်ပလူနာ ဌာန"
+
+                      },
+
+                      service: {
+
+                          service1: 'Chat Box'
+
+                      }
                 }
             }
         };
