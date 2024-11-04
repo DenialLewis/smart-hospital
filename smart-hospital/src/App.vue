@@ -88,7 +88,7 @@
     </header>
 
     <!-- Navigation Tabs -->
-    <nav class="nav-tabs">
+   <nav class="nav-tabs">
         <!-- <router-link to="/thai-medicine">Thai Medicine</router-link>
         <router-link to="/chinese-medicine">Chinese Medicine</router-link> -->
 
@@ -139,8 +139,12 @@
             {{ translations[currentLang].services }}
         </button>
         <div v-if="showServicesDropdown" class="service-dropdown">
-            <button class="dropdown-item" @click="openServicePage(1)">Service 1: General Check-up</button>
-            <button class="dropdown-item" @click="openServicePage(2)">Service 2: Dental Consultation</button>
+            <router-link to="/check-up" @click="toggleServicesDropdown"> <!-- Navigate to Service1.vue -->
+            <button class="dropdown-item">
+                Service 1: General Check-up
+            </button>
+        </router-link>
+             <button class="dropdown-item" @click="openServicePage(2)">Service 2: Dental Consultation</button>
             <button class="dropdown-item" @click="openServicePage(3)">Service 3: Eye Examination</button>
             <button class="dropdown-item" @click="openServicePage(4)">Service 4: Pediatric Check-up</button>
         </div>
