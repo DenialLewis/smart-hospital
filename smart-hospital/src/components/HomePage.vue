@@ -112,7 +112,6 @@ export default {
 .ads-container::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
-
 .scroll-button {
   position: absolute;
   top: 50%;
@@ -122,7 +121,7 @@ export default {
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
   border: none;
-  font-size: 20px;
+  font-size: 18px;
   cursor: pointer;
   border-radius: 50%; /* Makes the button circular */
   display: flex;
@@ -143,6 +142,7 @@ export default {
 .scroll-button:hover {
   background-color: #B5DEE0;
 }
+
 
 .ad-card {
   flex: 0 0 auto;
