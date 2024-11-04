@@ -92,7 +92,7 @@ export default {
           continueWithGoogle: "Continue with Google",
           continueWithApple: "Continue with Apple",
           continueWithFacebook: "Continue with Facebook",
-          continueWithX: "Continue with X",
+          //continueWithX: "Continue with X",
           or: "or",
           email: "Email",
           password: "Password",
