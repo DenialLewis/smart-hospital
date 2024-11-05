@@ -385,6 +385,42 @@ export interface ApiAdAd extends Schema.CollectionType {
   };
 }
 
+export interface ApiDepartmentDepartment extends Schema.CollectionType {
+  collectionName: 'departments';
+  info: {
+    singularName: 'department';
+    pluralName: 'departments';
+    displayName: 'Department';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    department_name: Attribute.String;
+    doctors: Attribute.Relation<
+      'api::department.department',
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::department.department',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::department.department',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -765,7 +801,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
     username: Attribute.String &
@@ -793,6 +828,14 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'plugin::users-permissions.user',
       'manyToOne',
       'plugin::users-permissions.role'
+    >;
+    billing_confirmed: Attribute.Boolean;
+    time: Attribute.JSON;
+    specialization: Attribute.String;
+    departments: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToMany',
+      'api::department.department'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -822,6 +865,7 @@ declare module '@strapi/types' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'api::ad.ad': ApiAdAd;
+      'api::department.department': ApiDepartmentDepartment;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;

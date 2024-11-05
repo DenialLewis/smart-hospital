@@ -9,8 +9,7 @@
     "displayName": "User"
   },
   "options": {
-    "draftAndPublish": false,
-    "timestamps": true
+    "draftAndPublish": false
   },
   "attributes": {
     "username": {
@@ -65,6 +64,21 @@
       "target": "plugin::users-permissions.role",
       "inversedBy": "users",
       "configurable": false
+    },
+    "billing_confirmed": {
+      "type": "boolean"
+    },
+    "time": {
+      "type": "json"
+    },
+    "specialization": {
+      "type": "string"
+    },
+    "departments": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::department.department",
+      "mappedBy": "doctors"
     }
   }
 }
