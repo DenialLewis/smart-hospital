@@ -68,9 +68,6 @@
     "billing_confirmed": {
       "type": "boolean"
     },
-    "time": {
-      "type": "json"
-    },
     "specialization": {
       "type": "string"
     },
@@ -79,6 +76,9 @@
       "relation": "manyToMany",
       "target": "api::department.department",
       "mappedBy": "doctors"
+    },
+    "time": {
+      "type": "datetime"
     }
   }
 }

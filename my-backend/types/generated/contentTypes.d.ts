@@ -830,13 +830,13 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'plugin::users-permissions.role'
     >;
     billing_confirmed: Attribute.Boolean;
-    time: Attribute.JSON;
     specialization: Attribute.String;
     departments: Attribute.Relation<
       'plugin::users-permissions.user',
       'manyToMany',
       'api::department.department'
     >;
+    time: Attribute.DateTime;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
