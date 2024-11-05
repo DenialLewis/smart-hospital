@@ -79,6 +79,12 @@
     },
     "time": {
       "type": "datetime"
+    },
+    "appointments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::appointment.appointment",
+      "mappedBy": "doctor"
     }
   }
 }

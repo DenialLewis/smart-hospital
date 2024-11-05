@@ -124,61 +124,61 @@
       </nav>
     <router-view/> 
     <footer class="footer">
-<div class="footer-content">
-  <!-- Contact Information Section -->
-  <div class="contact-info">
-    <h3>{{ translations[currentLang].contactUs }}</h3>
-    <div class="contact-columns">
-      <div class="contact-column">
-        <div class="info-item">
-          <img src="@/assets/location-icon.png" alt="Address" class="info-icon" />
-          <div class="info-text">
-            <p><strong>{{ translations[currentLang].hospitalName }}</strong></p>
-            <p>{{ translations[currentLang].address }}</p>
+      <div class="footer-content">
+        <!-- Contact Information Section -->
+        <div class="contact-info">
+          <h3>{{ translations[currentLang].contactUs }}</h3>
+          <div class="contact-columns">
+            <div class="contact-column">
+              <div class="info-item">
+                <img src="@/assets/location-icon.png" alt="Address" class="info-icon" />
+                <div class="info-text">
+                  <p><strong>{{ translations[currentLang].hospitalName }}</strong></p>
+                  <p>{{ translations[currentLang].address }}</p>
+                </div>
+              </div>
+              <div class="info-item">
+                <img src="@/assets/phone-icon.png" alt="Telephone" class="info-icon" />
+                <div class="info-text">
+                  <p><strong>{{ translations[currentLang].telephone }}</strong></p>
+                </div>
+              </div>
+            </div>
+            <div class="contact-column">
+              <div class="info-item">
+                <img src="@/assets/email-icon.png" alt="Email" class="info-icon" />
+                <div class="info-text">
+                  <p><strong>{{ translations[currentLang].email }}</strong></p>
+                </div>
+              </div>
+              <div class="info-item">
+                <img src="@/assets/hours-icon.png" alt="Business Hours" class="info-icon" />
+                <div class="info-text">
+                  <p>
+                    <strong>{{ translations[currentLang].businessHoursTitle || 'Business days and hours:' }}</strong><br>
+                    {{ translations[currentLang].businessHours || 'Monday-Friday: 8:00 AM - 8:00 PM<br>Saturday: 8:00 AM - 4:00 PM<br>(Closed every Sunday and public holidays)' }}
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="info-item">
-          <img src="@/assets/phone-icon.png" alt="Telephone" class="info-icon" />
-          <div class="info-text">
-            <p><strong>{{ translations[currentLang].telephone }}</strong></p>
+        <div class="footer-bottom">
+          <div class="social-media">
+            <a href="https://www.facebook.com/MFUMedicalCenter?mibextid=LQQJ4d" target="_blank">
+              <img src="@/assets/facebook.png" alt="Facebook" class="social-icon" />
+            </a>
+            <a href="https://www.tiktok.com/@mfumyanmaradmission?_t=8r6KG0ymqjH&_r=1" target="_blank">
+              <img src="@/assets/tiktok.png" alt="TikTok" class="social-icon" />
+            </a>
+            <img src="@/assets/qr.png" alt="QR Code" class="qr-icon" />
+          </div>
+          <div class="mh-logo">
+            <img src="@/assets/MH_logo.png" alt="MH Logo" />
           </div>
         </div>
       </div>
-      <div class="contact-column">
-        <div class="info-item">
-          <img src="@/assets/email-icon.png" alt="Email" class="info-icon" />
-          <div class="info-text">
-            <p><strong>{{ translations[currentLang].email }}</strong></p>
-          </div>
-        </div>
-        <div class="info-item">
-          <img src="@/assets/hours-icon.png" alt="Business Hours" class="info-icon" />
-          <div class="info-text">
-            <p>
-              <strong>{{ translations[currentLang].businessHoursTitle || 'Business days and hours:' }}</strong><br>
-              {{ translations[currentLang].businessHours || 'Monday-Friday: 8:00 AM - 8:00 PM<br>Saturday: 8:00 AM - 4:00 PM<br>(Closed every Sunday and public holidays)' }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <div class="social-media">
-      <a href="https://www.facebook.com/MFUMedicalCenter?mibextid=LQQJ4d" target="_blank">
-        <img src="@/assets/facebook.png" alt="Facebook" class="social-icon" />
-      </a>
-      <a href="https://www.tiktok.com/@mfumyanmaradmission?_t=8r6KG0ymqjH&_r=1" target="_blank">
-        <img src="@/assets/tiktok.png" alt="TikTok" class="social-icon" />
-      </a>
-      <img src="@/assets/qr.png" alt="QR Code" class="qr-icon" />
-    </div>
-    <div class="mh-logo">
-      <img src="@/assets/MH_logo.png" alt="MH Logo" />
-    </div>
-  </div>
-</div>
-</footer>
+    </footer>
 <LogIn 
       v-if="showLoginForm" 
       @close="showLoginForm = false" 
@@ -563,7 +563,7 @@
 
     .footer {
   background: linear-gradient(135deg, #2C3E50, #34495E);
-  padding: 40px 20px;
+  padding: 20px 10px;
   color: #fff;
   text-align: center;
 }
@@ -571,7 +571,7 @@
 .contact-info {
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
-  padding: 20px;
+  padding: 8px;
   margin-bottom: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -579,6 +579,7 @@
 .contact-info h3 {
   font-size: 1.5em;
   font-family: Arial, Helvetica, sans-serif;
+  margin-top: 2px;
   margin-bottom: 15px;
   color: #B5DEE0;
 }
@@ -640,7 +641,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 20px;
+  padding-top: 10px;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   margin-top: 20px;
 }
