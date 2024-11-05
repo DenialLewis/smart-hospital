@@ -2,6 +2,8 @@
     <div class="login-container">
       <div class="form-column">
         <h1>Login Page</h1>
+        <p>This is the MFU hospital internal management systems for the doctors, nurses and other staff.</p>
+        <p></p>
         <form @submit.prevent="handleLogin">
           <div class="input-group">
             <label for="email">Email:</label>
@@ -74,7 +76,7 @@
   }
   
   input {
-    width: 100%;
+    width: 90%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
