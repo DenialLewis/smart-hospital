@@ -190,7 +190,7 @@
       @account-created="handleAccountCreated" 
       :currentLang="currentLang" 
     />
-    <CreateAcc v-if="showCreateAccountForm" @close="showCreateAccountForm = false" :currentLang="currentLang" />
+    
   </div>
 </template>
 <!-- JS -->
