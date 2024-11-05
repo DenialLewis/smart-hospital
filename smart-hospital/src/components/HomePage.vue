@@ -1,13 +1,6 @@
 <template>
   <section class="content-section">
-    <h1>Home လည်းရသွားပါပြီ error မတက်တော့ပါ </h1>
-    <h1>Doctor schedule က dropdown ကအကုန်ရသွားပြီ 🙂🙂</h1>
-    <h1>မယုံရင်နှိပ်ကြည့်ပါ</h1>
-    <h1>Home ကိုပြန်သွားချင်ရင် logo လေးနှိပ်ပါ ပြန်ရသွားပါပြီ</h1>
-    <h1>Login နဲ့ Create Acc မှာ password ကို seen and Unseen လုပ်ထားတယ်</h1>
-    <h1>Login ဝင်လိုက်ရင် button တွေပြောင်းသွားပြီ</h1>
-    <h1>Dropdown ပေါ် cursor ချလိုက်ရင် တန်းပီး drop down ကျပြီ</h1>
-
+    <!-- Ads Section -->
     <div class="ads-container-wrapper">
       <button v-if="isOverflowing" @click="scrollLeft" class="scroll-button left">&lt;</button>
       <div class="ads-container" ref="adsContainer">
@@ -32,6 +25,46 @@
       </div>
       <button v-if="isOverflowing" @click="scrollRight" class="scroll-button right">&gt;</button>
     </div>
+
+    <!-- Upcoming Appointments Section -->
+    <div class="appointments-section">
+      <h2>Upcoming Appointments</h2>
+      <div class="appointments-list">
+        <div class="appointment-card" v-for="appointment in upcomingAppointments" :key="appointment.id">
+          <strong>{{ appointment.date }}</strong>
+          <p>{{ appointment.doctor }} - {{ appointment.department }}</p>
+        </div>
+        <div v-if="upcomingAppointments.length === 0" class="no-appointments">No upcoming appointments.</div>
+      </div>
+    </div>
+
+    <!-- Announcements and Alerts Section -->
+    <div class="announcements-section">
+      <h2>Announcements</h2>
+      <div class="announcement-card" v-for="announcement in announcements" :key="announcement.id">
+        <p>{{ announcement.message }}</p>
+      </div>
+      <div v-if="announcements.length === 0" class="no-announcements">No announcements available.</div>
+    </div>
+
+    <!-- Health Tips & News Section -->
+    <div class="health-tips-section">
+      <h2>Health Tips & News</h2>
+      <div class="health-tip-card" v-for="tip in healthTips" :key="tip.id">
+        <h3>{{ tip.title }}</h3>
+        <div class="health-tip-images-container" v-if="tip.images && Array.isArray(tip.images) && tip.images.length > 0">
+          <img
+            v-for="(image, index) in tip.images"
+            :key="index"
+            :src="image.url"
+            alt="Health Tip Image"
+            class="health-tip-image"
+            @error="handleImageError(tip)"
+          />
+        </div>
+      </div>
+      <div v-if="healthTips.length === 0" class="no-tips">No health tips available.</div>
+    </div>
   </section>
 </template>
 
@@ -44,10 +77,16 @@ export default {
     return {
       ads: [],
       isOverflowing: false,
+      upcomingAppointments: [],
+      announcements: [],
+      healthTips: [],
     };
   },
   mounted() {
     this.fetchAds();
+    this.fetchUpcomingAppointments();
+    this.fetchAnnouncements();
+    this.fetchHealthTips(); // Make sure this method is correctly named
     this.checkOverflow();
   },
   methods: {
@@ -63,8 +102,48 @@ export default {
         console.error('Error fetching ads:', error);
       }
     },
-    handleImageError(ad) {
-      console.log(`Error loading image for ad: ${ad.Ad}`);
+    async fetchUpcomingAppointments() {
+      try {
+        const response = await axios.get('http://localhost:1337/api/appointments?populate=*');
+        this.upcomingAppointments = response.data.data.map(appointment => ({
+          id: appointment.id,
+          date: appointment.attributes.date,
+          doctor: appointment.attributes.doctor,
+          department: appointment.attributes.department,
+        }));
+      } catch (error) {
+        console.error('Error fetching upcoming appointments:', error);
+      }
+    },
+    async fetchAnnouncements() {
+      try {
+        const response = await axios.get('http://localhost:1337/api/announcements');
+        this.announcements = response.data.data.map(announcement => ({
+          id: announcement.id,
+          message: announcement.attributes.message,
+        }));
+      } catch (error) {
+        console.error('Error fetching announcements:', error);
+      }
+    },
+    async fetchHealthTips() {
+      try {
+        const response = await axios.get('http://localhost:1337/api/news?populate=*');
+        console.log('API Response:', response.data); // Check your API response
+        this.healthTips = response.data.data.map(tip => ({
+          id: tip.id,
+          title: tip.Title,
+          info: tip.Info,
+          images: tip.News ? tip.News.map(news => ({
+            url: `http://localhost:1337${news.url}`
+          })) : [] // Default to an empty array if News is undefined
+        }));
+      } catch (error) {
+        console.error('Error fetching health tips:', error);
+      }
+    },
+    handleImageError(item) {
+      console.log(`Error loading image for: ${item.title || item.Ad}`);
     },
     scrollLeft() {
       this.$refs.adsContainer.scrollBy({ left: -200, behavior: 'smooth' });
@@ -115,18 +194,19 @@ export default {
 .ads-container::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
+
 .scroll-button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 40px; /* Set equal width and height for a circular shape */
+  width: 40px;
   height: 40px;
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
   border: none;
   font-size: 18px;
   cursor: pointer;
-  border-radius: 50%; /* Makes the button circular */
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -145,7 +225,6 @@ export default {
 .scroll-button:hover {
   background-color: #B5DEE0;
 }
-
 
 .ad-card {
   flex: 0 0 auto;
@@ -181,5 +260,64 @@ export default {
   height: auto;
   border-radius: 8px;
   object-fit: cover;
+}
+
+.appointments-section,
+.announcements-section,
+.health-tips-section {
+  margin-top: 30px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.appointments-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.appointment-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.announcement-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.health-tip-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+.health-tip-images-container {
+  display: flex;
+  gap: 10px;
+}
+
+.health-tip-image {
+  width: 120px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.no-appointments,
+.no-announcements,
+.no-tips {
+  text-align: center;
+  color: #888;
 }
 </style>

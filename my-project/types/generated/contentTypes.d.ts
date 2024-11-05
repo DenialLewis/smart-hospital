@@ -461,6 +461,36 @@ export interface ApiDepartmentOfThaiDepartmentOfThai
   };
 }
 
+export interface ApiNewNew extends Struct.CollectionTypeSchema {
+  collectionName: 'news';
+  info: {
+    displayName: 'New';
+    pluralName: 'news';
+    singularName: 'new';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    Info: Schema.Attribute.Text;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::new.new'> &
+      Schema.Attribute.Private;
+    News: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    Title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiOpdOpd extends Struct.CollectionTypeSchema {
   collectionName: 'opds';
   info: {
@@ -1027,6 +1057,7 @@ declare module '@strapi/strapi' {
       'api::ad.ad': ApiAdAd;
       'api::department-of-chinese.department-of-chinese': ApiDepartmentOfChineseDepartmentOfChinese;
       'api::department-of-thai.department-of-thai': ApiDepartmentOfThaiDepartmentOfThai;
+      'api::new.new': ApiNewNew;
       'api::opd.opd': ApiOpdOpd;
       'api::physical-therapy.physical-therapy': ApiPhysicalTherapyPhysicalTherapy;
       'plugin::content-releases.release': PluginContentReleasesRelease;
