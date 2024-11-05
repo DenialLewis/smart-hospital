@@ -12,6 +12,8 @@ import Service1 from '@/components/Service1.vue';
 import Service2 from '@/components/Service2.vue';
 import Service3 from '@/components/Service3.vue';
 import Service4 from '@/components/Service4.vue';
+import HealthTip from '@/components/HealthTip.vue'; // Import your HealthTip component
+
 
 
 const routes = [
@@ -28,7 +30,9 @@ const routes = [
     {path: '/dental-consult', name: 'Service2', component: Service2},
     {path: '/eye-exam', name: 'Service3', component: Service3},
     {path: '/pediatric', name: 'Service4', component: Service4},
-    {path: '/patient-profile', name: 'PatientProfile', component: PatientProfile, meta:{requiresAuth: true}}
+    {path: '/patient-profile', name: 'PatientProfile', component: PatientProfile, meta:{requiresAuth: true}},
+    {path: '/health-tip', name: 'HealthTip', component: HealthTip},
+    {path: '/health-tip/:id', name: 'healthtip', ccomponent: () => import('../components/HealthTip.vue')}
 ];
 
 const router = createRouter({

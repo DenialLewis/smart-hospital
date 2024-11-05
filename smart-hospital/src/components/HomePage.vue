@@ -47,10 +47,19 @@
       <div v-if="announcements.length === 0" class="no-announcements">No announcements available.</div>
     </div>
 
-    <!-- Health Tips & News Section -->
-    <div class="health-tips-section">
-      <h2>Health Tips & News</h2>
-      <div class="health-tip-card" v-for="tip in healthTips" :key="tip.id">
+   <!-- Health Tips & News Section -->
+<div class="health-tips-section">
+  <h2>Health Tips & News</h2>
+  <div class="health-tips-container-wrapper">
+    <button v-if="isHealthTipsOverflowing" @click="scrollHealthTipsLeft" class="scroll-button left">&lt;</button>
+    <div class="health-tips-container" ref="healthTipsContainer">
+      <div
+  class="health-tip-card"
+  v-for="tip in healthTips"
+  :key="tip.id"
+  @click="navigateToHealthTip(tip)" 
+>
+
         <h3>{{ tip.title }}</h3>
         <div class="health-tip-images-container" v-if="tip.images && Array.isArray(tip.images) && tip.images.length > 0">
           <img
@@ -63,8 +72,12 @@
           />
         </div>
       </div>
-      <div v-if="healthTips.length === 0" class="no-tips">No health tips available.</div>
     </div>
+    <button v-if="isHealthTipsOverflowing" @click="scrollHealthTipsRight" class="scroll-button right">&gt;</button>
+  </div>
+  <div v-if="healthTips.length === 0" class="no-tips">No health tips available.</div>
+</div>
+
   </section>
 </template>
 
@@ -80,6 +93,7 @@ export default {
       upcomingAppointments: [],
       announcements: [],
       healthTips: [],
+      isHealthTipsOverflowing: false,
     };
   },
   mounted() {
@@ -88,6 +102,7 @@ export default {
     this.fetchAnnouncements();
     this.fetchHealthTips(); // Make sure this method is correctly named
     this.checkOverflow();
+    this.checkHealthTipsOverflow();
   },
   methods: {
     async fetchAds() {
@@ -151,13 +166,37 @@ export default {
     scrollRight() {
       this.$refs.adsContainer.scrollBy({ left: 200, behavior: 'smooth' });
     },
+    scrollHealthTipsLeft() {
+      this.$refs.healthTipsContainer.scrollBy({ left: -200, behavior: 'smooth' });
+    },
+    scrollHealthTipsRight() {
+      this.$refs.healthTipsContainer.scrollBy({ left: 200, behavior: 'smooth' });
+    },
     checkOverflow() {
       const container = this.$refs.adsContainer;
       this.isOverflowing = container.scrollWidth > container.clientWidth;
     },
+    checkHealthTipsOverflow() {
+      const container = this.$refs.healthTipsContainer;
+      this.isHealthTipsOverflowing = container.scrollWidth > container.clientWidth;
+    },
+    navigateToHealthTip(tip) {
+  this.$router.push({ 
+    name: 'HealthTip', 
+    params: { id: tip.id },
+    query: { 
+      title: tip.title, 
+      image: tip.images[0]?.url, // Using optional chaining in case there are no images
+      info: tip.info // Pass info as well
+    } 
+  });
+},
+
+
   },
   updated() {
     this.checkOverflow();
+    this.checkHealthTipsOverflow();
   },
 };
 </script>
@@ -167,13 +206,15 @@ export default {
   padding: 20px;
 }
 
-.ads-container-wrapper {
+.ads-container-wrapper,
+.health-tips-container-wrapper {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-.ads-container {
+.ads-container,
+.health-tips-container {
   display: flex;
   overflow-x: auto;
   padding: 10px;
@@ -182,16 +223,19 @@ export default {
   scroll-behavior: smooth;
 }
 
-.ads-container::-webkit-scrollbar {
+.ads-container::-webkit-scrollbar,
+.health-tips-container::-webkit-scrollbar {
   height: 8px;
 }
 
-.ads-container::-webkit-scrollbar-thumb {
+.ads-container::-webkit-scrollbar-thumb,
+.health-tips-container::-webkit-scrollbar-thumb {
   background: #ccc;
   border-radius: 10px;
 }
 
-.ads-container::-webkit-scrollbar-track {
+.ads-container::-webkit-scrollbar-track,
+.health-tips-container::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
 
@@ -226,98 +270,49 @@ export default {
   background-color: #B5DEE0;
 }
 
-.ad-card {
+.ad-card,
+.health-tip-card {
   flex: 0 0 auto;
-  margin-right: 15px;
+  margin-right: 10px; /* Decrease the right margin */
   border: 1px solid #ddd;
-  padding: 20px;
-  border-radius: 10px;
+  padding: 10px; /* Decrease the padding */
+  border-radius: 8px; /* Slightly reduce the border radius */
   background-color: #fff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Reduce shadow effect */
+  transition: transform 0.3s;
+  max-width: 150px; /* Set a maximum width to make the cards smaller */
 }
 
-.ad-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-}
-
-.ad-title {
-  font-size: 1.2em;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.ad-images-container {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.ad-image {
-  width: 120px;
+.ad-image,
+.health-tip-image {
+  max-width: 100%;
   height: auto;
-  border-radius: 8px;
-  object-fit: cover;
+  border-radius: 5px; /* Slightly reduce the border radius */
+}
+
+
+.ad-card:hover,
+.health-tip-card:hover {
+  transform: scale(1.02);
 }
 
 .appointments-section,
-.announcements-section,
-.health-tips-section {
-  margin-top: 30px;
-  padding: 15px;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.announcements-section {
+  margin-top: 20px;
 }
 
-.appointments-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.appointment-card {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
+.appointment-card,
 .announcement-card {
-  background-color: #fff;
   border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
-.health-tip-card {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
   padding: 15px;
   margin-bottom: 10px;
-}
-
-.health-tip-images-container {
-  display: flex;
-  gap: 10px;
-}
-
-.health-tip-image {
-  width: 120px;
-  height: auto;
-  border-radius: 8px;
-  object-fit: cover;
+  border-radius: 5px;
 }
 
 .no-appointments,
 .no-announcements,
 .no-tips {
-  text-align: center;
-  color: #888;
+  color: #999;
+  font-style: italic;
 }
 </style>
