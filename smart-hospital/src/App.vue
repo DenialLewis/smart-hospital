@@ -79,65 +79,50 @@
         </div>
     </header>
     <!-- Navigation Tabs -->
+    <!-- Navigation Tabs -->
     <nav class="nav-tabs">
-      <!-- Home Button -->
-      <router-link to="/" class="tab">
-        {{ translations[currentLang].homepage }}
-      </router-link>
-
-      <!-- Doctor Schedule Tab with Dropdown -->
-      <button 
-        class="tab" 
-        :class="{ 'active': showDoctorDropdown }" 
-        @click="toggleDoctorDropdown"
-      >
-        {{ translations[currentLang].doctorSchedule }}
-      </button>
-      <div v-if="showDoctorDropdown" class="doctor-dropdown">
-        <router-link to="/thai-medicine" @click="closeDropdowns">
-          <button class="dropdown-item">{{ translations[currentLang].departments.thaiMedicine }}</button>
+        <div @mouseenter="showDoctorDropdown = true,showServicesDropdown = false" @mouseleave="showDoctorDropdown = false">
+          <button class="tab" :class="{ 'active': showDoctorDropdown }">
+            {{ translations[currentLang].doctorSchedule }}
+          </button>
+          <div v-if="showDoctorDropdown" class="doctor-dropdown">
+            <router-link to="/thai-medicine" @click="selectDoctorDepartment(translations[currentLang].departments.thaiMedicine)">
+              <button class="dropdown-item">{{ translations[currentLang].departments.thaiMedicine }}</button>
+            </router-link>
+            <router-link to="/chinese-medicine" @click="selectDoctorDepartment(translations[currentLang].departments.chineseMedicine)">
+              <button class="dropdown-item">{{ translations[currentLang].departments.chineseMedicine }}</button>
+            </router-link>
+            <router-link to="/physical-therapy" @click="selectDoctorDepartment(translations[currentLang].departments.physicalTherapy)">
+              <button class="dropdown-item">{{ translations[currentLang].departments.physicalTherapy }}</button>
+            </router-link>
+            <router-link to="/opd" @click="selectDoctorDepartment(translations[currentLang].departments.outpatientClinic)">
+              <button class="dropdown-item">{{ translations[currentLang].departments.outpatientClinic }}</button>
+            </router-link>
+          </div>
+        </div>
+        <router-link to="/appointment" class="tab">
+          {{ translations[currentLang].appointments }}
         </router-link>
-        <router-link to="/chinese-medicine" @click="closeDropdowns">
-          <button class="dropdown-item">{{ translations[currentLang].departments.chineseMedicine }}</button>
-        </router-link>
-        <router-link to="/physical-therapy" @click="closeDropdowns">
-          <button class="dropdown-item">{{ translations[currentLang].departments.physicalTherapy }}</button>
-        </router-link>
-        <router-link to="/opd" @click="closeDropdowns">
-          <button class="dropdown-item">{{ translations[currentLang].departments.outpatientClinic }}</button>
-        </router-link>
-      </div>
-
-      <!-- Appointments Tab (Without Dropdown) -->
-      <router-link to="/appointment" class="tab">
-        {{ translations[currentLang].appointments }}
-      </router-link>
-      
-      <!-- Services Tab with Dropdown -->
-      <button 
-        class="tab" 
-        :class="{ 'active': showServicesDropdown }" 
-        @click="toggleServicesDropdown"
-      >
-        {{ translations[currentLang].services }}
-      </button>
-      <div v-if="showServicesDropdown" class="service-dropdown">
-        <router-link to="/check-up" @click="closeDropdowns">
-          <button class="dropdown-item">Service 1: General Check-up</button>
-        </router-link>
-        <router-link to="/dental-consult" @click="closeDropdowns">
-          <button class="dropdown-item">Service 2: Dental Consultation</button>
-        </router-link>
-        <router-link to="/eye-exam" @click="closeDropdowns">
-          <button class="dropdown-item">Service 3: Eye Examination</button>
-        </router-link>
-        <router-link to="/pediatric" @click="closeDropdowns">
-          <button class="dropdown-item">Service 4: Pediatric Check-up</button>
-        </router-link>
-      </div>
-    </nav>
-
-
+        <div @mouseenter="showServicesDropdown = true,showDoctorDropdown = false" @mouseleave="showServicesDropdown = false">
+          <button class="tab" :class="{ 'active': showServicesDropdown }">
+            {{ translations[currentLang].services }}
+          </button>
+          <div v-if="showServicesDropdown" class="service-dropdown">
+            <router-link to="/check-up" @click="toggleServicesDropdown">
+              <button class="dropdown-item">Service 1: General Check-up</button>
+            </router-link>
+            <router-link to="/dental-consult" @click="toggleServicesDropdown">
+              <button class="dropdown-item">Service 2: Dental Consultation</button>
+            </router-link>
+            <router-link to="/eye-exam" @click="toggleServicesDropdown">
+              <button class="dropdown-item">Service 3: Eye Examination</button>
+            </router-link>
+            <router-link to="/pediatric" @click="toggleServicesDropdown">
+              <button class="dropdown-item">Service 4: Pediatric Check-up</button>
+            </router-link>
+          </div>
+        </div>
+      </nav>
     <router-view/> 
     <footer class="footer">
       <div class="footer-content">
@@ -552,18 +537,8 @@
 
     .doctor-dropdown {
         position: absolute;
-        top: 60px;
+        top: 50px;
         left: 65px;
-        background-color: #ffffff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 6px;
-        border-top: 3px solid #EBD5A0;
-        z-index: 1000;
-    }
-    .appointment-dropdown {
-        position: absolute;
-        top: 60px;
-        left: 41%;
         background-color: #ffffff;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border-radius: 6px;
@@ -572,7 +547,7 @@
     }
     .service-dropdown {
         position: absolute;
-        top: 60px;
+        top: 50px;
         left: 75%;
         background-color: #ffffff;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -696,3 +671,4 @@
 
 
 </style>
+
