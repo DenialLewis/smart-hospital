@@ -2,130 +2,137 @@
   <div id="app">
     <!-- Header -->
     <header class="header">
-        <div class="logo" @click="goToHomePage" style="cursor: pointer;">
-            <img alt="Mfu Logo" src="./assets/Hospital.png" />
-        </div>
-        <div class="lang-switch">
-            <!--search bar-->
-            <div class="search-bar">
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    v-model="query"
-                    @input="onSearch"
-                />
-                <img src="@/assets/search.png" alt="Search Icon" class="search-icon" />
-            </div>
-            <!--chat-->
-            <div class="chat-boutton">
-                <button class="chat-button" @click="toggleChat">
-                    <img src="./assets/chatbox.png" alt="Chat Icon" />
-                    <span>{{ translations[currentLang].chat }}</span>
-                </button>
-            </div>
-            <!--language choices-->
-            <div class="lang-dropdown" @click="toggleLanguageDropdown">
-                <span>{{ currentLang }}</span>
-                <img
-                    :src="showLanguageDropdown ? require('@/assets/up_arr.png') : require('@/assets/down_arr.png')"
-                    alt="Dropdown Arrow Icon"
-                    class="down-arrow"
-                />
-            </div>
-            <!-- Language Dropdown Menu -->
-            <div v-if="showLanguageDropdown" class="dropdown-menu">
-                <button v-if="currentLang !== 'EN'" @click="setLanguage('EN')" class="dropdown-item">
-                    <img src="./assets/uk.png" alt="English Icon" class="dropdown-icon" /> EN
-                </button>
-                <button v-if="currentLang !== 'ไทย'" @click="setLanguage('ไทย')" class="dropdown-item">
-                    <img src="./assets/th.png" alt="Thai Icon" class="dropdown-icon" /> ไทย
-                </button>
-                <button v-if="currentLang !== 'မြန်မာ'" @click="setLanguage('မြန်မာ')" class="dropdown-item">
-                    <img src="./assets/mm.png" alt="Myanmar Icon" class="dropdown-icon" /> မြန်မာ
-                </button>
-            </div>
-            <!-- Profile -->
-            <div class="profile-container" @click="toggleProfileDropdown">
-                <img src="./assets/profile.png" alt="Profile Icon" />
-                <img
-                    :src="showProfileDropdown ? require('@/assets/up_arr.png') : require('@/assets/down_arr.png')"
-                    alt="Dropdown Arrow Icon"
-                    class="down-arrow"
-                />
-            </div>
-            <!--Profile Dropdown Menu-->
-            <div v-if="showProfileDropdown" class="dropdown-menu">
-      <template v-if="!isLoggedIn">
-        <button class="dropdown-item" @click="openLoginForm">
-          <img src="./assets/profile.png" alt="Login Logo" class="dropdown-icon" />
-          {{ translations[currentLang].login }}
-        </button>
-        <button class="dropdown-item" @click="openCreateAccountForm">
-          <img src="./assets/create-acc.png" alt="Create Account Icon" class="dropdown-icon" />
-          {{ translations[currentLang].createAccount }}
-        </button>
-      </template>
-      <template v-else>
-          <router-link to="/patient-profile" class="dropdown-item">
-            <img src="./assets/profile.png" alt="Profile Logo" class="dropdown-icon" />
-            {{ translations[currentLang].profileDetail }}
-          </router-link>
-          <button class="dropdown-item" @click="logout">
-            <img src="./assets/logout.png" alt="Logout Icon" class="dropdown-icon" />
-            {{ translations[currentLang].logout }}
-          </button>
-        </template>
+      <div class="logo" @click="goToHomePage" style="cursor: pointer;">
+        <img alt="Mfu Logo" src="./assets/Hospital.png" />
+      </div>
+      <div class="lang-switch">
+        <!-- Search Button -->
+        <div class="search-button">
+    <button @click="toggleDropdown" class="search-btn">
+        Search...
+        <img src="./assets/search.png" alt="Search Icon" class="search-icon">
+    </button>
+    
+    <div v-if="isDropdownVisible" class="dropdown">
+        <ul>
+            <li>Popular Search</li>
+            <li>Search History</li>
+        </ul>
     </div>
+</div>
+
+
+        <!-- Chat Button -->
+        <div class="chat-boutton">
+          <button class="chat-button" @click="toggleChat">
+            <img src="./assets/chatbox.png" alt="Chat Icon" />
+            <span>{{ translations[currentLang].chat }}</span>
+          </button>
         </div>
-      </header>
+        
+        <!-- Language Choices -->
+        <div class="lang-dropdown" @click="toggleLanguageDropdown">
+          <span>{{ currentLang }}</span>
+          <img
+            :src="showLanguageDropdown ? require('@/assets/up_arr.png') : require('@/assets/down_arr.png')"
+            alt="Dropdown Arrow Icon"
+            class="down-arrow"
+          />
+        </div>
+        <!-- Language Dropdown Menu -->
+        <div v-if="showLanguageDropdown" class="dropdown-menu">
+          <button v-if="currentLang !== 'EN'" @click="setLanguage('EN')" class="dropdown-item">
+            <img src="./assets/uk.png" alt="English Icon" class="dropdown-icon" /> EN
+          </button>
+          <button v-if="currentLang !== 'ไทย'" @click="setLanguage('ไทย')" class="dropdown-item">
+            <img src="./assets/th.png" alt="Thai Icon" class="dropdown-icon" /> ไทย
+          </button>
+          <button v-if="currentLang !== 'မြန်မာ'" @click="setLanguage('မြန်မာ')" class="dropdown-item">
+            <img src="./assets/mm.png" alt="Myanmar Icon" class="dropdown-icon" /> မြန်မာ
+          </button>
+        </div>
+        <!-- Profile -->
+        <div class="profile-container" @click="toggleProfileDropdown">
+          <img src="./assets/profile.png" alt="Profile Icon" />
+          <img
+            :src="showProfileDropdown ? require('@/assets/up_arr.png') : require('@/assets/down_arr.png')"
+            alt="Dropdown Arrow Icon"
+            class="down-arrow"
+          />
+        </div>
+        <!-- Profile Dropdown Menu -->
+        <div v-if="showProfileDropdown" class="dropdown-menu">
+          <template v-if="!isLoggedIn">
+            <button class="dropdown-item" @click="openLoginForm">
+              <img src="./assets/profile.png" alt="Login Logo" class="dropdown-icon" />
+              {{ translations[currentLang].login }}
+            </button>
+            <button class="dropdown-item" @click="openCreateAccountForm">
+              <img src="./assets/create-acc.png" alt="Create Account Icon" class="dropdown-icon" />
+              {{ translations[currentLang].createAccount }}
+            </button>
+          </template>
+          <template v-else>
+            <router-link to="/patient-profile" class="dropdown-item">
+              <img src="./assets/profile.png" alt="Profile Logo" class="dropdown-icon" />
+              {{ translations[currentLang].profileDetail }}
+            </router-link>
+            <button class="dropdown-item" @click="logout">
+              <img src="./assets/logout.png" alt="Logout Icon" class="dropdown-icon" />
+              {{ translations[currentLang].logout }}
+            </button>
+          </template>
+        </div>
+      </div>
+    </header>
     <!-- Navigation Tabs -->
     <nav class="nav-tabs">
       <router-link to="/" class="tab">
         {{ translations[currentLang].homepage }}
       </router-link>
-        <div @mouseenter="showDoctorDropdown = true,showServicesDropdown = false" @mouseleave="showDoctorDropdown = false">
-          <button class="tab" :class="{ 'active': showDoctorDropdown }">
-            {{ translations[currentLang].doctorSchedule }}
-          </button>
-          <div v-if="showDoctorDropdown" class="doctor-dropdown">
-            <router-link to="/thai-medicine" @click="selectDoctorDepartment(translations[currentLang].departments.thaiMedicine)">
-              <button class="dropdown-item">{{ translations[currentLang].departments.thaiMedicine }}</button>
-            </router-link>
-            <router-link to="/chinese-medicine" @click="selectDoctorDepartment(translations[currentLang].departments.chineseMedicine)">
-              <button class="dropdown-item">{{ translations[currentLang].departments.chineseMedicine }}</button>
-            </router-link>
-            <router-link to="/physical-therapy" @click="selectDoctorDepartment(translations[currentLang].departments.physicalTherapy)">
-              <button class="dropdown-item">{{ translations[currentLang].departments.physicalTherapy }}</button>
-            </router-link>
-            <router-link to="/opd" @click="selectDoctorDepartment(translations[currentLang].departments.outpatientClinic)">
-              <button class="dropdown-item">{{ translations[currentLang].departments.outpatientClinic }}</button>
-            </router-link>
-          </div>
+      <div @mouseenter="showDoctorDropdown = true, showServicesDropdown = false" @mouseleave="showDoctorDropdown = false">
+        <button class="tab" :class="{ 'active': showDoctorDropdown }">
+          {{ translations[currentLang].doctorSchedule }}
+        </button>
+        <div v-if="showDoctorDropdown" class="doctor-dropdown">
+          <router-link to="/thai-medicine" @click="selectDoctorDepartment(translations[currentLang].departments.thaiMedicine)">
+            <button class="dropdown-item">{{ translations[currentLang].departments.thaiMedicine }}</button>
+          </router-link>
+          <router-link to="/chinese-medicine" @click="selectDoctorDepartment(translations[currentLang].departments.chineseMedicine)">
+            <button class="dropdown-item">{{ translations[currentLang].departments.chineseMedicine }}</button>
+          </router-link>
+          <router-link to="/physical-therapy" @click="selectDoctorDepartment(translations[currentLang].departments.physicalTherapy)">
+            <button class="dropdown-item">{{ translations[currentLang].departments.physicalTherapy }}</button>
+          </router-link>
+          <router-link to="/opd" @click="selectDoctorDepartment(translations[currentLang].departments.outpatientClinic)">
+            <button class="dropdown-item">{{ translations[currentLang].departments.outpatientClinic }}</button>
+          </router-link>
         </div>
-        <router-link to="/appointment" class="tab">
-          {{ translations[currentLang].appointments }}
-        </router-link>
-        <div @mouseenter="showServicesDropdown = true,showDoctorDropdown = false" @mouseleave="showServicesDropdown = false">
-          <button class="tab" :class="{ 'active': showServicesDropdown }">
-            {{ translations[currentLang].services }}
-          </button>
-          <div v-if="showServicesDropdown" class="service-dropdown">
-            <router-link to="/check-up" @click="toggleServicesDropdown">
-              <button class="dropdown-item">Service 1: General Check-up</button>
-            </router-link>
-            <router-link to="/dental-consult" @click="toggleServicesDropdown">
-              <button class="dropdown-item">Service 2: Dental Consultation</button>
-            </router-link>
-            <router-link to="/eye-exam" @click="toggleServicesDropdown">
-              <button class="dropdown-item">Service 3: Eye Examination</button>
-            </router-link>
-            <router-link to="/pediatric" @click="toggleServicesDropdown">
-              <button class="dropdown-item">Service 4: Pediatric Check-up</button>
-            </router-link>
-          </div>
+      </div>
+      <router-link to="/appointment" class="tab">
+        {{ translations[currentLang].appointments }}
+      </router-link>
+      <div @mouseenter="showServicesDropdown = true, showDoctorDropdown = false" @mouseleave="showServicesDropdown = false">
+        <button class="tab" :class="{ 'active': showServicesDropdown }">
+          {{ translations[currentLang].services }}
+        </button>
+        <div v-if="showServicesDropdown" class="service-dropdown">
+          <router-link to="/check-up" @click="toggleServicesDropdown">
+            <button class="dropdown-item">Service 1: General Check-up</button>
+          </router-link>
+          <router-link to="/dental-consult" @click="toggleServicesDropdown">
+            <button class="dropdown-item">Service 2: Dental Consultation</button>
+          </router-link>
+          <router-link to="/eye-exam" @click="toggleServicesDropdown">
+            <button class="dropdown-item">Service 3: Eye Examination</button>
+          </router-link>
+          <router-link to="/pediatric" @click="toggleServicesDropdown">
+            <button class="dropdown-item">Service 4: Pediatric Check-up</button>
+          </router-link>
         </div>
-      </nav>
-    <router-view/> 
+      </div>
+    </nav>
+    <router-view />
     <footer class="footer">
       <div class="footer-content">
         <!-- Contact Information Section -->
@@ -158,7 +165,7 @@
                 <img src="@/assets/hours-icon.png" alt="Business Hours" class="info-icon" />
                 <div class="info-text">
                   <p>
-                    <strong>{{ translations[currentLang].businessHoursTitle || 'Business days and hours:' }}</strong><br>
+                    <strong>{{ translations[currentLang].businessHoursTitle || 'Business days and hours:' }}</strong><br />
                     {{ translations[currentLang].businessHours || 'Monday-Friday: 8:00 AM - 8:00 PM<br>Saturday: 8:00 AM - 4:00 PM<br>(Closed every Sunday and public holidays)' }}
                   </p>
                 </div>
@@ -182,20 +189,21 @@
         </div>
       </div>
     </footer>
-<LogIn 
+    <LogIn 
       v-if="showLoginForm" 
       @close="showLoginForm = false" 
-      @login-success="handleLoginSuccess" 
+      @login-success="handleLoginSuccess"
     />
     <CreateAcc 
       v-if="showCreateAccountForm" 
       @close="showCreateAccountForm = false" 
-      @account-created="handleAccountCreated" 
-      :currentLang="currentLang" 
+      @create-account-success="handleCreateAccountSuccess"
     />
-    
+    <ChatBox v-if="showChat" @close="toggleChat" />
+    <Search v-if="showSearch" @close="toggleSearch" />
   </div>
 </template>
+
 <!-- JS -->
 <script>
   import axios from 'axios';
@@ -207,6 +215,7 @@
       data() {
           return {
               query: "",
+              isDropdownVisible: false,
               showLanguageDropdown: false,
               showProfileDropdown: false,
               showDoctorDropdown: false,
@@ -220,7 +229,6 @@
               ads: [],
               translations: {
                   EN: {
-                      searchPlaceholder: 'Search...',
                       login: 'Login',
                       createAccount: 'Create Account',
                       profileDetail: 'Profile Details',
@@ -245,7 +253,6 @@
                       }
                   },
                   ไทย: {
-                      searchPlaceholder: 'ค้นหา...',
             login: 'เข้าสู่ระบบ',
             createAccount: 'สร้างบัญชี',
             homepage: 'หน้าแรก',
@@ -269,7 +276,6 @@
                       }
                   },
                   မြန်မာ: {
-                      searchPlaceholder: 'ရှာဖွေပါ...',
                       login: 'လော့အင် ဝင်ပါ',
                       createAccount: 'အကောင့်ဖွင့်ပါ',
                       homepage: 'အိမ်စာမျက်နှာ',
@@ -302,6 +308,9 @@
     methods: {
         goToHomePage() {
             this.$router.push({ name: 'HomePage' });
+        },
+        toggleDropdown() {
+            this.isDropdownVisible = !this.isDropdownVisible; // Toggle dropdown visibility
         },
         toggleLanguageDropdown() {
             this.showLanguageDropdown = !this.showLanguageDropdown;
@@ -428,29 +437,59 @@
         align-items: center;
         cursor: pointer;
     }
+    .search-button {
+    display: flex;
+    justify-content: flex-start; /* Align items to the left */
+    align-items: center; /* Align items vertically */
+    margin: 20px; /* Add some margin */
+}
 
+.search-btn {
+  width: 300px;
+    background-color: #ffffff; /* Button background color set to white */
+    color: #333; /* Text color */
+    border: 1px solid black; /* Black border */
+    border-radius: 15px; /* Rounded corners */
+    padding: 10px 20px; /* Padding for the button */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    display: flex; /* Enable flexbox on the button */
+    align-items: center; /* Center items vertically */
+}
 
-    .search-bar {
-        right: 35px;
-        position: relative;
-        width: 100%;
-        max-width: 400px;
-    }
-    .search-bar input {
-        width: 100%;
-        padding: 10px 40px 10px 10px;
-        border-radius: 20px;
-        border: 1px solid #ccc;
-        font-size: 16px;
-    }
-    .search-bar .search-icon {
-        position: absolute;
-        left: 100%;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 30px;
-        height: 30px;
-    }
+.search-icon {
+    margin-left: 70%; /* Add some space between the text and the icon */
+    width: 20px; /* Set a specific width for the icon */
+    height: 20px; /* Set a specific height for the icon */
+}
+
+.search-btn:hover {
+    background-color: #B5DEE0; /* Change background color on hover */
+}
+.dropdown {
+    position: absolute; /* Position dropdown below the button */
+    background-color: white; /* Dropdown background color */
+    border: 1px solid black; /* Dropdown border */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    margin-top: 10px; /* Space between button and dropdown */
+    z-index: 10; /* Ensure dropdown is on top */
+}
+
+.dropdown ul {
+    list-style-type: none; /* Remove list bullets */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+}
+
+.dropdown li {
+    padding: 10px 15px; /* Padding for dropdown items */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.dropdown li:hover {
+    background-color: #B5DEE0; /* Highlight on hover */
+}
 
 
     .chat-button {
@@ -468,7 +507,6 @@
     .chat-button:hover {
         filter: brightness(0.9);
     }
-
 
     .dropdown-menu {
         position: absolute;
@@ -669,6 +707,24 @@
 
 .mh-logo img {
   width: 220px;
+}
+.popular-search, .search-history {
+  margin: 10px 0;
+}
+h4 {
+  margin: 0;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+.dropdown {
+  border: 1px solid #ccc;
+  background: white;
+  padding: 10px;
+  position: absolute;
+  width: 200px; /* Adjust width as needed */
+  z-index: 10;
 }
 
 
