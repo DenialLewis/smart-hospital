@@ -14,11 +14,11 @@
           <tr v-for="department in departments" :key="department.id">
             <td>
               <a href="#" @click.prevent="showDoctorDetails(department)">
-                {{ department.DoctorName || "Unnamed Department" }}
+                {{ department.attributes.DoctorName || "Unnamed Department" }}
               </a>
             </td>
-            <td>{{ department.Specialization }}</td>
-            <td>{{ department.Time }}</td>
+            <td>{{ department.attributes.Specialization }}</td>
+            <td>{{ department.attributes.Time }}</td>
             <td>
               <button @click="bookAppointment(department)">
                 {{ translations[currentLang].bookNow }}
@@ -68,7 +68,7 @@
         try {
           const response = await fetch("http://localhost:1337/api/opds");
           const data = await response.json();
-          console.log("Fetched data:", data);
+          console.log("Fetched data:", JSON.stringify(data, null, 2));
           this.departments = data.data || [];
         } catch (error) {
           console.error("Error fetching departments:", error);
