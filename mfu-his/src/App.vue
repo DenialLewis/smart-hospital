@@ -10,14 +10,17 @@
     </header>
     <div class="home-container">
       <div class="main-content">
-        <nav class="sidebar">
-          <h2 v-if="loggedIn">Welcome, Dr. {{ username }}!</h2>
-          <h2 v-else>Welcome! Please Log In</h2>
-          <button class="login-button" @click="toggleLogin">
+        <nav :class="['sidebar', { 'sidebar-closed': !sidebarOpen }]">
+          <button class="toggle-button" @click="toggleSidebar">
+            <i :class="sidebarOpen ? 'fas fa-angle-left' : 'fas fa-angle-right'"></i>
+          </button>
+          <h2 v-if="sidebarOpen && loggedIn">Welcome, Dr. {{ username }}!</h2>
+          <h2 v-else-if="sidebarOpen">Welcome! Please Log In</h2>
+          <button class="login-button" @click="toggleLogin" v-if="sidebarOpen">
             <i :class="loggedIn ? 'fas fa-sign-out-alt' : 'fas fa-sign-in-alt'"></i>
             {{ loggedIn ? 'Logout' : 'Login' }}
           </button>
-          <ul>
+          <ul v-if="sidebarOpen">
             <li><router-link to="/appointment-managing"><i class="fas fa-calendar-alt"></i> Appointments</router-link></li>
             <li><router-link to="/patient-info"><i class="fas fa-user-injured"></i> Patients Info</router-link></li>
             <li><router-link to="/billing-collection"><i class="fas fa-money-bill-wave"></i> Hospital Fees</router-link></li>
@@ -46,9 +49,13 @@ export default {
       showLoginPopup: false,
       loggedIn: false,
       username: '',
+      sidebarOpen: true,
     };
   },
   methods: {
+    toggleSidebar() {
+      this.sidebarOpen = !this.sidebarOpen;
+    },
     toggleLogin() {
       if (this.loggedIn) {
         this.handleLogout();
@@ -60,15 +67,13 @@ export default {
       this.loggedIn = true;
       this.username = username;
       this.showLoginPopup = false;
-      
     },
     handleLogout() {
       this.loggedIn = false;
       this.username = '';
       localStorage.removeItem('jwtToken');
       localStorage.removeItem('userId');
-      // Optionally redirect to a different page after logout
-      this.$router.push('/'); 
+      this.$router.push('/');
     },
   },
 };
@@ -77,14 +82,12 @@ export default {
 <style scoped>
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
 
-/* App Container */
 #app {
   font-family: 'Roboto', Arial, sans-serif;
   color: #34495e;
   background-color: #f5f8fa;
 }
 
-/* Header */
 header {
   display: flex;
   align-items: center;
@@ -119,7 +122,12 @@ header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: 0.3s ease;
+  transition: width 0.3s ease;
+}
+
+.sidebar-closed {
+  width: 60px;
+  padding: 10px;
 }
 
 .sidebar h2 {
@@ -127,6 +135,12 @@ header {
   font-weight: 600;
   color: #34495e;
   margin-bottom: 25px;
+  white-space: nowrap;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar-closed h2 {
+  opacity: 0;
 }
 
 .sidebar ul {
@@ -158,7 +172,20 @@ header {
   color: #1fa2ff;
 }
 
-/* Buttons */
+.toggle-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #6EC5C1;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.sidebar-closed .login-button,
+.sidebar-closed ul {
+  display: none;
+}
+
 .login-button {
   background-color: #6EC5C1;
   color: #fff;
@@ -198,23 +225,5 @@ header {
   display: flex;
   flex: 1;
   margin: 20px;
-}
-
-/* Additional Styling for Modern Look */
-body {
-  background-color: #f5f8fa;
-}
-
-h2 {
-  color: #4d4d4d;
-  font-weight: 500;
-}
-
-ul {
-  padding-left: 0;
-}
-
-li {
-  margin: 10px 0;
 }
 </style>
