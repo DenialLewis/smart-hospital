@@ -10,18 +10,20 @@
         <h1>MFU Hospital Information System</h1>
       </div>
     </header>
-    <WelcomePage />
+    <LoginPage/> 
   </div>
 </template>
 
 <script>
-import WelcomePage from './components/WelcomePage.vue';
+import LoginPage from './components/LoginPage.vue';
+
+
 
 export default {
   name: 'App',
   components: {
-    WelcomePage,
-  },
+    LoginPage
+  }
 };
 </script>
 

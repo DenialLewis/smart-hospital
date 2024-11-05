@@ -1,18 +1,25 @@
-<template>
+<!-- <template>
     <div class="welcome-page">
-      <!-- Overlay layer for background transparency -->
+      
       <div class="background-overlay"></div>
   
       <div class="button-container">
-        <button class="welcome-button">Doctors</button>
+        <button class="welcome-button" @click="goToLoginPage">Doctors</button>
         <button class="welcome-button">Medical Staff</button>
       </div>
     </div>
   </template>
   
   <script>
+  
   export default {
     name: "WelcomePage",
+    
+    methods: {
+    goToLoginPage() {
+      this.$router.push({name: 'LoginPage'});
+    }
+  }
   };
   </script>
   
@@ -63,4 +70,4 @@
     background-color: #35767c;
   }
   </style>
-  
+   -->
