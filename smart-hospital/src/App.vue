@@ -77,10 +77,12 @@
         </template>
     </div>
         </div>
-    </header>
-    <!-- Navigation Tabs -->
+      </header>
     <!-- Navigation Tabs -->
     <nav class="nav-tabs">
+      <router-link to="/" class="tab">
+        {{ translations[currentLang].homepage }}
+      </router-link>
         <div @mouseenter="showDoctorDropdown = true,showServicesDropdown = false" @mouseleave="showDoctorDropdown = false">
           <button class="tab" :class="{ 'active': showDoctorDropdown }">
             {{ translations[currentLang].doctorSchedule }}
@@ -538,7 +540,7 @@
     .doctor-dropdown {
         position: absolute;
         top: 50px;
-        left: 65px;
+        left: 25%;
         background-color: #ffffff;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border-radius: 6px;
@@ -548,7 +550,7 @@
     .service-dropdown {
         position: absolute;
         top: 50px;
-        left: 75%;
+        left: 80%;
         background-color: #ffffff;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border-radius: 6px;
