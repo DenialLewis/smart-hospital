@@ -41,8 +41,9 @@
   }
   
   .health-tip-image {
+    margin-left: 40%;
     max-width: 100%; /* Responsive image */
-    height: auto; /* Maintain aspect ratio */
+    height: 300px; /* Maintain aspect ratio */
     border-radius: 8px; /* Rounded corners for the image */
     margin-bottom: 15px; /* Space below the image */
   }
