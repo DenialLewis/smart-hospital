@@ -21,10 +21,11 @@
             <li><router-link to="/appointment-managing"><i class="fas fa-calendar-alt"></i> Appointments</router-link></li>
             <li><router-link to="/patient-info"><i class="fas fa-user-injured"></i> Patients Info</router-link></li>
             <li><router-link to="/billing-collection"><i class="fas fa-money-bill-wave"></i> Hospital Fees</router-link></li>
+            <li><router-link to="/add-schedule"><i class="fas fa-user-clock"></i> Add Doctor Schedule</router-link></li>
           </ul>
         </nav>
         <div class="content">
-          <router-view />
+          <router-view :is-logged-in="loggedIn" />
         </div>
       </div>
     </div>
@@ -59,12 +60,15 @@ export default {
       this.loggedIn = true;
       this.username = username;
       this.showLoginPopup = false;
+      
     },
     handleLogout() {
       this.loggedIn = false;
       this.username = '';
       localStorage.removeItem('jwtToken');
       localStorage.removeItem('userId');
+      // Optionally redirect to a different page after logout
+      this.$router.push('/'); 
     },
   },
 };
@@ -91,7 +95,6 @@ header {
   text-transform: uppercase;
   border-radius: 8px;
 }
-
 
 .logo-container {
   margin-right: 10px;
