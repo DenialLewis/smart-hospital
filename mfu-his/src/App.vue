@@ -11,15 +11,16 @@
     <div class="home-container">
       <div class="main-content">
         <nav class="sidebar">
-          <h1 v-if="loggedIn">Hello! Doctor {{ username }}</h1>
-          <h1 v-else>Hello Doctor! Please Login First</h1>
+          <h2 v-if="loggedIn">Welcome, Dr. {{ username }}!</h2>
+          <h2 v-else>Welcome! Please Log In</h2>
           <button class="login-button" @click="toggleLogin">
+            <i :class="loggedIn ? 'fas fa-sign-out-alt' : 'fas fa-sign-in-alt'"></i>
             {{ loggedIn ? 'Logout' : 'Login' }}
           </button>
           <ul>
-            <li><router-link to="/appointment-managing">Appointments</router-link></li>
-            <li><router-link to="/patient-info">Patients Info</router-link></li>
-            <li><router-link to="/billing-collection">Hospital Fees</router-link></li>
+            <li><router-link to="/appointment-managing"><i class="fas fa-calendar-alt"></i> Appointments</router-link></li>
+            <li><router-link to="/patient-info"><i class="fas fa-user-injured"></i> Patients Info</router-link></li>
+            <li><router-link to="/billing-collection"><i class="fas fa-money-bill-wave"></i> Hospital Fees</router-link></li>
           </ul>
         </nav>
         <div class="content">
@@ -27,7 +28,6 @@
         </div>
       </div>
     </div>
-
     <LoginPage v-if="showLoginPopup" @close="showLoginPopup = false" @login-success="handleLoginSuccess" />
   </div>
 </template>
@@ -44,7 +44,7 @@ export default {
     return {
       showLoginPopup: false,
       loggedIn: false,
-      username: '', // Store the username here
+      username: '',
     };
   },
   methods: {
@@ -57,12 +57,12 @@ export default {
     },
     handleLoginSuccess(username) {
       this.loggedIn = true;
-      this.username = username; // Set the username when login is successful
+      this.username = username;
       this.showLoginPopup = false;
     },
     handleLogout() {
       this.loggedIn = false;
-      this.username = ''; // Clear the username on logout
+      this.username = '';
       localStorage.removeItem('jwtToken');
       localStorage.removeItem('userId');
     },
@@ -70,92 +70,148 @@ export default {
 };
 </script>
 
-<style>
-/* Basic App Styles */
+<style scoped>
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+/* App Container */
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  text-align: center;
-  color: #2c3e50;
+  font-family: 'Roboto', Arial, sans-serif;
+  color: #34495e;
+  background-color: #f5f8fa;
 }
 
-.login-button {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
-  cursor: pointer;
-  margin-bottom: 20px;
-  width: 100%;
-}
-
-.login-button:hover {
-  background-color: #45a049;
-}
-
-/* Header styles */
+/* Header */
 header {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 20px;
-  background-color: #4DAAB3;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #B5DEE0, #6EC5C1);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
+  border-radius: 8px;
+}
+
+
+.logo-container {
+  margin-right: 10px;
+}
+
+.hospital-logo {
+  height: 45px;
+}
+
+.title-container h1 {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 240px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.3s ease;
+}
+
+.sidebar h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #34495e;
+  margin-bottom: 25px;
+}
+
+.sidebar ul {
+  list-style: none;
+  width: 100%;
+  padding: 0;
+}
+
+.sidebar li {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 10px;
+  color: #34495e;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+.sidebar a:hover {
+  background-color: #e1f5fe;
+  color: #1fa2ff;
+}
+
+/* Buttons */
+.login-button {
+  background-color: #6EC5C1;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s;
+}
+
+.login-button:hover {
+  background-color: #55a8e0;
+}
+
+/* Content Area */
+.content {
+  flex: 1;
+  padding: 30px;
+  background-color: #f5f8fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .home-container {
   display: flex;
-  flex-direction: column;
   height: 100vh;
-}
-
-.logo-container {
-  margin-right: 20px;
-}
-
-.hospital-logo {
-  height: 60px;
-  width: auto;
-}
-
-.title-container h1 {
-  font-size: 24px;
-  color: white;
-  font-weight: 600;
 }
 
 .main-content {
   display: flex;
   flex: 1;
+  margin: 20px;
 }
 
-.sidebar {
-  width: 200px;
-  background-color: #bebebe;
-  padding: 20px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+/* Additional Styling for Modern Look */
+body {
+  background-color: #f5f8fa;
 }
 
-.sidebar ul {
-  list-style-type: none;
-  padding: 0;
+h2 {
+  color: #4d4d4d;
+  font-weight: 500;
 }
 
-.sidebar li {
-  margin: 15px 0;
+ul {
+  padding-left: 0;
 }
 
-.sidebar a {
-  text-decoration: none;
-  color: #333;
-}
-
-.sidebar a:hover {
-  color: #4CAF50;
-}
-
-.content {
-  flex: 1;
-  padding: 20px;
+li {
+  margin: 10px 0;
 }
 </style>

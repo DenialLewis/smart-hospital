@@ -31,7 +31,7 @@
         </form>
       </div>
       <div class="additional-links">
-        <a href="#">Forgot Password?</a> | <a href="#">Create Account</a>
+        <a href="#">Forgot Password?</a>
       </div>
     </div>
   </div>
@@ -160,7 +160,7 @@ p {
 
 /* Submit button */
 .login-submit {
-  background-color: #4CAF50;
+  background-color: #6EC5C1;
   color: white;
   border: none;
   border-radius: 5px;
@@ -171,7 +171,7 @@ p {
 }
 
 .login-submit:hover {
-  background-color: #45a049;
+  background-color: #55a8e0;
 }
 
 /* Additional links */
@@ -181,7 +181,7 @@ p {
 }
 
 .additional-links a {
-  color: #4CAF50;
+  color: #000000;
   text-decoration: none;
 }
 
