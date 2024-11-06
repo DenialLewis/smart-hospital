@@ -128,7 +128,7 @@
           <label>Phone Number</label>
           <input type="tel" v-model="patientInfo.phone" placeholder="Enter your phone number" />
 
-          <<!-- Nationality Dropdown -->
+          <!-- Nationality Dropdown -->
           <label>Nationality</label>
           <select v-model="patientInfo.nationality">
               <option disabled value="">Please select your nationality</option>
