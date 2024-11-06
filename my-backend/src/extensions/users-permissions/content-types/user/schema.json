@@ -77,13 +77,16 @@
       "target": "api::department.department",
       "mappedBy": "doctors"
     },
-    "time": {
-      "type": "datetime"
-    },
     "appointments": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::appointment.appointment",
+      "mappedBy": "doctor"
+    },
+    "doctor_schedules": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::doctor-schedule.doctor-schedule",
       "mappedBy": "doctor"
     }
   }
