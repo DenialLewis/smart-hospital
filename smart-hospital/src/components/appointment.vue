@@ -1,4 +1,5 @@
 <template>
+    <div class="form-wrapper">
     <div class="appointment-container">
         <h1>Make an Appointment</h1>
   
@@ -145,6 +146,7 @@
             Confirm request
         </button>
     </div>
+    </div>
   </template>
   
   <script>
@@ -224,3 +226,133 @@
     }
   };
   </script>
+
+<style scoped>
+.form-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    background-color: #f9f9f9; /* Optional background color */
+}
+
+.appointment-container {
+    width: 100%; /* Takes full width up to the max-width */
+    max-width: 700px; /* Set max width for the form */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin: 20px auto; /* Auto margins to center horizontally */
+}
+
+h1, h2 {
+    color: #333;
+}
+
+/* Outer section styling */
+.appointment-type,
+.medicine-field,
+.doctor-selection,
+.date-selection,
+.time-slot,
+.symptoms,
+.patient-info {
+    margin-bottom: 40px; /* Increased margin for more space between sections */
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+/* Highlight on hover for outer sections only */
+.appointment-type:hover,
+.medicine-field:hover,
+.doctor-selection:hover,
+.date-selection:hover,
+.time-slot:hover,
+.symptoms:hover,
+.patient-info:hover {
+    background-color: #B5DEE0;
+}
+
+/* Remove highlight effect from inner fields */
+.appointment-type input,
+.medicine-field input,
+.doctor-selection input,
+.date-selection input,
+.time-slot input,
+.symptoms input,
+.patient-info input,
+.appointment-type select,
+.medicine-field select,
+.doctor-selection select,
+.date-selection select,
+.time-slot select,
+.symptoms select,
+.patient-info select,
+.appointment-type textarea,
+.medicine-field textarea,
+.doctor-selection textarea,
+.date-selection textarea,
+.time-slot textarea,
+.symptoms textarea,
+.patient-info textarea {
+    background-color: white !important;
+    box-shadow: none !important;
+    transition: none;
+}
+
+/* Input field styling */
+select,
+input[type="text"],
+input[type="tel"],
+input[type="date"],
+textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.date-selection {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for date selection */
+.date-selection label {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 8px;
+}
+
+.date-selection input[type="date"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Styling for radio buttons and labels */
+.doctor-options label {
+    display: block;
+    margin: 5px 0;
+}
+
+/* Specific adjustments for some fields */
+.specific-doctor select,
+.patient-info select,
+.patient-info input {
+    margin-top: 10px;
+}
+</style>
