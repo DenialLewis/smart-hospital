@@ -28,12 +28,14 @@
           </ul>
         </nav>
         <div class="content">
-          <router-view :is-logged-in="loggedIn" />
+          <router-view :is-logged-in="loggedIn" :username="username" />
         </div>
       </div>
     </div>
     <LoginPage v-if="showLoginPopup" @close="showLoginPopup = false" @login-success="handleLoginSuccess" />
   </div>
+
+
 </template>
 
 <script>

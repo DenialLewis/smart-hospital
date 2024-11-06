@@ -1,21 +1,21 @@
 <template>
   <div class="add-schedule">
     <div class="schedule-card">
-      
-      
       <form v-if="isLoggedIn" @submit.prevent="submitSchedule">
         <h2>Add Doctor Schedule</h2>
+
+        <!-- Display Doctor Name with Username -->
         <div class="form-group">
-          <label for="doctorName">Doctor Name</label>
-          <input type="text" id="doctorName" v-model="doctorName" placeholder="Enter doctor name" required />
-        </div>
-        
+  <label for="username">Doctor Name</label>
+  <input type="text" id="username" :value="username" readonly placeholder="Doctor Name" />
+</div>
+
+
         <div class="form-group">
           <label for="specialization">Specialization</label>
           <input type="text" id="specialization" v-model="specialization" placeholder="Enter specialization" required />
         </div>
 
-        <!-- Department Selection Dropdown -->
         <div class="form-group">
           <label for="department">Department</label>
           <select id="department" v-model="department" required>
@@ -60,10 +60,13 @@ export default {
       type: Boolean,
       required: true,
     },
+    username: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
-      doctorName: '',
       specialization: '',
       department: '',
       selectedDays: [],
@@ -75,24 +78,21 @@ export default {
         'Department of Thai Traditional Medicine',
         'Department of Chinese Medicine',
         'Physical Therapy Department',
-        'Outpatient Clinic'
+        'Outpatient Clinic',
       ],
     };
   },
   methods: {
     submitSchedule() {
-      console.log('Doctor Name:', this.doctorName);
+      console.log('Doctor Name:', this.username);
       console.log('Specialization:', this.specialization);
       console.log('Department:', this.department);
       console.log('Selected Days:', this.selectedDays);
       console.log('Start Time:', this.startTime);
       console.log('End Time:', this.endTime);
 
-      // Show success message
       this.successMessage = 'Schedule added successfully!';
       
-      // Reset fields
-      this.doctorName = '';
       this.specialization = '';
       this.department = '';
       this.selectedDays = [];
@@ -159,6 +159,11 @@ input[type="time"]:focus,
 select:focus {
   border-color: #6EC5C1;
   outline: none;
+}
+
+input[readonly] {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
 }
 
 .day-checkboxes {
