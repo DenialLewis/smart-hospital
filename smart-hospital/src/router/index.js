@@ -12,7 +12,9 @@ import Service1 from '@/components/Service1.vue';
 import Service2 from '@/components/Service2.vue';
 import Service3 from '@/components/Service3.vue';
 import Service4 from '@/components/Service4.vue';
-import HealthTip from '@/components/HealthTip.vue'; // Import your HealthTip component
+import HealthTip from '@/components/HealthTip.vue'; 
+import PendingRequest from '@/components/PendingRequest.vue';
+
 
 
 
@@ -32,7 +34,8 @@ const routes = [
     {path: '/pediatric', name: 'Service4', component: Service4},
     {path: '/patient-profile', name: 'PatientProfile', component: PatientProfile, meta:{requiresAuth: true}},
     {path: '/health-tip', name: 'HealthTip', component: HealthTip},
-    {path: '/health-tip/:id', name: 'healthtip', ccomponent: () => import('../components/HealthTip.vue')}
+    {path: '/health-tip/:id', name: 'healthtip', component: () => import('../components/HealthTip.vue')},
+    {path: '/pending', name:'PendingRequest', component: PendingRequest} 
 ];
 
 const router = createRouter({
