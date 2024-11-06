@@ -4,7 +4,8 @@
   "info": {
     "singularName": "new",
     "pluralName": "news",
-    "displayName": "New"
+    "displayName": "New",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -12,14 +13,15 @@
   "pluginOptions": {},
   "attributes": {
     "News": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": true
+      ]
     },
     "Title": {
       "type": "string"

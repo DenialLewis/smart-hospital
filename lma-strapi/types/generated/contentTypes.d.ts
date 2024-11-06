@@ -427,6 +427,7 @@ export interface ApiNewNew extends Schema.CollectionType {
     singularName: 'new';
     pluralName: 'news';
     displayName: 'New';
+    description: '';
   };
   options: {
     draftAndPublish: true;

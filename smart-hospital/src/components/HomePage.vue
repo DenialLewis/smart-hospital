@@ -106,17 +106,19 @@ export default {
   },
   methods: {
     async fetchAds() {
-      try {
-        const response = await axios.get('http://localhost:1337/api/ads?populate=*');
-        this.ads = response.data.data.map(ad => ({
-          id: ad.id,
-          Ad: ad.Ad,
-          Ads: ad.Ads || []
-        }));
-      } catch (error) {
-        console.error('Error fetching ads:', error);
-      }
-    },
+  try {
+    const response = await axios.get('http://localhost:1337/api/ads?populate=*');
+    this.ads = response.data.data.map(ad => ({
+      id: ad.id,
+      Ad: ad.attributes.Ad || 'Ad Title Not Available', // Accessing the Ad title
+      Ads: ad.attributes.Ads ? ad.attributes.Ads.data.map(media => ({
+        url: media.attributes.url
+      })) : [] // Mapping the media URLs if available
+    }));
+  } catch (error) {
+    console.error('Error fetching ads:', error);
+  }
+},
     async fetchUpcomingAppointments() {
       try {
         const response = await axios.get('http://localhost:1337/api/appointments?populate=*');
@@ -142,21 +144,25 @@ export default {
       }
     },
     async fetchHealthTips() {
-      try {
-        const response = await axios.get('http://localhost:1337/api/news?populate=*');
-        console.log('API Response:', response.data); // Check your API response
-        this.healthTips = response.data.data.map(tip => ({
-          id: tip.id,
-          title: tip.Title,
-          info: tip.Info,
-          images: tip.News ? tip.News.map(news => ({
-            url: `http://localhost:1337${news.url}`
-          })) : [] // Default to an empty array if News is undefined
-        }));
-      } catch (error) {
-        console.error('Error fetching health tips:', error);
-      }
-    },
+  try {
+    const response = await axios.get('http://localhost:1337/api/news?populate=*');
+    console.log('API Response:', response.data); // Check this in the console
+
+    // Adjust mappings based on the response structure you observe
+    this.healthTips = response.data.data.map(tip => ({
+      id: tip.id,
+      title: tip.attributes.Title || 'No Title Available',  // Ensure 'Title' matches the field name in Strapi
+      info: tip.attributes.Info || 'No Info Available',  // Ensure 'Info' matches the field name in Strapi
+      images: tip.attributes.News && Array.isArray(tip.attributes.News.data) 
+        ? tip.attributes.News.data.map(newsItem => ({
+            url: `http://localhost:1337${newsItem.attributes.url}`
+          }))
+        : []  // Default to empty array if no images
+    }));
+  } catch (error) {
+    console.error('Error fetching health tips:', error);
+  }
+},
     handleImageError(item) {
       console.log(`Error loading image for: ${item.title || item.Ad}`);
     },
