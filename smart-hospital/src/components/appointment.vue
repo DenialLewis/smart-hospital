@@ -149,7 +149,7 @@
   </div>
 </template>
 
-<<script>
+<script>
 export default {
   data() {
     const today = new Date();
