@@ -6,22 +6,30 @@
         <img alt="Mfu Logo" src="./assets/Hospital.png" />
       </div>
       <div class="lang-switch">
-        <!-- Search Button -->
-        <div class="search-button">
-    <button @click="toggleDropdown" class="search-btn">
-        Search...
-        <img src="./assets/search.png" alt="Search Icon" class="search-icon">
-    </button>
-    
-    <div v-if="isDropdownVisible" class="dropdown">
-        <ul>
-            <li>Popular Search</li>
-            <li>Search History</li>
-        </ul>
-    </div>
+       <!-- Search Bar -->
+       <div class="search-bar">
+  <input
+    type="text"
+    v-model="searchQuery"
+    placeholder="Search..."
+    @focus="showDropdown = true"
+    @input="filterOptions"
+    @keydown.enter="executeSearch"
+  />
+  <button class="search-icon-btn" @click="executeSearch">
+    <img src="./assets/search.png" alt="Search" class="search-icon" />
+  </button>
+  <ul v-if="showDropdown && filteredOptions.length" class="dropdown-list">
+    <li
+      v-for="option in filteredOptions"
+      :key="option.value"
+      @mousedown="selectOption(option)"
+      class="dropdown-item"
+    >
+      {{ option.label }}
+    </li>
+  </ul>
 </div>
-
-
         <!-- Chat Button -->
         <div class="chat-boutton">
           <button class="chat-button" @click="toggleChat">
@@ -29,7 +37,7 @@
             <span>{{ translations[currentLang].chat }}</span>
           </button>
         </div>
-        
+       
         <!-- Language Choices -->
         <div class="lang-dropdown" @click="toggleLanguageDropdown">
           <span>{{ currentLang }}</span>
@@ -189,21 +197,20 @@
         </div>
       </div>
     </footer>
-    <LogIn 
-      v-if="showLoginForm" 
-      @close="showLoginForm = false" 
+    <LogIn
+      v-if="showLoginForm"
+      @close="showLoginForm = false"
       @login-success="handleLoginSuccess"
     />
-    <CreateAcc 
-      v-if="showCreateAccountForm" 
-      @close="showCreateAccountForm = false" 
+    <CreateAcc
+      v-if="showCreateAccountForm"
+      @close="showCreateAccountForm = false"
       @create-account-success="handleCreateAccountSuccess"
     />
     <ChatBox v-if="showChat" @close="toggleChat" />
     <Search v-if="showSearch" @close="toggleSearch" />
   </div>
 </template>
-
 <!-- JS -->
 <script>
   import axios from 'axios';
@@ -215,7 +222,6 @@
       data() {
           return {
               query: "",
-              isDropdownVisible: false,
               showLanguageDropdown: false,
               showProfileDropdown: false,
               showDoctorDropdown: false,
@@ -224,7 +230,18 @@
               showLoginForm: false,
               showCreateAccountForm: false,
               isLoggedIn: false,
+              showDropdown: false,
               user: {},
+              options: [
+                  { value: 1, label: 'Apple' },
+                  { value: 2, label: 'Banana' },
+                  { value: 3, label: 'Cherry' },
+                  { value: 4, label: 'Date' },
+                  { value: 5, label: 'Elderberry' },
+                  { value: 6, label: 'Fig' },
+                  { value: 7, label: 'Grape' },
+              ],
+              filteredOptions: [],
               currentLang: 'EN',
               ads: [],
               translations: {
@@ -305,13 +322,16 @@
         LogIn,
         CreateAcc
     },
+    watch: {
+    searchQuery() {
+      this.filterOptions();
+    }
+  },
     methods: {
         goToHomePage() {
             this.$router.push({ name: 'HomePage' });
         },
-        toggleDropdown() {
-            this.isDropdownVisible = !this.isDropdownVisible; // Toggle dropdown visibility
-        },
+       
         toggleLanguageDropdown() {
             this.showLanguageDropdown = !this.showLanguageDropdown;
             this.showProfileDropdown = false;
@@ -363,7 +383,7 @@
             alert('this is profile details');
         },
         Logout(){
-            alert('this is log out'); 
+            alert('this is log out');
         },
         selectDoctorDepartment(department) {
             if (department === this.translations[this.currentLang].departments.thaiMedicine) {
@@ -372,7 +392,7 @@
             this.showDoctorDropdown = false;
         },
         goToAppointmentPage() {
-            this.$router.push('/appointment'); 
+            this.$router.push('/appointment');
         },
         handleLogin() {
       this.isLoggedIn = true;
@@ -385,7 +405,12 @@
       this.isLoggedIn = true;
       this.showCreateAccountForm = false;
     },
-
+    handleClickOutside(event) {
+              const searchBar = this.$refs.searchBar;
+              if (searchBar && !searchBar.contains(event.target)) {
+                  this.showDropdown = false;
+              }
+          },
     logout() {
       this.isLoggedIn = false;
       localStorage.removeItem('jwtToken');
@@ -395,28 +420,47 @@
       this.showDoctorDropdown = false;
       this.showServicesDropdown = false;
     },
+    filterOptions() {
+      const query = this.searchQuery.toLowerCase();
+      this.filteredOptions = this.options.filter(option =>
+        option.label.toLowerCase().includes(query)
+      );
     },
+    selectOption(option) {
+      this.searchQuery = option.label;
+      this.showDropdown = false;
+      this.executeSearch(); // Optional: perform search immediately
+    },
+   
+    executeSearch() {
+      if (this.searchQuery) {
+        console.log("Searching for:", this.searchQuery);
+        // Execute your search functionality here, e.g., navigate to results page
+      }
+    },
+    },
+    mounted() {
+    // Initialize filteredOptions with all options initially
+    this.filteredOptions = this.options;
+  }
 }
 </script>
-
 <!-- CSS -->
 <style scoped>
     .header {
-        top: 0; 
-        left: 0; 
+        top: 0;
+        left: 0;
         background-color: #ffffff;
-        z-index: 1000; 
+        z-index: 1000;
         align-items: center;
         justify-content: space-between;
         display:flex;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-
     .logo img {
         margin-left: 0;
         height: 70px;
     }
-
     .lang-switch {
         margin-left: 15px;
         display: flex;
@@ -426,7 +470,7 @@
     .lang-switch span {
         font-weight: bold;
         margin-left: 8px;
-        color: black; 
+        color: black;
     }
     .lang-switch img, .profile-container img {
         height: 24px;
@@ -437,61 +481,48 @@
         align-items: center;
         cursor: pointer;
     }
-    .search-button {
-    display: flex;
-    justify-content: flex-start; /* Align items to the left */
-    align-items: center; /* Align items vertically */
-    margin: 20px; /* Add some margin */
+    .search-bar {
+  display: flex;
+  align-items: center;
+  position: relative;
 }
-
-.search-btn {
+.search-bar input[type="text"] {
   width: 300px;
-    background-color: #ffffff; /* Button background color set to white */
-    color: #333; /* Text color */
-    border: 1px solid black; /* Black border */
-    border-radius: 15px; /* Rounded corners */
-    padding: 10px 20px; /* Padding for the button */
-    font-size: 16px; /* Font size */
-    cursor: pointer; /* Pointer cursor on hover */
-    display: flex; /* Enable flexbox on the button */
-    align-items: center; /* Center items vertically */
+  padding: 8px;
+  border-radius: 4px 0 0 4px;
+  border: 1px solid #ccc;
+  font-size: 16px;
 }
-
+.search-icon-btn {
+  border: none;
+  background-color: #ccc;
+  padding: 8px;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
 .search-icon {
-    margin-left: 70%; /* Add some space between the text and the icon */
-    width: 20px; /* Set a specific width for the icon */
-    height: 20px; /* Set a specific height for the icon */
+  width: 20px;
+  height: 20px;
 }
-
-.search-btn:hover {
-    background-color: #B5DEE0; /* Change background color on hover */
+.dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 10;
 }
-.dropdown {
-    position: absolute; /* Position dropdown below the button */
-    background-color: white; /* Dropdown background color */
-    border: 1px solid black; /* Dropdown border */
-    border-radius: 5px; /* Rounded corners */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
-    margin-top: 10px; /* Space between button and dropdown */
-    z-index: 10; /* Ensure dropdown is on top */
+.dropdown-item {
+  padding: 8px;
+  cursor: pointer;
 }
-
-.dropdown ul {
-    list-style-type: none; /* Remove list bullets */
-    padding: 0; /* Remove padding */
-    margin: 0; /* Remove margin */
+.dropdown-item:hover {
+  background-color: #f1f1f1;
 }
-
-.dropdown li {
-    padding: 10px 15px; /* Padding for dropdown items */
-    cursor: pointer; /* Pointer cursor on hover */
-}
-
-.dropdown li:hover {
-    background-color: #B5DEE0; /* Highlight on hover */
-}
-
-
     .chat-button {
         background: none;
         border: none;
@@ -507,7 +538,6 @@
     .chat-button:hover {
         filter: brightness(0.9);
     }
-
     .dropdown-menu {
         position: absolute;
         top: 30px;
@@ -548,7 +578,7 @@
     .down-arrow {
         transition: transform 0.3s ease;
     }
-    
+   
     .nav-tabs {
         display: flex;
         justify-content: space-around;
@@ -573,8 +603,6 @@
     .tab:hover {
         color: #B5DEE0;
     }
-
-
     .doctor-dropdown {
         position: absolute;
         top: 50px;
@@ -595,14 +623,12 @@
         border-top: 3px solid #EBD5A0;
         z-index: 1000;
     }
-
     .footer {
   background: linear-gradient(135deg, #2C3E50, #34495E);
   padding: 20px 10px;
   color: #fff;
   text-align: center;
 }
-
 .contact-info {
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
@@ -610,7 +636,6 @@
   margin-bottom: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-
 .contact-info h3 {
   font-size: 1.5em;
   font-family: Arial, Helvetica, sans-serif;
@@ -618,21 +643,18 @@
   margin-bottom: 15px;
   color: #B5DEE0;
 }
-
 .contact-columns {
   display: flex;
   justify-content: space-between;
   gap: 20px;
   margin-top: 15px;
 }
-
 .contact-column {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
-
 .info-item {
   display: flex;
   align-items: center;
@@ -642,36 +664,30 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   gap: 20px;
 }
-
 .info-icon {
   width: 30px;
   height: 30px;
   filter: brightness(0.8);
   flex-shrink: 0;
 }
-
 .info-text {
   text-align: left;
 }
-
 .info-text p {
   margin: 0;
   font-size: 0.95em;
   line-height: 1.5;
   color: #e0e0e0;
 }
-
 .info-text strong {
   color: #B5DEE0;
 }
-
 .closed-info {
   color: #FFB6C1;
   font-style: italic;
   display: block;
   margin-top: 5px;
 }
-
 .footer-bottom {
   display: flex;
   justify-content: space-between;
@@ -680,12 +696,10 @@
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   margin-top: 20px;
 }
-
 .social-media {
   display: flex;
   gap: 20px;
 }
-
 .social-icon {
   width: 50px;
   height: 50px;
@@ -694,17 +708,14 @@
   padding: 10px;
   transition: transform 0.3s, background-color 0.3s;
 }
-
 .social-icon:hover {
   transform: scale(1.1);
   background-color: #B5DEE0;
 }
-
 .qr-icon {
   width: 80px;
   height: 80px;
 }
-
 .mh-logo img {
   width: 220px;
 }
@@ -726,7 +737,4 @@ ul {
   width: 200px; /* Adjust width as needed */
   z-index: 10;
 }
-
-
 </style>
-
