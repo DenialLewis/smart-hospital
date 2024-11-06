@@ -6,6 +6,7 @@
       <h2>What to Expect During Your Check-up</h2>
       <ul>
         <li>Complete physical examination</li>
+        
         <li>Vital signs assessment (blood pressure, heart rate, etc.)</li>
         <li>Blood tests as needed</li>
         <li>Discussion of your medical history</li>
