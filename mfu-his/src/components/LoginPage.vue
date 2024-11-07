@@ -60,7 +60,27 @@ export default {
       console.log(response.data);
       localStorage.setItem('jwtToken', response.data.jwt);
       localStorage.setItem('userId', response.data.user.id);
-      this.$emit('login-success', response.data.user.username); // Emit the username
+
+      //this.$emit('login-success', response.data.user.username); // Emit the username
+      const userId = response.data.user.id;
+      const userResponse = await axios.get(`http://localhost:1337/api/users/${userId}?populate=departments`, {
+        headers: {
+          Authorization: `Bearer ${response.data.jwt}`,
+        },
+      });
+
+      const userData = userResponse.data;
+      
+      // Extract the necessary user details
+      const username = userData.username;
+      const specialization = userData.specialization;
+      const department = userData.departments && userData.departments.length > 0 
+        ? userData.departments[0].department_name 
+        : '';
+
+      // Emit login success event with additional user details
+      this.$emit('login-success', username, specialization, department);
+
       alert('Login successful!');
       this.$emit('close');
     } catch (error) {

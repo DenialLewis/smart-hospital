@@ -28,13 +28,12 @@
           </ul>
         </nav>
         <div class="content">
-          <router-view :is-logged-in="loggedIn" :username="username" />
+          <router-view :is-logged-in="loggedIn" :username="username" :specialization="specialization" :department="department"/>
         </div>
       </div>
     </div>
-    <LoginPage v-if="showLoginPopup" @close="showLoginPopup = false" @login-success="handleLoginSuccess" />
+    <LoginPage v-if="showLoginPopup" @close="showLoginPopup = false" @login-success="handleLoginSuccess"/>
   </div>
-
 
 </template>
 
@@ -51,6 +50,8 @@ export default {
       showLoginPopup: false,
       loggedIn: false,
       username: '',
+      specialization: '',
+      department: '',
       sidebarOpen: true,
     };
   },
@@ -65,10 +66,28 @@ export default {
         this.showLoginPopup = true;
       }
     },
-    handleLoginSuccess(username) {
+    async handleLoginSuccess(username, specialization, department) {
       this.loggedIn = true;
       this.username = username;
+      this.specialization = specialization;
+      this.department = department;
       this.showLoginPopup = false;
+
+      try {
+        const userId = localStorage.getItem('userId');
+        const response = await fetch(`http://localhost:1337/api/users/${userId}?populate=departments`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+          },
+        });
+        const userData = await response.json();
+
+        // Make sure specialization and department are properly stored
+        this.specialization = specialization || userData.specialization;
+        this.department = department || (userData.departments && userData.departments[0].department_name) || '';
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
     },
     handleLogout() {
       this.loggedIn = false;
@@ -229,3 +248,7 @@ header {
   margin: 20px;
 }
 </style>
+
+
+
+

@@ -1,17 +1,18 @@
 <template>
   <div class="add-schedule">
     <div class="schedule-card">
+
+      <!--scheduling adding forms by the doctors-->
       <form v-if="isLoggedIn" @submit.prevent="submitSchedule">
         <h2>Add Doctor Schedule</h2>
 
         <!-- Display Doctor Name with Username -->
         <div class="form-group">
-  <label for="username">Doctor Name</label>
-  <input type="text" id="username" :value="username" readonly placeholder="Doctor Name" />
-</div>
+          <label for="username">Doctor Name</label>
+          <input type="text" id="username" :value="username" readonly placeholder="Doctor Name" />
+        </div>
 
-
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label for="specialization">Specialization</label>
           <input type="text" id="specialization" v-model="specialization" placeholder="Enter specialization" required />
         </div>
@@ -22,6 +23,16 @@
             <option value="" disabled>Select a department</option>
             <option v-for="dept in departments" :key="dept" :value="dept">{{ dept }}</option>
           </select>
+        </div> -->
+
+        <div class="form-group">
+          <label for="specialization">Specialization</label>
+          <input type="text" id="specialization" :value="specialization" readonly placeholder="Specialization" />
+        </div>
+
+        <div class="form-group">
+          <label for="department">Department</label>
+          <input type="text" id="department" :value="department" readonly placeholder="Department" />
         </div>
 
         <div class="form-group">
@@ -64,11 +75,19 @@ export default {
       type: String,
       required: true,
     },
+    specialization: {
+    type: String,
+    required: true,
+    },
+    department: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
-      specialization: '',
-      department: '',
+      // specialization: '',
+      // department: '',
       selectedDays: [],
       startTime: '',
       endTime: '',
@@ -85,20 +104,25 @@ export default {
   methods: {
     submitSchedule() {
       console.log('Doctor Name:', this.username);
-      console.log('Specialization:', this.specialization);
-      console.log('Department:', this.department);
+      // console.log('Specialization:', this.specialization);
+      // console.log('Department:', this.department);
       console.log('Selected Days:', this.selectedDays);
       console.log('Start Time:', this.startTime);
       console.log('End Time:', this.endTime);
 
       this.successMessage = 'Schedule added successfully!';
       
-      this.specialization = '';
-      this.department = '';
+      // this.specialization = '';
+      // this.department = '';
       this.selectedDays = [];
       this.startTime = '';
       this.endTime = '';
     },
+    mounted() {
+      console.log('Specialization:', this.specialization);
+      console.log('Department:', this.department);
+    }
+
   },
 };
 </script>
