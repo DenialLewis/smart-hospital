@@ -6,36 +6,22 @@
       <form v-if="isLoggedIn" @submit.prevent="submitSchedule">
         <h2>Add Doctor Schedule</h2>
 
-        <!-- Display Doctor Name with Username -->
+        <!-- Display Doctor Name, Specialization, Department with Username -->
         <div class="form-group">
           <label for="username">Doctor Name</label>
           <input type="text" id="username" :value="username" readonly placeholder="Doctor Name" />
         </div>
-
-        <!-- <div class="form-group">
-          <label for="specialization">Specialization</label>
-          <input type="text" id="specialization" v-model="specialization" placeholder="Enter specialization" required />
-        </div>
-
-        <div class="form-group">
-          <label for="department">Department</label>
-          <select id="department" v-model="department" required>
-            <option value="" disabled>Select a department</option>
-            <option v-for="dept in departments" :key="dept" :value="dept">{{ dept }}</option>
-          </select>
-        </div> -->
-
         <div class="form-group">
           <label for="specialization">Specialization</label>
           <input type="text" id="specialization" :value="specialization" readonly placeholder="Specialization" />
         </div>
-
         <div class="form-group">
           <label for="department">Department</label>
           <input type="text" id="department" :value="department" readonly placeholder="Department" />
         </div>
 
-        <div class="form-group">
+        <!--Doctor filling the date and time-->
+        <!--<div class="form-group">
           <label>Available Days</label>
           <div class="day-checkboxes">
             <div v-for="day in days" :key="day" class="checkbox-item">
@@ -43,22 +29,64 @@
               <label :for="day">{{ day }}</label>
             </div>
           </div>
-        </div>
+        </div>-->
 
         <div class="form-group">
-          <label for="startTime">Start Time</label>
-          <input type="time" id="startTime" v-model="startTime" required />
+          <label>Select the Date</label>
+          <input type="date" v-model="selectedDate" required/>
         </div>
-        
         <div class="form-group">
-          <label for="endTime">End Time</label>
-          <input type="time" id="endTime" v-model="endTime" required />
+          <label>Day of the Month</label>
+          <input type="text" :value="dayOfWeek" readonly />
         </div>
+
+        <!--making sure end time is after the start time-->
+        <div>
+          <div class="form-group">
+            <label for="startTime">Start Time</label>
+            <input type="time" id="startTime" v-model="startTime" @change="validateTime" required />
+          </div>
+          
+          <div class="form-group">
+            <label for="endTime">End Time</label>
+            <input type="time" id="endTime" v-model="endTime" @change="validateTime" required />
+          </div>
+          <p v-if="timeError" class="error-message">{{ timeError }}</p>
+        </div>
+
+        
         
         <button type="submit" class="submit-button">Submit Schedule</button>
         <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
       </form>
       <form v-else class="login-warning">Please Log in First</form>
+    </div>
+    <div class="schedule-card">
+      <table class="schedule-table">
+    <thead>
+      <tr>
+        <th>Day</th>
+        <th>Date</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Monday</td>
+        <td>2024-11-06</td>
+        <td>09:00 AM</td>
+        <td>05:00 PM</td>
+      </tr>
+      <tr>
+        <td>Tuesday</td>
+        <td>2024-11-07</td>
+        <td>09:00 AM</td>
+        <td>05:00 PM</td>
+      </tr>
+      <!-- Add more rows as needed -->
+    </tbody>
+  </table>
     </div>
   </div>
 </template>
@@ -89,8 +117,10 @@ export default {
       // specialization: '',
       // department: '',
       selectedDays: [],
+      selectedDate: '',
       startTime: '',
       endTime: '',
+      timeError: '',
       successMessage: '',
       days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
       departments: [
@@ -100,6 +130,19 @@ export default {
         'Outpatient Clinic',
       ],
     };
+  },
+  computed: {
+    dayOfWeek() {
+      if (!this.selectedDate) return ''; // Return empty if no date selected
+      
+      const date = new Date(this.selectedDate); // Convert the selected date to a Date object
+      
+      // Define array to map day indices to day names
+      const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      
+      // Return the day name based on the selected date
+      return days[date.getDay()];
+    }
   },
   methods: {
     submitSchedule() {
@@ -117,6 +160,17 @@ export default {
       this.selectedDays = [];
       this.startTime = '';
       this.endTime = '';
+    },
+    validateTime() {
+      // Ensure both times are selected before validating
+      if (this.startTime && this.endTime) {
+        // Compare start and end times
+        if (this.startTime >= this.endTime) {
+          this.timeError = 'End time must be after the start time.';
+        } else {
+          this.timeError = ''; // Clear error if validation passes
+        }
+      }
     },
     mounted() {
       console.log('Specialization:', this.specialization);
@@ -149,6 +203,27 @@ h2 {
   text-align: center;
   color: #34495e;
   margin-bottom: 20px;
+}
+
+
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.schedule-table th, .schedule-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.schedule-table th {
+  background-color:  #6EC5C1;
+  color: white;
+}
+
+.schedule-table tbody tr:hover {
+  background-color: #f1f1f1;
 }
 
 .login-warning {

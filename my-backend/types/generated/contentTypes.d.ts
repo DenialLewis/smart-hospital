@@ -911,6 +911,7 @@ export interface ApiDoctorScheduleDoctorSchedule extends Schema.CollectionType {
     singularName: 'doctor-schedule';
     pluralName: 'doctor-schedules';
     displayName: 'DoctorSchedule';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -921,7 +922,10 @@ export interface ApiDoctorScheduleDoctorSchedule extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.user'
     >;
-    time: Attribute.DateTime;
+    date: Attribute.Date;
+    start_time: Attribute.Time;
+    end_time: Attribute.Time;
+    day: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

@@ -4,7 +4,8 @@
   "info": {
     "singularName": "doctor-schedule",
     "pluralName": "doctor-schedules",
-    "displayName": "DoctorSchedule"
+    "displayName": "DoctorSchedule",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -17,8 +18,17 @@
       "target": "plugin::users-permissions.user",
       "inversedBy": "doctor_schedules"
     },
-    "time": {
-      "type": "datetime"
+    "date": {
+      "type": "date"
+    },
+    "start_time": {
+      "type": "time"
+    },
+    "end_time": {
+      "type": "time"
+    },
+    "day": {
+      "type": "string"
     }
   }
 }
