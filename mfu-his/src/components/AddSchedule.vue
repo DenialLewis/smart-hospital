@@ -112,6 +112,10 @@ export default {
       type: String,
       required: true,
     },
+    // userId: {
+    //   type: Number,
+    //   required: true,
+    // },
   },
   data() {
     return {
@@ -123,13 +127,15 @@ export default {
       endTime: '',
       timeError: '',
       successMessage: '',
-      days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-      departments: [
-        'Department of Thai Traditional Medicine',
-        'Department of Chinese Medicine',
-        'Physical Therapy Department',
-        'Outpatient Clinic',
-      ],
+      // days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      // departments: [
+      //   'Department of Thai Traditional Medicine',
+      //   'Department of Chinese Medicine',
+      //   'Physical Therapy Department',
+      //   'Outpatient Clinic',
+      // ],
+      userId: localStorage.getItem('userId') || null,  // fetch from storage if not passed as prop
+
     };
   },
   computed: {
@@ -191,45 +197,58 @@ export default {
     //   // this.endTime = '';
     // },
     async submitSchedule() {
-    try {
-      // Format the date and time properly
-      const formattedDate = this.selectedDate; // Already in yyyy-MM-dd format
-      const formattedStartTime = `${this.startTime}:00.000`; // Add the seconds and milliseconds part
-      const formattedEndTime = `${this.endTime}:00.000`; // Same as above
+      // Ensure that all required fields are filled
+      if (!this.selectedDate || !this.startTime || !this.endTime) {
+        this.timeError = 'Please fill all fields.';
+        return;
+      }
 
-      // Construct the payload to send to Strapi
+      // Make sure start time is before end time
+      if (this.startTime >= this.endTime) {
+        this.timeError = 'End time must be after start time.';
+        return;
+      } else {
+        this.timeError = '';
+      }
+
+      // Ensure userId is valid and passed
+    if (!this.userId) {
+      console.error('User ID is missing.');
+      this.timeError = 'User ID is not available. Please log in again.';
+      return;
+    }
+
+      // Prepare the data for the request
       const scheduleData = {
         data: {
-          date: formattedDate,
-          day: this.dayOfWeek,  // This is computed based on the selected date
-          start_time: formattedStartTime,
-          end_time: formattedEndTime,
-          user: localStorage.getItem('userId') // Send the currently logged-in user's ID
-        }
+          date: this.selectedDate, 
+          day: this.dayOfWeek, 
+          start_time: `${this.startTime}:00.000`, 
+          end_time: `${this.endTime}:00.000`, 
+          doctor: this.userId, // Use the logged-in user's ID here
+        },
       };
 
-      // Send the data to Strapi
-      const response = await axios.post('http://localhost:1337/api/doctor-schedules', scheduleData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`
-        }
-      });
+      try {
+        // Send the request to Strapi to create the doctor schedule
+        const response = await axios.post('http://localhost:1337/api/doctor-schedules', scheduleData, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+          },
+        });
 
-      // Log the response (success or failure)
-      console.log('Schedule added successfully:', response.data);
-      
-      // Show a success message
-      this.successMessage = 'Schedule added successfully!';
-
-      // Reset form fields after submission
-      this.selectedDate = '';
-      this.startTime = '';
-      this.endTime = '';
-    } catch (error) {
-      console.error('Error adding schedule:', error);
-      this.successMessage = 'Failed to add schedule. Please try again.';
-    }
-  },
+        console.log('Schedule created:', response.data);
+        this.successMessage = 'Schedule added successfully!';
+        
+        // Reset form data after submission
+        this.selectedDate = '';
+        this.startTime = '';
+        this.endTime = '';
+      } catch (error) {
+        console.error('Error creating schedule:', error);
+        this.successMessage = 'There was an error creating the schedule. Please try again.';
+      }
+    },
     validateTime() {
       // Ensure both times are selected before validating
       if (this.startTime && this.endTime) {
