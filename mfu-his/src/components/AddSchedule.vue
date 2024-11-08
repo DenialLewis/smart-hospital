@@ -92,6 +92,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: 'AddSchedule',
   props: {
@@ -145,22 +146,90 @@ export default {
     }
   },
   methods: {
-    submitSchedule() {
-      console.log('Doctor Name:', this.username);
-      // console.log('Specialization:', this.specialization);
-      // console.log('Department:', this.department);
-      console.log('Selected Days:', this.selectedDays);
-      console.log('Start Time:', this.startTime);
-      console.log('End Time:', this.endTime);
+    // async submitSchedule() {
+    //   try {
+    //     // Prepare schedule data
+    //     const scheduleData = {
+    //       day: this.dayOfWeek,
+    //       date: this.selectedDate,
+    //       start_time: this.startTime,
+    //       end_time: this.endTime,
+    //       doctor: this.username,
+    //     };
 
-      this.successMessage = 'Schedule added successfully!';
+    //     // Make API request to save the schedule in Strapi
+    //     await axios.post(
+    //       'http://localhost:1337/api/doctor-schedules', 
+    //       { data: scheduleData },
+    //       {
+    //         headers: {
+    //           Authorization: `Bearer ${localStorage.getItem('jwtToken')}`
+    //         }
+    //       }
+    //     );
+
+    //     // Display success message and reset form
+    //     this.successMessage = 'Schedule added successfully!';
+    //     this.resetForm();
+    //   } catch(error){
+    //     console.error('Failed to submit schedule:', error);
+    //     this.timeError = 'An error occurred. Please try again.';
+    //   }
+    //   // console.log('Doctor Name:', this.username);
+    //   // // console.log('Specialization:', this.specialization);
+    //   // // console.log('Department:', this.department);
+    //   // console.log('Selected Days:', this.selectedDays);
+    //   // console.log('Start Time:', this.startTime);
+    //   // console.log('End Time:', this.endTime);
+
+    //   // this.successMessage = 'Schedule added successfully!';
       
-      // this.specialization = '';
-      // this.department = '';
-      this.selectedDays = [];
+    //   // // this.specialization = '';
+    //   // // this.department = '';
+    //   // this.selectedDays = [];
+    //   // this.startTime = '';
+    //   // this.endTime = '';
+    // },
+    async submitSchedule() {
+    try {
+      // Format the date and time properly
+      const formattedDate = this.selectedDate; // Already in yyyy-MM-dd format
+      const formattedStartTime = `${this.startTime}:00.000`; // Add the seconds and milliseconds part
+      const formattedEndTime = `${this.endTime}:00.000`; // Same as above
+
+      // Construct the payload to send to Strapi
+      const scheduleData = {
+        data: {
+          date: formattedDate,
+          day: this.dayOfWeek,  // This is computed based on the selected date
+          start_time: formattedStartTime,
+          end_time: formattedEndTime,
+          user: localStorage.getItem('userId') // Send the currently logged-in user's ID
+        }
+      };
+
+      // Send the data to Strapi
+      const response = await axios.post('http://localhost:1337/api/doctor-schedules', scheduleData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('jwtToken')}`
+        }
+      });
+
+      // Log the response (success or failure)
+      console.log('Schedule added successfully:', response.data);
+      
+      // Show a success message
+      this.successMessage = 'Schedule added successfully!';
+
+      // Reset form fields after submission
+      this.selectedDate = '';
       this.startTime = '';
       this.endTime = '';
-    },
+    } catch (error) {
+      console.error('Error adding schedule:', error);
+      this.successMessage = 'Failed to add schedule. Please try again.';
+    }
+  },
     validateTime() {
       // Ensure both times are selected before validating
       if (this.startTime && this.endTime) {
@@ -172,9 +241,16 @@ export default {
         }
       }
     },
-    mounted() {
-      console.log('Specialization:', this.specialization);
-      console.log('Department:', this.department);
+    // mounted() {
+    //   console.log('Specialization:', this.specialization);
+    //   console.log('Department:', this.department);
+    // }
+    resetForm() {
+      this.selectedDate = '';
+      this.startTime = '';
+      this.endTime = '';
+      this.timeError = '';
+      this.selectedDays = [];
     }
 
   },
@@ -299,3 +375,4 @@ input[readonly] {
   font-weight: bold;
 }
 </style>
+
