@@ -61,32 +61,51 @@
       </form>
       <form v-else class="login-warning">Please Log in First</form>
     </div>
+    <!-- <div class="schedule-card">
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>Date</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Monday</td>
+            <td>2024-11-06</td>
+            <td>09:00 AM</td>
+            <td>05:00 PM</td>
+          </tr>
+          <tr>
+            <td>Tuesday</td>
+            <td>2024-11-07</td>
+            <td>09:00 AM</td>
+            <td>05:00 PM</td>
+          </tr>
+        </tbody>
+      </table>
+    </div> -->
     <div class="schedule-card">
       <table class="schedule-table">
-    <thead>
-      <tr>
-        <th>Day</th>
-        <th>Date</th>
-        <th>Start Time</th>
-        <th>End Time</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Monday</td>
-        <td>2024-11-06</td>
-        <td>09:00 AM</td>
-        <td>05:00 PM</td>
-      </tr>
-      <tr>
-        <td>Tuesday</td>
-        <td>2024-11-07</td>
-        <td>09:00 AM</td>
-        <td>05:00 PM</td>
-      </tr>
-      <!-- Add more rows as needed -->
-    </tbody>
-  </table>
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>Date</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="schedule in schedules" :key="schedule.id">
+            <td>{{ schedule.day }}</td>
+            <td>{{ schedule.date }}</td>
+            <td>{{ formatTime(schedule.start_time) }}</td>
+            <td>{{ formatTime(schedule.end_time) }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
@@ -135,6 +154,7 @@ export default {
       //   'Outpatient Clinic',
       // ],
       userId: localStorage.getItem('userId') || null,  // fetch from storage if not passed as prop
+      schedules: [], //to store the user's schedule and display in the tables 
 
     };
   },
@@ -270,9 +290,43 @@ export default {
       this.endTime = '';
       this.timeError = '';
       this.selectedDays = [];
-    }
+    },
+
+    async fetchUserSchedules() {
+      try {
+        const response = await axios.get(`http://localhost:1337/api/doctor-schedules`, {
+          params: {
+            filters: {
+              doctor: this.userId, // Filter schedules by logged-in user's ID
+            },
+          },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+          },
+        });
+
+        // Update the schedules array with fetched data
+        this.schedules = response.data.data.map(item => ({
+          id: item.id,
+          day: item.attributes.day,
+          date: item.attributes.date,
+          start_time: item.attributes.start_time,
+          end_time: item.attributes.end_time,
+        }));
+      } catch (error) {
+        console.error('Failed to fetch schedules:', error);
+      }
+    },
+    
+    // Format the time to display as HH:mm format (e.g., 09:00 AM)
+    formatTime(time) {
+      return new Date(`1970-01-01T${time}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    },
 
   },
+  mounted() {
+    this.fetchUserSchedules();
+  }
 };
 </script>
 
