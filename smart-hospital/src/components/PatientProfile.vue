@@ -9,57 +9,56 @@ export default {
 </script> -->
 
 <template>
-    <div v-if="users && users.length">
-      <h1>All Patient Profiles</h1>
-      <div v-for="user in users" :key="user.id" class="user-profile">
-        <h2>{{ user.username }}</h2>
-        <p><strong>Email:</strong> {{ user.email }}</p>
-        <!-- Add more fields as necessary -->
-      </div>
+  <div>
+    <h1>This is the user details of the logged-in user</h1>
+    <div v-if="user">
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Username:</strong> {{ user.username }}</p>
     </div>
     <div v-else>
-      <p>Loading profiles...</p>
+      <p>No user logged in.</p>
     </div>
-  </template>
-  
-  <script>
-  import axios from 'axios';
-  
-  export default {
-    name: 'PatientProfiles',
-    data() {
-      return {
-        users: null,
-      };
-    },
-    async created() {
-   const token = localStorage.getItem('jwtToken');
-   const userId = localStorage.getItem('userId');
-   
-   console.log('Token:', token);
-  console.log('User ID:', userId);
-   if (token && userId) {
-      try {
-         // Fetch the logged-in user's profile
-         const response = await axios.get(`http://localhost:1337/api/users/${userId}`, {
-            headers: {
-               Authorization: `Bearer ${token}`
-            }
-         });
-         this.users = [response.data]; // Assuming users array holds individual user data for simplicity
-      } catch (error) {
-         console.error('Error fetching user profile:', error);
-      }
-   } else {
-      console.error('No JWT token found in localStorage');
-   }
-}
+  </div>
+</template>
 
-  };
-  </script>
-  
-  <style scoped>
-  .user-profile {
-    margin-bottom: 20px;
+<script>
+export default {
+  name: 'PatientProfiles',
+  data() {
+    return {
+      user: null,  // This will hold the user details
+    };
+  },
+  mounted() {
+    // Retrieve user data from localStorage
+    const userId = localStorage.getItem('userId');
+    const jwtToken = localStorage.getItem('jwtToken');
+    console.log('User ID from localStorage:', userId);  // Check if it's correct
+  console.log('JWT Token from localStorage:', jwtToken);  // Check if it's correct
+
+  if (userId && jwtToken) {
+    this.fetchUserDetails(userId, jwtToken);
+  } else {
+    console.log('No user is logged in');
   }
-  </style>
+  },
+  methods: {
+    async fetchUserDetails(userId, token) {
+      try {
+        const response = await axios.get(`http://localhost:1337/api/users/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        console.log('User details:', response.data); 
+        this.user = response.data;
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+      }
+    },
+  }
+};
+</script>
+
+  
+  

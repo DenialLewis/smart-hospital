@@ -40,9 +40,8 @@
     </div>
   </div>
 </template>
-
 <script>
-import axios from 'axios'; 
+import axios from 'axios';
 
 export default {
   name: 'LogIn',
@@ -87,6 +86,15 @@ export default {
       }
     };
   },
+  mounted() {
+    // Check if user is already logged in
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
+      this.$emit('login-success'); // Emit the success event to indicate the user is logged in
+      alert('You are already logged in!');
+      this.$emit('close');
+    }
+  },
   methods: {
     goBack() {
       this.$emit('close');
@@ -103,9 +111,10 @@ export default {
           identifier: this.email,
           password: this.password
         });
-        console.log(response.data);
         localStorage.setItem('jwtToken', response.data.jwt);
         localStorage.setItem('userId', response.data.user.id);
+        console.log('JWT Token:', localStorage.getItem('jwtToken'));
+console.log('User ID:', localStorage.getItem('userId'));
         this.$emit('login-success');
         alert('Login successful!');
         this.$emit('close');
@@ -120,6 +129,7 @@ export default {
   }
 };
 </script>
+
 
 <style scoped>
   .login-container {
