@@ -55,7 +55,39 @@ export default {
       sidebarOpen: true,
     };
   },
+  //here starts 
+  created() {
+    // Check localStorage for JWT token and user information
+    const jwtToken = localStorage.getItem('jwtToken');
+    const userId = localStorage.getItem('userId');
+
+    if (jwtToken && userId) {
+      this.loggedIn = true;
+      this.fetchUserData(userId);
+    }
+  },
+  //here ends 
   methods: {
+
+    //this is the portion where to achieve the logged out on refresh is prevented 
+    async fetchUserData(userId) {
+      try {
+        const response = await fetch(`http://localhost:1337/api/users/${userId}?populate=departments`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+          },
+        });
+        const userData = await response.json();
+        
+        // Set user information from fetched data
+        this.username = userData.username;
+        this.specialization = userData.specialization;
+        this.department = userData.departments?.[0]?.department_name || '';
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    },
+    //here ends 
     toggleSidebar() {
       this.sidebarOpen = !this.sidebarOpen;
     },
@@ -73,25 +105,35 @@ export default {
       this.department = department;
       this.showLoginPopup = false;
 
-      try {
-        const userId = localStorage.getItem('userId');
-        const response = await fetch(`http://localhost:1337/api/users/${userId}?populate=departments`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-          },
-        });
-        const userData = await response.json();
+      //do not delete this comment section please
 
-        // Make sure specialization and department are properly stored
-        this.specialization = specialization || userData.specialization;
-        this.department = department || (userData.departments && userData.departments[0].department_name) || '';
-      } catch (error) {
-        console.error('Error fetching user data:', error);
+      // try {
+      //   const userId = localStorage.getItem('userId');
+      //   const response = await fetch(`http://localhost:1337/api/users/${userId}?populate=departments`, {
+      //     headers: {
+      //       Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+      //     },
+      //   });
+      //   const userData = await response.json();
+
+      //   // Make sure specialization and department are properly stored
+      //   this.specialization = specialization || userData.specialization;
+      //   this.department = department || (userData.departments && userData.departments[0].department_name) || '';
+      // } catch (error) {
+      //   console.error('Error fetching user data:', error);
+      // }
+
+      //this is the new code for no loggint out after website refresh 
+      const userId = localStorage.getItem('userId');
+      if (userId) {
+        await this.fetchUserData(userId);
       }
     },
     handleLogout() {
       this.loggedIn = false;
       this.username = '';
+      this.specialization = '';
+      this.department = '';
       localStorage.removeItem('jwtToken');
       localStorage.removeItem('userId');
       this.$router.push('/');
