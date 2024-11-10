@@ -5,7 +5,7 @@ import HomePage from '@/components/HomePage.vue';
 import ChineseMedicine from '@/components/ChineseMedicine.vue';
 import PhysicalTherapy from '@/components/PhysicalTherapy.vue';
 import Opd from '@/components/Opd.vue';
-import Appointment from '@/components/Appointment.vue';
+import Appointment from '@/components/appointment.vue';
 import DoctorDetails from '../components/DoctorDetails.vue';
 import PatientProfile from '@/components/PatientProfile.vue';
 import Service1 from '@/components/Service1.vue';

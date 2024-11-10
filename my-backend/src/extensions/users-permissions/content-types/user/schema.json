@@ -88,6 +88,12 @@
       "relation": "oneToMany",
       "target": "api::doctor-schedule.doctor-schedule",
       "mappedBy": "doctor"
+    },
+    "other_appointments": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::other-appointment.other-appointment",
+      "mappedBy": "username"
     }
   }
 }

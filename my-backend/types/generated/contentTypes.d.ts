@@ -787,6 +787,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'oneToMany',
       'api::doctor-schedule.doctor-schedule'
     >;
+    other_appointments: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToMany',
+      'api::other-appointment.other-appointment'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -944,6 +949,53 @@ export interface ApiDoctorScheduleDoctorSchedule extends Schema.CollectionType {
   };
 }
 
+export interface ApiOtherAppointmentOtherAppointment
+  extends Schema.CollectionType {
+  collectionName: 'other_appointments';
+  info: {
+    singularName: 'other-appointment';
+    pluralName: 'other-appointments';
+    displayName: 'OtherAppointment';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    username: Attribute.Relation<
+      'api::other-appointment.other-appointment',
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+    appointment_types: Attribute.String;
+    date: Attribute.Date;
+    day: Attribute.String;
+    time: Attribute.Time;
+    title: Attribute.String;
+    first_name: Attribute.String;
+    last_name: Attribute.String;
+    gender: Attribute.String;
+    date_of_birth: Attribute.Date;
+    phone_num: Attribute.Integer;
+    nationality: Attribute.String;
+    ncid_passport: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::other-appointment.other-appointment',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::other-appointment.other-appointment',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -966,6 +1018,7 @@ declare module '@strapi/types' {
       'api::appointment.appointment': ApiAppointmentAppointment;
       'api::department.department': ApiDepartmentDepartment;
       'api::doctor-schedule.doctor-schedule': ApiDoctorScheduleDoctorSchedule;
+      'api::other-appointment.other-appointment': ApiOtherAppointmentOtherAppointment;
     }
   }
 }
