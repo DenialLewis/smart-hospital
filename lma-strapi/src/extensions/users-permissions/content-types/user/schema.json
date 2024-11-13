@@ -91,6 +91,23 @@
       "relation": "manyToMany",
       "target": "api::department.department",
       "mappedBy": "doctors"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "profile_picture": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "birthday": {
+      "type": "string"
     }
   }
 }

@@ -24,20 +24,26 @@
           <input type="email" id="email" v-model="email" required>
         </div>
 
+        <div class="input-group">
+          <label for="phone">{{ translations[currentLang]?.phone }}</label>
+          <input type="tel" id="phone" v-model="phone" required>
+        </div>
+
+        <div class="input-group">
+          <label for="address">{{ translations[currentLang]?.address }}</label>
+          <input type="text" id="address" v-model="address" required>
+        </div>
+
+        <div class="input-group">
+          <label for="birthday">{{ translations[currentLang]?.birthday }}</label>
+          <input type="date" id="birthday" v-model="birthday" required>
+        </div>
+
         <div class="input-group password-group">
           <label for="password">{{ translations[currentLang]?.password }}</label>
           <input :type="passwordVisible ? 'text' : 'password'" id="password" v-model="password" required>
           <button type="button" class="toggle-password" @click="togglePasswordVisibility('password')">
-            <!-- Visible password icon -->
-            <svg v-if="passwordVisible" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon">
-              <path d="M1 12c0 0 5-9 11-9s11 9 11 9-5 9-11 9-11-9-11-9z"></path>
-              <path d="M12 15l2.5-2.5L12 10m0 0l-2.5 2.5L12 10zm0 5c-2.5 0-5-3-5-3m10 0c0 0-2.5 3-5 3"></path>
-            </svg>
-            <!-- Hidden password icon -->
-            <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon">
-              <path d="M1 12c0 0 5-9 11-9s11 9 11 9-5 9-11 9-11-9-11-9z"></path>
-              <path d="M1 1l22 22m-5-11c0 2.5-2.5 5-5 5-2.5 0-5-2.5-5-5"></path>
-            </svg>
+            <!-- Eye icon for visible password -->
           </button>
         </div>
 
@@ -45,14 +51,7 @@
           <label for="confirm-password">{{ translations[currentLang]?.confirmPassword }}</label>
           <input :type="confirmPasswordVisible ? 'text' : 'password'" id="confirm-password" v-model="confirmPassword" required>
           <button type="button" class="toggle-password" @click="togglePasswordVisibility('confirmPassword')">
-            <svg v-if="confirmPasswordVisible" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon">
-              <path d="M1 12c0 0 5-9 11-9s11 9 11 9-5 9-11 9-11-9-11-9z"></path>
-              <path d="M12 15l2.5-2.5L12 10m0 0l-2.5 2.5L12 10zm0 5c-2.5 0-5-3-5-3m10 0c0 0-2.5 3-5 3"></path>
-            </svg>
-            <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon">
-              <path d="M1 12c0 0 5-9 11-9s11 9 11 9-5 9-11 9-11-9-11-9z"></path>
-              <path d="M1 1l22 22m-5-11c0 2.5-2.5 5-5 5-2.5 0-5-2.5-5-5"></path>
-            </svg>
+            <!-- Eye icon for visible confirm password -->
           </button>
         </div>
 
@@ -69,13 +68,16 @@ export default {
   props: {
     currentLang: {
       type: String,
-      default: 'EN' // Default language if none is provided
+      default: 'EN'
     }
   },
   data() {
     return {
       name: '',
       email: '',
+      phone: '',
+      address: '',
+      birthday: '',  // New birthday field
       password: '',
       confirmPassword: '',
       passwordVisible: false,
@@ -85,6 +87,9 @@ export default {
           createAccountTitle: "Create Account",
           name: "Name",
           email: "Email",
+          phone: "Phone",
+          address: "Address",
+          birthday: "Birthday",  // English translation for birthday
           password: "Password",
           confirmPassword: "Confirm Password",
           createAccount: "Create Account",
@@ -94,15 +99,21 @@ export default {
           createAccountTitle: "สร้างบัญชี",
           name: "ชื่อ",
           email: "อีเมล",
+          phone: "โทรศัพท์",
+          address: "ที่อยู่",
+          birthday: "วันเกิด",  // Thai translation for birthday
           password: "รหัสผ่าน",
           confirmPassword: "ยืนยันรหัสผ่าน",
           createAccount: "สร้างบัญชี",
-          passwordMismatch: "รหัสผ่าน"
+          passwordMismatch: "รหัสผ่านไม่ตรงกัน"
         },
         မြန်မာ: {
           createAccountTitle: "အကောင့်ဖွင့်ပါ",
           name: "နာမည်",
           email: "အီးမေးလ်",
+          phone: "ဖုန်း",
+          address: "လိပ်စာ",
+          birthday: "မွေးနေ့",  // Burmese translation for birthday
           password: "စကားဝှက်",
           confirmPassword: "စကားဝှက်အတည်ပြုပါ",
           createAccount: "အကောင့်ဖွင့်ပါ",
@@ -124,13 +135,20 @@ export default {
         const response = await axios.post('http://localhost:1337/api/auth/local/register', {
           username: this.name,
           email: this.email,
+          phone: this.phone,
+          address: this.address,
+          birthday: this.birthday,  // Include birthday in the API request
           password: this.password,
         });
         alert('Account created successfully!');
         this.$emit('account-created');
         this.$emit('close');
+        // Reset fields
         this.name = '';
         this.email = '';
+        this.phone = '';
+        this.address = '';
+        this.birthday = '';
         this.password = '';
         this.confirmPassword = '';
       } catch (error) {
@@ -188,11 +206,11 @@ export default {
     background-color: #B5DEE0;
     color: #000000;
   }
-.create-account-container {
+  .create-account-container {
   display: flex;
   width: 80%;
   max-width: 900px;
-  height: 600px;
+  height: 100vh; /* Adjusted to viewport height */
   position: fixed;
   top: 50%;
   left: 50%;
@@ -202,6 +220,7 @@ export default {
   overflow: hidden;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
+
 
 .image-section {
   flex: 1;
@@ -219,6 +238,8 @@ export default {
 .form-section {
   flex: 1;
   padding: 20px;
+  max-height: 100%; /* Constrains form-section height */
+  overflow-y: auto; /* Enables scrolling */
 }
 
 .form-section h1 {
