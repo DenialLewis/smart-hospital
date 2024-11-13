@@ -1,64 +1,73 @@
-<!-- <template>
-    <div> this is patient profile </div>
-</template>
-
-<script>
-export default {
-    name: 'PatientProfile'
-}
-</script> -->
-
 <template>
-  <div>
-    <h1>This is the user details of the logged-in user</h1>
+  <div class="patient-profile">
+    <h2>Patient Profile</h2>
     <div v-if="user">
+      <p><strong>Name:</strong> {{ user.username }}</p>
       <p><strong>Email:</strong> {{ user.email }}</p>
-      <p><strong>Username:</strong> {{ user.username }}</p>
+      <p><strong>Phone:</strong> {{ user.phone || 'Not provided' }}</p>
+      <p><strong>Address:</strong> {{ user.address || 'Not provided' }}</p>
+      <p><strong>Date of Birth:</strong> {{ user.dob || 'Not provided' }}</p>
+      <!-- Add other relevant details here -->
     </div>
     <div v-else>
-      <p>No user logged in.</p>
+      <p>Loading user information...</p>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
-  name: 'PatientProfiles',
+  name: "PatientProfile",
   data() {
     return {
-      user: null,  // This will hold the user details
+      user: null,
     };
   },
-  mounted() {
-    // Retrieve user data from localStorage
-    const userId = localStorage.getItem('userId');
-    const jwtToken = localStorage.getItem('jwtToken');
-    console.log('User ID from localStorage:', userId);  // Check if it's correct
-  console.log('JWT Token from localStorage:', jwtToken);  // Check if it's correct
-
-  if (userId && jwtToken) {
-    this.fetchUserDetails(userId, jwtToken);
-  } else {
-    console.log('No user is logged in');
-  }
+  created() {
+    this.loadUserDetails();
   },
   methods: {
-    async fetchUserDetails(userId, token) {
+    async loadUserDetails() {
       try {
-        const response = await axios.get(`http://localhost:1337/api/users/${userId}`, {
+        const token = localStorage.getItem("jwtToken"); // Retrieve JWT token stored after login
+        if (!token) {
+          console.error("User not authenticated.");
+          return;
+        }
+
+        const response = await axios.get("http://localhost:1337/api/users/me", {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
-        console.log('User details:', response.data); 
-        this.user = response.data;
+        this.user = response.data; // Set user data from Strapi's response
       } catch (error) {
-        console.error('Error fetching user details:', error);
+        console.error("Failed to fetch user details:", error);
       }
     },
-  }
+  },
 };
 </script>
 
-  
-  
+<style scoped>
+.patient-profile {
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  width: 50%;
+  margin: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.6;
+}
+</style>

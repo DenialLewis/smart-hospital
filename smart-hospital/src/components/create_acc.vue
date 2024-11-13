@@ -12,26 +12,28 @@
 
     <!-- Form Section -->
     <div class="form-section">
-      <h1>{{ translations[currentLang].createAccountTitle }}</h1>
+      <h1 v-if="translations[currentLang]">{{ translations[currentLang].createAccountTitle }}</h1>
       <form @submit.prevent="submitForm">
         <div class="input-group">
-          <label for="name">{{ translations[currentLang].name }}</label>
+          <label for="name">{{ translations[currentLang]?.name }}</label>
           <input type="text" id="name" v-model="name" required>
         </div>
 
         <div class="input-group">
-          <label for="email">{{ translations[currentLang].email }}</label>
+          <label for="email">{{ translations[currentLang]?.email }}</label>
           <input type="email" id="email" v-model="email" required>
         </div>
 
         <div class="input-group password-group">
-          <label for="password">{{ translations[currentLang].password }}</label>
+          <label for="password">{{ translations[currentLang]?.password }}</label>
           <input :type="passwordVisible ? 'text' : 'password'" id="password" v-model="password" required>
           <button type="button" class="toggle-password" @click="togglePasswordVisibility('password')">
+            <!-- Visible password icon -->
             <svg v-if="passwordVisible" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon">
               <path d="M1 12c0 0 5-9 11-9s11 9 11 9-5 9-11 9-11-9-11-9z"></path>
               <path d="M12 15l2.5-2.5L12 10m0 0l-2.5 2.5L12 10zm0 5c-2.5 0-5-3-5-3m10 0c0 0-2.5 3-5 3"></path>
             </svg>
+            <!-- Hidden password icon -->
             <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon">
               <path d="M1 12c0 0 5-9 11-9s11 9 11 9-5 9-11 9-11-9-11-9z"></path>
               <path d="M1 1l22 22m-5-11c0 2.5-2.5 5-5 5-2.5 0-5-2.5-5-5"></path>
@@ -40,7 +42,7 @@
         </div>
 
         <div class="input-group password-group">
-          <label for="confirm-password">{{ translations[currentLang].confirmPassword }}</label>
+          <label for="confirm-password">{{ translations[currentLang]?.confirmPassword }}</label>
           <input :type="confirmPasswordVisible ? 'text' : 'password'" id="confirm-password" v-model="confirmPassword" required>
           <button type="button" class="toggle-password" @click="togglePasswordVisibility('confirmPassword')">
             <svg v-if="confirmPasswordVisible" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon">
@@ -54,17 +56,22 @@
           </button>
         </div>
 
-        <button type="submit" class="primary-btn">{{ translations[currentLang].createAccount }}</button>
+        <button type="submit" class="primary-btn">{{ translations[currentLang]?.createAccount }}</button>
       </form>
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'; 
+import axios from 'axios';
 
 export default {
-  props: ['currentLang'],
+  props: {
+    currentLang: {
+      type: String,
+      default: 'EN' // Default language if none is provided
+    }
+  },
   data() {
     return {
       name: '',
@@ -116,16 +123,16 @@ export default {
       try {
         const response = await axios.post('http://localhost:1337/api/auth/local/register', {
           username: this.name,
-          email: this.email, 
-          password: this.password, 
+          email: this.email,
+          password: this.password,
         });
         alert('Account created successfully!');
         this.$emit('account-created');
-        this.$emit('close'); 
-        this.name = ''; 
+        this.$emit('close');
+        this.name = '';
         this.email = '';
-        this.password = ''; 
-        this.confirmPassword = ''; 
+        this.password = '';
+        this.confirmPassword = '';
       } catch (error) {
         console.error('Error creating account:', error.response.data);
         alert('Failed to create account. Please try again.');
