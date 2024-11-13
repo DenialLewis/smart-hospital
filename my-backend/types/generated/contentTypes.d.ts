@@ -956,6 +956,7 @@ export interface ApiOtherAppointmentOtherAppointment
     singularName: 'other-appointment';
     pluralName: 'other-appointments';
     displayName: 'OtherAppointment';
+    description: '';
   };
   options: {
     draftAndPublish: true;
