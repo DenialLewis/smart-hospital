@@ -1,0 +1,57 @@
+{
+  "kind": "collectionType",
+  "collectionName": "other_appointments",
+  "info": {
+    "singularName": "other-appointment",
+    "pluralName": "other-appointments",
+    "displayName": "Appointment"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "username": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "other_appointments"
+    },
+    "appointment_types": {
+      "type": "string"
+    },
+    "date": {
+      "type": "date"
+    },
+    "day": {
+      "type": "string"
+    },
+    "time": {
+      "type": "time"
+    },
+    "title": {
+      "type": "string"
+    },
+    "first_name": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "gender": {
+      "type": "string"
+    },
+    "date_of_birth": {
+      "type": "date"
+    },
+    "phone_num": {
+      "type": "integer"
+    },
+    "nationality": {
+      "type": "string"
+    },
+    "ncid_passport": {
+      "type": "string"
+    }
+  }
+}

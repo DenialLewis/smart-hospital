@@ -68,24 +68,6 @@
     "billing_confimed": {
       "type": "boolean"
     },
-    "time": {
-      "type": "datetime"
-    },
-    "specialization": {
-      "type": "enumeration",
-      "enum": [
-        "Acupuncture",
-        "Herbal Medicine ",
-        "Traditional Midwifery",
-        "Dental",
-        "Dermatology ",
-        "Hematology",
-        "Neurology",
-        "Psychiatry",
-        "General Medicine",
-        "Trauma "
-      ]
-    },
     "departments": {
       "type": "relation",
       "relation": "manyToMany",
@@ -108,6 +90,21 @@
     },
     "birthday": {
       "type": "string"
+    },
+    "specialization": {
+      "type": "string"
+    },
+    "doctor_schedules": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::doctor-schedule.doctor-schedule",
+      "mappedBy": "doctor"
+    },
+    "other_appointments": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::other-appointment.other-appointment",
+      "mappedBy": "username"
     }
   }
 }
