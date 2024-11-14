@@ -67,9 +67,9 @@
             <td>{{ formatTime(schedule.start_time) }}</td>
             <td>{{ formatTime(schedule.end_time) }}</td>
             <td>
-              
-                <img @click="deleteSchedule(schedule.id)" class="delete-button" src="../assets/delete.png">
-              
+              <button @click="deleteSchedule(schedule.id)" class="delete-button">
+                🗑️
+              </button>
             </td>
           </tr>
         </tbody>
@@ -243,42 +243,119 @@ export default {
 <style scoped>
 .add-schedule {
   display: flex;
+  flex-direction: column;
+  gap: 20px;
   justify-content: center;
   align-items: center;
+  padding: 20px;
   min-height: 100vh;
   background-color: #f5f8fa;
 }
 
 .schedule-card {
   background: white;
-  padding: 20px 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 25px 35px;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
 }
 
 h2 {
   text-align: center;
   color: #34495e;
+  margin-bottom: 25px;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.form-group {
   margin-bottom: 20px;
 }
 
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #34495e;
+}
+
+input[type="text"],
+input[type="time"],
+select,
+input[type="date"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="time"]:focus,
+select:focus,
+input[type="date"]:focus {
+  border-color: #6EC5C1;
+  outline: none;
+  box-shadow: 0 0 5px rgba(110, 197, 193, 0.5);
+}
+
+input[readonly] {
+  background-color: #f7f7f7;
+  color: #888;
+  cursor: not-allowed;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #6EC5C1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s;
+}
+
+.submit-button:hover {
+  background-color: #55a8e0;
+  transform: translateY(-2px);
+}
+
+.success-message {
+  margin-top: 15px;
+  color: #28a745;
+  text-align: center;
+  font-weight: bold;
+}
 
 .schedule-table {
   width: 100%;
-  border-collapse: collapse;
+  margin-top: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.schedule-table th, .schedule-table td {
-  padding: 0.75rem;
+.schedule-table th,
+.schedule-table td {
+  padding: 12px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  font-size: 0.9rem;
 }
 
 .schedule-table th {
-  background-color:  #6EC5C1;
+  background-color: #6EC5C1;
   color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.schedule-table tbody tr {
+  transition: background-color 0.3s;
 }
 
 .schedule-table tbody tr:hover {
@@ -289,82 +366,41 @@ h2 {
   text-align: center;
   color: #e74c3c;
   font-weight: bold;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-  color: #34495e;
-}
-
-input[type="text"],
-input[type="time"],
-select {
-  width: 100%;
+  font-size: 1.1rem;
   padding: 10px;
-  border: 1px solid #dcdcdc;
-  border-radius: 8px;
-  transition: border-color 0.3s;
-}
-
-input[type="text"]:focus,
-input[type="time"]:focus,
-select:focus {
-  border-color: #6EC5C1;
-  outline: none;
 }
 
 input[readonly] {
   background-color: #f0f0f0;
   cursor: not-allowed;
 }
-
-.day-checkboxes {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.checkbox-item {
-  width: 48%;
-}
-
-.submit-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #6EC5C1;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.submit-button:hover {
-  background-color: #55a8e0;
-}
-
-.success-message {
-  margin-top: 15px;
-  color: #28a745;
-  text-align: center;
-  font-weight: bold;
-}
 .delete-button {
-  width: 40px;
+  background-color: #f5f5f5; /* Light background for contrast */
+  border: 1px solid #e0e0e0;
+  color: #e74c3c; /* Icon color */
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem; /* Size of the icon */
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, color 0.3s, transform 0.2s;
 }
 
 .delete-button:hover {
-  background-color: #ff1a1a;
+  background-color: #e74c3c; /* Highlighted background on hover */
+  color: white; /* White icon on hover for contrast */
+  border-color: #c0392b; /* Darker border on hover */
+  transform: scale(1.1); /* Subtle enlargement */
+}
+
+.error-message {
+  color: #e74c3c;
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-top: 5px;
 }
 
 </style>
