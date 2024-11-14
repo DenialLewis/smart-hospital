@@ -77,12 +77,6 @@
       "target": "api::department.department",
       "mappedBy": "doctors"
     },
-    "appointments": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::appointment.appointment",
-      "mappedBy": "doctor"
-    },
     "doctor_schedules": {
       "type": "relation",
       "relation": "oneToMany",

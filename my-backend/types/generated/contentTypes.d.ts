@@ -777,11 +777,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToMany',
       'api::department.department'
     >;
-    appointments: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'oneToMany',
-      'api::appointment.appointment'
-    >;
     doctor_schedules: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToMany',
@@ -828,48 +823,6 @@ export interface ApiAdAd extends Schema.CollectionType {
     createdBy: Attribute.Relation<'api::ad.ad', 'oneToOne', 'admin::user'> &
       Attribute.Private;
     updatedBy: Attribute.Relation<'api::ad.ad', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-  };
-}
-
-export interface ApiAppointmentAppointment extends Schema.CollectionType {
-  collectionName: 'appointments';
-  info: {
-    singularName: 'appointment';
-    pluralName: 'appointments';
-    displayName: 'Appointment';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    patient: Attribute.Relation<
-      'api::appointment.appointment',
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
-    doctor: Attribute.Relation<
-      'api::appointment.appointment',
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
-    status: Attribute.Enumeration<['Scheduled ', 'Completed ', 'Canceled ']>;
-    symptom: Attribute.Text;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::appointment.appointment',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::appointment.appointment',
-      'oneToOne',
-      'admin::user'
-    > &
       Attribute.Private;
   };
 }
@@ -955,7 +908,7 @@ export interface ApiOtherAppointmentOtherAppointment
   info: {
     singularName: 'other-appointment';
     pluralName: 'other-appointments';
-    displayName: 'OtherAppointment';
+    displayName: 'Appointment';
     description: '';
   };
   options: {
@@ -1016,7 +969,6 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::ad.ad': ApiAdAd;
-      'api::appointment.appointment': ApiAppointmentAppointment;
       'api::department.department': ApiDepartmentDepartment;
       'api::doctor-schedule.doctor-schedule': ApiDoctorScheduleDoctorSchedule;
       'api::other-appointment.other-appointment': ApiOtherAppointmentOtherAppointment;
