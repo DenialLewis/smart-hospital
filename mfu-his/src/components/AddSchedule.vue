@@ -359,11 +359,7 @@ input[readonly] {
 }
 .delete-button {
   width: 40px;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
   cursor: pointer;
-  font-size: 0.9rem;
   transition: background-color 0.3s;
 }
 
