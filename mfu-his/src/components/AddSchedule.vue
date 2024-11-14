@@ -1,12 +1,11 @@
 <template>
   <div class="add-schedule">
     <div class="schedule-card">
-
-      <!-- Scheduling form for doctors -->
+      <!-- Form for adding a schedule -->
       <form v-if="isLoggedIn" @submit.prevent="submitSchedule">
         <h2>Add Doctor Schedule</h2>
-
-        <!-- Display Doctor Name, Specialization, Department with Username -->
+        
+        <!-- Display Doctor Name, Specialization, Department -->
         <div class="form-group">
           <label for="username">Doctor Name</label>
           <input type="text" id="username" :value="username" readonly placeholder="Doctor Name" />
@@ -58,6 +57,7 @@
             <th>Date</th>
             <th>Start Time</th>
             <th>End Time</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -66,6 +66,11 @@
             <td>{{ schedule.date }}</td>
             <td>{{ formatTime(schedule.start_time) }}</td>
             <td>{{ formatTime(schedule.end_time) }}</td>
+            <td>
+              
+                <img @click="deleteSchedule(schedule.id)" class="delete-button" src="../assets/delete.png">
+              
+            </td>
           </tr>
         </tbody>
       </table>
@@ -170,6 +175,22 @@ export default {
         this.successMessage = 'There was an error creating the schedule. Please try again.';
       }
     },
+    async deleteSchedule(scheduleId) {
+      try {
+        // Delete the schedule from Strapi
+        await axios.delete(`http://localhost:1337/api/doctor-schedules/${scheduleId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+          },
+        });
+
+        // Remove the schedule from the local schedules array
+        this.schedules = this.schedules.filter(schedule => schedule.id !== scheduleId);
+        console.log(`Schedule with ID ${scheduleId} deleted successfully`);
+      } catch (error) {
+        console.error('Error deleting schedule:', error);
+      }
+    },
     validateTime() {
       if (this.startTime && this.endTime) {
         if (this.startTime >= this.endTime) {
@@ -218,6 +239,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .add-schedule {
   display: flex;
@@ -335,5 +357,19 @@ input[readonly] {
   text-align: center;
   font-weight: bold;
 }
+.delete-button {
+  width: 40px;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+  background-color: #ff1a1a;
+}
+
 </style>
 
