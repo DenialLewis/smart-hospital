@@ -88,6 +88,7 @@
 <script>
 import axios from 'axios'; 
 export default {
+    name: 'appointment',
     data() {
         const today = new Date();
         const minDate = today.toISOString().split("T")[0]; // Minimum date is today
@@ -111,6 +112,7 @@ export default {
                 nationality: '',
                 idNumber: ''
             },
+            username: '',
             doctors: [
                 { id: 1, name: 'Dr. John Smith', specialty: 'Cardiology' },
                 { id: 2, name: 'Dr. Emily Johnson', specialty: 'Neurology' },
@@ -161,9 +163,26 @@ export default {
             return d.toISOString().split("T")[0]; 
         }
     },
+    async mounted() {
+        // Fetch the user's username on component mount if they're logged in
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+        try {
+            const response = await axios.get(`http://localhost:1337/api/users/${userId}`);
+            this.username = response.data.username;
+        } catch (error) {
+            console.error('Error fetching username:', error);
+        }
+        }
+    },
     methods: {
         async submitAppointment() {
+            const token = localStorage.getItem('jwtToken');
+            const userId = localStorage.getItem('userId');
             try {
+                const headers = {
+                    Authorization: `Bearer ${token}`
+                };
                 const appointmentData = {
                     appointment_types: this.selectedAppointmentType,
                     date: this.selectedDate,
@@ -176,10 +195,11 @@ export default {
                     date_of_birth: this.patientInfo.dob,
                     phone_num: this.patientInfo.phone,
                     nationality: this.patientInfo.nationality,
-                    ncid_passport: this.patientInfo.idNumber
+                    ncid_passport: this.patientInfo.idNumber,
+                    username: userId,
                 };
 
-                const response = await axios.post('http://localhost:1337/api/other-appointments', { data: appointmentData });
+                const response = await axios.post('http://localhost:1337/api/other-appointments', { data: appointmentData }, {headers});
                 alert('Appointment submitted successfully!');
             } catch (error) {
                 console.error('Error submitting appointment:', error.response?.data || error.message);
