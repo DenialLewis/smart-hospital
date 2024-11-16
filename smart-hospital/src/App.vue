@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+
     <!-- Header -->
     <header class="header">
       <div class="logo" @click="goToHomePage" style="cursor: pointer;">
@@ -8,28 +9,28 @@
       <div class="lang-switch">
        <!-- Search Bar -->
        <div class="search-bar">
-  <input
-    type="text"
-    v-model="searchQuery"
-    placeholder="Search..."
-    @focus="showDropdown = true"
-    @input="filterOptions"
-    @keydown.enter="executeSearch"
-  />
-  <button class="search-icon-btn" @click="executeSearch">
-    <img src="./assets/search.png" alt="Search" class="search-icon" />
-  </button>
-  <ul v-if="showDropdown && filteredOptions.length" class="dropdown-list" @mouseleave="hideDropdown">
-    <li
-      v-for="option in filteredOptions"
-      :key="option.value"
-      @mousedown="selectOption(option)"
-      class="dropdown-item"
-    >
-      {{ option.label }}
-    </li>
-  </ul>
-</div>
+          <input
+            type="text"
+            v-model="searchQuery"
+            placeholder="Search..."
+            @focus="showDropdown = true"
+            @input="filterOptions"
+            @keydown.enter="executeSearch"
+          />
+          <button class="search-icon-btn" @click="executeSearch">
+            <img src="./assets/search.png" alt="Search" class="search-icon" />
+          </button>
+          <ul v-if="showDropdown && filteredOptions.length" class="dropdown-list" @mouseleave="hideDropdown">
+            <li
+              v-for="option in filteredOptions"
+              :key="option.value"
+              @mousedown="selectOption(option)"
+              class="dropdown-item"
+            >
+              {{ option.label }}
+            </li>
+          </ul>
+        </div>
         <!-- Chat Button -->
         <div class="chat-boutton">
           <button class="chat-button" @click="toggleChat">
@@ -93,6 +94,8 @@
         </div>
       </div>
     </header>
+
+
     <!-- Navigation Tabs -->
     <nav class="nav-tabs">
       <router-link to="/" class="tab">
@@ -140,7 +143,13 @@
         </div>
       </div>
     </nav>
-    <router-view />
+
+
+    <main>
+      <router-view />
+    </main>
+
+
     <footer class="footer">
       <div class="footer-content">
         <!-- Contact Information Section -->
@@ -197,6 +206,8 @@
         </div>
       </div>
     </footer>
+
+
     <LogIn
       v-if="showLoginForm"
       @close="showLoginForm = false"
@@ -209,8 +220,14 @@
     />
     <ChatBox v-if="showChat" @close="toggleChat" />
     <Search v-if="showSearch" @close="toggleSearch" />
+
+
   </div>
 </template>
+
+
+
+
 <!-- JS -->
 <script>
   import axios from 'axios';
@@ -463,43 +480,51 @@
   }
 }
 </script>
+
+
+
 <!-- CSS -->
 <style scoped>
-    .header {
-        top: 0;
-        left: 0;
-        background-color: #ffffff;
-        z-index: 1000;
-        align-items: center;
-        justify-content: space-between;
-        display:flex;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    .logo img {
-        margin-left: 0;
-        height: 70px;
-    }
-    .lang-switch {
-        margin-left: 15px;
-        display: flex;
-        align-items: center;
-        position: relative;
-    }
-    .lang-switch span {
-        font-weight: bold;
-        margin-left: 8px;
-        color: black;
-    }
-    .lang-switch img, .profile-container img {
-        height: 24px;
-        width: 24px;
-    }
-    .lang-dropdown, .profile-container {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-    }
-    .search-bar {
+
+.header {
+    top: 0;
+    left: 0;
+    flex-shrink: 0;
+    background-color: #ffffff;
+    z-index: 1000;
+    align-items: center;
+    justify-content: space-between;
+    display:flex;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+main {
+  flex: 1; /* This makes the content area grow to fill the available space */
+}
+.logo img {
+    margin-left: 0;
+    height: 70px;
+}
+.lang-switch {
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.lang-switch span {
+    font-weight: bold;
+    margin-left: 8px;
+    color: black;
+}
+.lang-switch img, .profile-container img {
+    height: 24px;
+    width: 24px;
+}
+.lang-dropdown, .profile-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.search-bar {
   display: flex;
   align-items: center;
   position: relative;
@@ -541,111 +566,112 @@
 .dropdown-item:hover {
   background-color: #f1f1f1;
 }
-    .chat-button {
-        background: none;
-        border: none;
-        cursor: pointer;
-        margin-left: 10px;
-        display: flex;
-        align-items: center;
-    }
-    .chat-button img {
-        width: 40px;
-        height: 40px;
-    }
-    .chat-button:hover {
-        filter: brightness(0.9);
-    }
-    .dropdown-menu {
-        position: absolute;
-        top: 30px;
-        right: 0;
-        background-color: #ffffff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 6px;
-        border-top: 3px solid #EBD5A0;
-        z-index: 1000;
-        padding: 0;
-    }
-    .dropdown-item {
-        padding: 12px 20px;
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: 15px;
-        text-align: left;
-        color: #333;
-        display: flex;
-        align-items: center;
-        width: 100%;
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    .dropdown-item:hover {
-        background-color: #B5DEE0;
-        color: #ffffff;
-    }
-    .dropdown-icon {
-        height: 20px;
-        width: 20px;
-        margin-right: 10px;
-        transition: filter 0.3s ease;
-    }
-    .dropdown-item:hover .dropdown-icon {
-        filter: brightness(0) invert(1);
-    }
-    .down-arrow {
-        transition: transform 0.3s ease;
-    }
-   
-    .nav-tabs {
-        display: flex;
-        justify-content: space-around;
-        background-color: #ffffff;
-        padding: 10px 0;
-        border-bottom: 1px solid #e0e0e0;
-        position: relative;
-    }
-    .tab {
-        background: none;
-        border: none;
-        color: black;
-        font-size: 16px;
-        padding: 10px 20px;
-        cursor: pointer;
-        transition: color 0.3s;
-    }
-    .tab.active {
-        color: black;
-        border-top: 3px solid #EBD5A0;
-    }
-    .tab:hover {
-        color: #B5DEE0;
-    }
-    .doctor-dropdown {
-        position: absolute;
-        top: 50px;
-        left: 25%;
-        background-color: #ffffff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 6px;
-        border-top: 3px solid #EBD5A0;
-        z-index: 1000;
-    }
-    .service-dropdown {
-        position: absolute;
-        top: 50px;
-        left: 80%;
-        background-color: #ffffff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 6px;
-        border-top: 3px solid #EBD5A0;
-        z-index: 1000;
-    }
-    .footer {
+.chat-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+}
+.chat-button img {
+    width: 40px;
+    height: 40px;
+}
+.chat-button:hover {
+    filter: brightness(0.9);
+}
+.dropdown-menu {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    border-top: 3px solid #EBD5A0;
+    z-index: 1000;
+    padding: 0;
+}
+.dropdown-item {
+    padding: 12px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    text-align: left;
+    color: #333;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.dropdown-item:hover {
+    background-color: #B5DEE0;
+    color: #ffffff;
+}
+.dropdown-icon {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+    transition: filter 0.3s ease;
+}
+.dropdown-item:hover .dropdown-icon {
+    filter: brightness(0) invert(1);
+}
+.down-arrow {
+    transition: transform 0.3s ease;
+}
+
+.nav-tabs {
+    display: flex;
+    justify-content: space-around;
+    background-color: #ffffff;
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+    position: relative;
+}
+.tab {
+    background: none;
+    border: none;
+    color: black;
+    font-size: 16px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+.tab.active {
+    color: black;
+    border-top: 3px solid #EBD5A0;
+}
+.tab:hover {
+    color: #B5DEE0;
+}
+.doctor-dropdown {
+    position: absolute;
+    top: 50px;
+    left: 25%;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    border-top: 3px solid #EBD5A0;
+    z-index: 1000;
+}
+.service-dropdown {
+    position: absolute;
+    top: 50px;
+    left: 80%;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    border-top: 3px solid #EBD5A0;
+    z-index: 1000;
+}
+.footer {
   background: linear-gradient(135deg, #2C3E50, #34495E);
   padding: 20px 10px;
   color: #fff;
   text-align: center;
+  flex-shrink: 0;
 }
 .contact-info {
   background-color: rgba(255, 255, 255, 0.1);

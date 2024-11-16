@@ -145,7 +145,7 @@ export default {
   </div>
 
   <!-- Popup Component -->
-  <Popup 
+  <AppointmentPopUp 
     :doctor="selectedDoctor" 
     :isVisible="isPopupVisible" 
     @update:isVisible="isPopupVisible = $event"
