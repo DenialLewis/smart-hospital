@@ -1,6 +1,6 @@
 
 <template>
-  <div v-if="doctors && doctors.length">
+  <div v-if="doctors && doctors.length" class="scheduletable">
     <h1>{{ translations[currentLang].departmentTitle }}</h1>
     <table>
       <thead>
@@ -111,6 +111,9 @@ export default {
 </script>
 
   <style scoped>
+  .scheduletable {
+  height: 40vh;
+}
   table {
     width: 100%;
     border-collapse: collapse;

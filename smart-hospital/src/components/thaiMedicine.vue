@@ -107,7 +107,7 @@ export default {
 </script> -->
 
 <template>
-  <div v-if="doctors && doctors.length">
+  <div v-if="doctors && doctors.length" class="scheduletable">
     <h1>{{ translations[currentLang].departmentTitle }}</h1>
     <table>
       <thead>
@@ -137,6 +137,7 @@ export default {
         </tr>
       </tbody>
     </table>
+
   </div>
   <div v-else class="nodoc">
     <h1>{{ translations[currentLang].departmentTitle }}</h1>
@@ -239,16 +240,21 @@ export default {
 
 
 <style scoped>
+.scheduletable {
+  height: 40vh;
+}
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
+  margin-bottom: 2rem;
 }
 
 th, td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
+
 }
 
 th {
@@ -291,5 +297,6 @@ button:hover {
 .nodoc h1, .nodoc h3 {
   margin: 0.5rem 0;
 }
+
 </style>
 
