@@ -3,7 +3,7 @@
         <div class="appointment-container">
             <h1>Make an Appointment</h1>
     
-            <!-- Type of Appointment Selection -->
+            <!-- Type of Appointment Selection-->
             <section class="appointment-type">
                 <h2>What kind of appointment are you making?</h2>
                 <select v-model="selectedAppointmentType">
@@ -18,15 +18,24 @@
             <!--Fields for Doctor Appointment-->
             <section v-if="selectedAppointmentType === 'Doctor Appointment'" class="doctor-appointment"> 
                 <h2>Select a department</h2>
-                <select v-model="selectedDepartment">
+                <!-- <select v-model="selectedDepartment">
                     <option disabled value="">Please select a department</option>
                     <option v-for="department in departments" :key="department.id" :value="department.department_name">
                         {{ department.department_name }}
                     </option>
+                </select> -->
+
+                <select v-model="selectedDepartment">
+                    <option disabled value="">Please select a department</option>
+                    <option>Thai Medicine</option>
+                    <option>Chinese Medicine</option>
+                    <option>Physical Therapy</option>
+                    <option>Out Patient Department</option>
                 </select>
 
-                <h2>Select the doctor and schedule</h2>
-                <!--here display the doctor name, date, day, starttime, endtime, and selection-->
+                <h2></h2>
+                <button @click="confirmRequest" class="btn-submit">Confirm request</button>
+
             </section>
     
             <!-- Fields for Health Checkup, Vaccination, or Consultation -->
@@ -88,10 +97,13 @@
 
                 <label>National ID or Passport Number</label>
                 <input type="text" placeholder="Enter your ID or Passport number" v-model="patientInfo.idNumber"/>
+
+                <!-- Submit Button -->
+                 <h2></h2>
+                <button @click="submitAppointment" class="btn-submit">Confirm request</button>
             </section>
 
-            <!-- Submit Button -->
-            <button @click="submitAppointment" class="btn-submit">Confirm request</button>
+            
         </div>
     </div>
 </template>
@@ -110,6 +122,7 @@ export default {
         return {
             selectedAppointmentType: '',
             selectedFieldOfMedicine: '',
+            selectedDepartment: '',
             doctorPreference: '',
             selectedDoctor: '',
             selectedDate: '',
@@ -127,7 +140,7 @@ export default {
                 idNumber: ''
             },
             username: '',
-            departments: [],
+            //departments: [],
 
             nationalities: [
                 "Afghan", "Albanian", "Algerian", "American", "Andorran", "Angolan", "Antiguan", "Argentine", "Armenian", 
@@ -156,6 +169,14 @@ export default {
     },
     computed: {
         formattedDate() {
+        // if (!this.selectedDate) return '';
+
+        // const date = new Date(this.selectedDate);
+        // const month = String(date.getMonth() + 1).padStart(2, '0');
+        // const day = String(date.getDate()).padStart(2, '0');
+        // const year = date.getFullYear();
+
+        // return `${month}/${day}/${year}`;
             const d = new Date(date);
             return d.toISOString().split("T")[0]; 
         }
@@ -173,12 +194,12 @@ export default {
         }
 
         // Fetch departments from Strapi
-        try {
-            const response = await axios.get('http://localhost:1337/api/departments');
-            this.departments = response.data.data.map(item => item.attributes); // Assuming Strapi response structure
-        } catch (error) {
-            console.error('Error fetching departments:', error);
-        }
+        // try {
+        //     const response = await axios.get('http://localhost:1337/api/departments');
+        //     this.departments = response.data.data.map(item => item.attributes); // Assuming Strapi response structure
+        // } catch (error) {
+        //     console.error('Error fetching departments:', error);
+        // }
     },
     methods: {
         async submitAppointment() {
@@ -209,6 +230,22 @@ export default {
             } catch (error) {
                 console.error('Error submitting appointment:', error.response?.data || error.message);
                 alert(`Failed to submit appointment: ${error.response?.data?.error?.message || "Please try again."}`);
+            }
+            // Appointment submission logic
+            //this.$router.push({ name: 'PendingRequest' });
+        },
+        confirmRequest() {
+            // Check the selected department and navigate accordingly
+            if (this.selectedDepartment === 'Thai Medicine') {
+                this.$router.push('/thai-medicine');
+            } else if (this.selectedDepartment === 'Chinese Medicine') {
+                this.$router.push('/chinese-medicine');
+            } else if (this.selectedDepartment === 'Physical Therapy') {
+                this.$router.push('/physical-therapy');
+            } else if (this.selectedDepartment === 'Out Patient Department') {
+                this.$router.push('/opd');
+            } else {
+                alert('Please select a department');
             }
         }
     }
@@ -328,3 +365,4 @@ label {
     background-color: #005fa3;
 }
 </style>
+
