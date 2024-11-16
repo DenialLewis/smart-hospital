@@ -140,7 +140,6 @@ export default {
                 idNumber: ''
             },
             username: '',
-            //departments: [],
 
             nationalities: [
                 "Afghan", "Albanian", "Algerian", "American", "Andorran", "Angolan", "Antiguan", "Argentine", "Armenian", 
