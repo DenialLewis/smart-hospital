@@ -331,6 +331,23 @@
         goToHomePage() {
             this.$router.push({ name: 'HomePage' });
         },
+        filterOptions() {
+            const query = this.searchQuery.toLowerCase();
+            this.filteredOptions = this.options.filter(option =>
+                option.label.toLowerCase().includes(query)
+            );
+        },
+        selectOption(option) {
+            this.searchQuery = option.label;
+            this.showDropdown = false;
+            this.executeSearch(); // Optional: perform search immediately
+        },
+        executeSearch() {
+            if (this.searchQuery) {
+                console.log("Searching for:", this.searchQuery);
+                // Execute your search functionality here, e.g., navigate to results page
+            }
+        },
        
         toggleLanguageDropdown() {
             this.showLanguageDropdown = !this.showLanguageDropdown;
