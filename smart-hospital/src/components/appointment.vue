@@ -14,6 +14,20 @@
                     <option>Consultation</option>
                 </select>
             </section>
+
+            <!--Fields for Doctor Appointment-->
+            <section v-if="selectedAppointmentType === 'Doctor Appointment'" class="doctor-appointment"> 
+                <h2>Select a department</h2>
+                <select v-model="selectedDepartment">
+                    <option disabled value="">Please select a department</option>
+                    <option v-for="department in departments" :key="department.id" :value="department.department_name">
+                        {{ department.department_name }}
+                    </option>
+                </select>
+
+                <h2>Select the doctor and schedule</h2>
+                <!--here display the doctor name, date, day, starttime, endtime, and selection-->
+            </section>
     
             <!-- Fields for Health Checkup, Vaccination, or Consultation -->
             <section v-if="selectedAppointmentType === 'Health Checkup' || selectedAppointmentType === 'Vaccination' || selectedAppointmentType === 'Consultation'" class="other-appointment">
@@ -113,16 +127,7 @@ export default {
                 idNumber: ''
             },
             username: '',
-            doctors: [
-                { id: 1, name: 'Dr. John Smith', specialty: 'Cardiology' },
-                { id: 2, name: 'Dr. Emily Johnson', specialty: 'Neurology' },
-                { id: 3, name: 'Dr. Michael Williams', specialty: 'Orthopedics' },
-                { id: 4, name: 'Dr. Sarah Brown', specialty: 'Pediatrics' },
-                { id: 5, name: 'Dr. David Lee', specialty: 'Dermatology' },
-                { id: 6, name: 'Dr. Olivia Wilson', specialty: 'General Surgery' },
-                { id: 7, name: 'Dr. Rachel Adams', specialty: 'Dentistry' },
-                { id: 8, name: 'Dr. Mark Taylor', specialty: 'Dentistry' }
-            ],
+            departments: [],
 
             nationalities: [
                 "Afghan", "Albanian", "Algerian", "American", "Andorran", "Angolan", "Antiguan", "Argentine", "Armenian", 
@@ -166,13 +171,21 @@ export default {
     async mounted() {
         // Fetch the user's username on component mount if they're logged in
         const userId = localStorage.getItem('userId');
-        if (userId) {
-        try {
-            const response = await axios.get(`http://localhost:1337/api/users/${userId}`);
-            this.username = response.data.username;
-        } catch (error) {
-            console.error('Error fetching username:', error);
+            if (userId) {
+            try {
+                const response = await axios.get(`http://localhost:1337/api/users/${userId}`);
+                this.username = response.data.username;
+            } catch (error) {
+                console.error('Error fetching username:', error);
+            }
         }
+
+        // Fetch departments from Strapi
+        try {
+            const response = await axios.get('http://localhost:1337/api/departments');
+            this.departments = response.data.data.map(item => item.attributes); // Assuming Strapi response structure
+        } catch (error) {
+            console.error('Error fetching departments:', error);
         }
     },
     methods: {
