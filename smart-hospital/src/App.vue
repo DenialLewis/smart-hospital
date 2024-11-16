@@ -233,13 +233,11 @@
               showDropdown: false,
               user: {},
               options: [
-                  { value: 1, label: 'Apple' },
-                  { value: 2, label: 'Banana' },
-                  { value: 3, label: 'Cherry' },
-                  { value: 4, label: 'Date' },
-                  { value: 5, label: 'Elderberry' },
-                  { value: 6, label: 'Fig' },
-                  { value: 7, label: 'Grape' },
+                  { value: 1, label: 'Service 1:General Check-up' },
+                  { value: 2, label: 'Service 2:Dental Consultation' },
+                  { value: 3, label: 'Service 3:Eye Examination' },
+                  { value: 4, label: 'Service 4:Pediatric Check-up' },
+                
               ],
               filteredOptions: [],
               currentLang: 'EN',
