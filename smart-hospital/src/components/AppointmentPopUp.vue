@@ -10,68 +10,107 @@
             </button>
             <h2>Book Appointment</h2>
 
-            <h2>Patient Information</h2>
+            <div class="form-container"> 
+                <div class="schedule-info-section">
+                    <h3>Schedule information</h3>
+                    <div class="row"> 
+                        <div class="column">
+                            <label>Doctor Name</label>
+                            <input type="text" placeholder="doctor name"/>
+                        </div>
+                    </div>
 
-            <!-- Title and Gender Side by Side -->
-            <div class="row">
-                <div class="column">
-                    <label>Title</label>
-                    <select v-model="patientInfo.title">
-                        <option disabled value="">Select your title</option>
-                        <option>Mr.</option>
-                        <option>Mrs.</option>
-                        <option>Ms.</option>
-                    </select>
+                    <div class="row"> 
+                        <div class="column">
+                            <label>Date</label>
+                            <input type="date" :min="minDate" v-model="selectedDate"/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="column">
+                            <label>Day</label>
+                            <input type="text"/> 
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="column">
+                            <label>Write your symptom</label>
+                            <textarea type="text" placeholder="Describe any symptoms or concerns..."></textarea>
+                        </div>
+                    </div>
+                
                 </div>
-                <div class="column">
-                    <label>Gender</label>
-                    <select v-model="patientInfo.gender">
-                        <option disabled value="">Select your gender</option>
-                        <option>Male</option>
-                        <option>Female</option>
-                        <option>Other</option>
-                    </select>
+
+                <div class="patient-info-section">
+                    <h3>Patient Information</h3>
+                    <!-- Title and Gender Side by Side -->
+                    <div class="row">
+                        <div class="column">
+                            <label>Title</label>
+                            <select v-model="patientInfo.title">
+                                <option disabled value="">Select your title</option>
+                                <option>Mr.</option>
+                                <option>Mrs.</option>
+                                <option>Ms.</option>
+                            </select>
+                        </div>
+                        <div class="column">
+                            <label>Gender</label>
+                            <select v-model="patientInfo.gender">
+                                <option disabled value="">Select your gender</option>
+                                <option>Male</option>
+                                <option>Female</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- First Name and Last Name Side by Side -->
+                    <div class="row">
+                        <div class="column">
+                            <label>First Name</label>
+                            <input type="text" placeholder="Enter your first name" v-model="patientInfo.firstName" />
+                        </div>
+                        <div class="column">
+                            <label>Last Name</label>
+                            <input type="text" placeholder="Enter your last name" v-model="patientInfo.lastName"/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="column">
+                            <label>Date of Birth</label>
+                            <input type="date" :max="minDate" v-model="patientInfo.dob" />
+                        </div>
+                        <div class="column">
+                            <label>Phone Number</label>
+                            <input type="tel" placeholder="Enter your phone number" v-model="patientInfo.phone"/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="column">
+                            <label>Nationality</label>
+                            <select v-model="patientInfo.nationality">
+                                <option disabled value="">Please select your nationality</option>
+                                <option v-for="nationality in nationalities" :key="nationality" :value="nationality">
+                                    {{ nationality }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="column">
+                            <label>National ID or Passport Number</label>
+                            <input type="text" placeholder="Enter your ID or Passport number" v-model="patientInfo.idNumber"/>
+                        </div>
+                    </div>
                 </div>
+
             </div>
 
-            <!-- First Name and Last Name Side by Side -->
-            <div class="row">
-                <div class="column">
-                    <label>First Name</label>
-                    <input type="text" placeholder="Enter your first name" v-model="patientInfo.firstName" />
-                </div>
-                <div class="column">
-                    <label>Last Name</label>
-                    <input type="text" placeholder="Enter your last name" v-model="patientInfo.lastName"/>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="column">
-                    <label>Date of Birth</label>
-                    <input type="date" :max="minDate" v-model="patientInfo.dob" />
-                </div>
-                <div class="column">
-                    <label>Phone Number</label>
-                    <input type="tel" placeholder="Enter your phone number" v-model="patientInfo.phone"/>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="column">
-                    <label>Nationality</label>
-                    <select v-model="patientInfo.nationality">
-                        <option disabled value="">Please select your nationality</option>
-                        <option v-for="nationality in nationalities" :key="nationality" :value="nationality">
-                            {{ nationality }}
-                        </option>
-                    </select>
-                </div>
-                <div class="column">
-                    <label>National ID or Passport Number</label>
-                    <input type="text" placeholder="Enter your ID or Passport number" v-model="patientInfo.idNumber"/>
-                </div>
-            </div>
+            
+            
 
             <!-- Submit Button -->
             <h2></h2>
@@ -189,24 +228,6 @@ export default {
             }
             
         },
-        // confirmRequest() {
-        //     // Check the selected department and navigate accordingly
-        //     if (this.selectedDepartment === 'Thai Medicine') {
-        //         this.$router.push('/thai-medicine');
-        //     } else if (this.selectedDepartment === 'Chinese Medicine') {
-        //         this.$router.push('/chinese-medicine');
-        //     } else if (this.selectedDepartment === 'Physical Therapy') {
-        //         this.$router.push('/physical-therapy');
-        //     } else if (this.selectedDepartment === 'Out Patient Department') {
-        //         this.$router.push('/opd');
-        //     } else {
-        //         alert('Please select a department');
-        //     }
-        // },
-        // confirmBooking() {
-        // this.$emit('bookAppointment', this.doctor);
-        // this.$emit('update:isVisible', false);
-        // }
     }
 };
 </script>
@@ -232,7 +253,7 @@ export default {
   background: #ffffff;
   padding: 2rem;
   border-radius: 10px;
-  width: 400px;
+  width: 900px;
   text-align: left;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   position: relative;
@@ -322,6 +343,25 @@ button:hover {
   transition: transform 0.2s;
 }
 
+/* Flex container for two columns */
+.form-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* Schedule and Patient Info Sections */
+.schedule-info-section, .patient-info-section {
+  flex: 1;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+  margin-bottom: 1rem;
+}
 
 .row {
   display: flex;
@@ -342,7 +382,7 @@ button:hover {
 
 .column select,
 .column input {
-  width: 100%;
+  width: 90%;
 }
 
 /* Adjust spacing and responsiveness */
