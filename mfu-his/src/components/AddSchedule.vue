@@ -57,6 +57,7 @@
             <th>Date</th>
             <th>Start Time</th>
             <th>End Time</th>
+            <th>Department</th> 
             <th>Delete</th>
           </tr>
         </thead>
@@ -66,6 +67,7 @@
             <td>{{ schedule.date }}</td>
             <td>{{ formatTime(schedule.start_time) }}</td>
             <td>{{ formatTime(schedule.end_time) }}</td>
+            <td>{{ schedule.department }}</td>
             <td>
               <button @click="deleteSchedule(schedule.id)" class="delete-button">
                 🗑️
@@ -147,6 +149,7 @@ export default {
           start_time: `${this.startTime}:00.000`,
           end_time: `${this.endTime}:00.000`,
           doctor: this.userId,
+          department: this.department,
         },
       };
 
@@ -167,6 +170,7 @@ export default {
           date: this.selectedDate,
           start_time: this.startTime,
           end_time: this.endTime,
+          department: this.department,
         });
 
         this.resetForm();

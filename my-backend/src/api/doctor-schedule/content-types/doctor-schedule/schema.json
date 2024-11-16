@@ -29,6 +29,12 @@
     },
     "day": {
       "type": "string"
+    },
+    "departments": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::department.department",
+      "inversedBy": "doctor_schedules"
     }
   }
 }
