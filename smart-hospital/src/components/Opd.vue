@@ -46,7 +46,7 @@ export default {
       currentLang: 'EN',
       translations: {
         EN: {
-          departmentTitle: "Department of Thai Traditional Medicine",
+          departmentTitle: "OutPatient Department",
           doctorName: "Doctor Name",
           specialization: "Specialization",
           date: "Date",
