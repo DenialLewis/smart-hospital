@@ -32,7 +32,8 @@
       <div class="appointments-list">
         <div class="appointment-card" v-for="appointment in upcomingAppointments" :key="appointment.id">
           <strong>{{ appointment.date }}</strong>
-          <p>{{ appointment.doctor }} - {{ appointment.department }}</p>
+          <p>{{ appointment.first_name }} {{ appointment.last_name }} - {{ appointment.appointment_types }}</p>
+          <p>{{ appointment.time }} - {{ appointment.gender }}</p>
         </div>
         <div v-if="upcomingAppointments.length === 0" class="no-appointments">No upcoming appointments.</div>
       </div>
@@ -48,39 +49,36 @@
     </div>
 
    <!-- Health Tips & News Section -->
-<div class="health-tips-section">
-  <h2>Health Tips & News</h2>
-  <div class="health-tips-container-wrapper">
-    <button v-if="isHealthTipsOverflowing" @click="scrollHealthTipsLeft" class="scroll-button left">&lt;</button>
-    <div class="health-tips-container" ref="healthTipsContainer">
-      <div
-  class="health-tip-card"
-  v-for="tip in healthTips"
-  :key="tip.id"
-  @click="navigateToHealthTip(tip)" 
->
-
-        <h3>{{ tip.title }}</h3>
-        <div class="health-tip-images-container" v-if="tip.images && Array.isArray(tip.images) && tip.images.length > 0">
-          <img
-            v-for="(image, index) in tip.images"
-            :key="index"
-            :src="image.url"
-            alt="Health Tip Image"
-            class="health-tip-image"
-            @error="handleImageError(tip)"
-          />
+  <div class="health-tips-section">
+    <h2>Health Tips & News</h2>
+    <div class="health-tips-container-wrapper">
+      <button v-if="isHealthTipsOverflowing" @click="scrollHealthTipsLeft" class="scroll-button left">&lt;</button>
+      <div class="health-tips-container" ref="healthTipsContainer">
+        <div
+          class="health-tip-card"
+          v-for="tip in healthTips"
+          :key="tip.id"
+          @click="navigateToHealthTip(tip)"
+        >
+          <h3>{{ tip.title }}</h3>
+          <div class="health-tip-images-container" v-if="tip.images && Array.isArray(tip.images) && tip.images.length > 0">
+            <img
+              v-for="(image, index) in tip.images"
+              :key="index"
+              :src="image.url"
+              alt="Health Tip Image"
+              class="health-tip-image"
+              @error="handleImageError(tip)"
+            />
+          </div>
         </div>
       </div>
+      <button v-if="isHealthTipsOverflowing" @click="scrollHealthTipsRight" class="scroll-button right">&gt;</button>
     </div>
-    <button v-if="isHealthTipsOverflowing" @click="scrollHealthTipsRight" class="scroll-button right">&gt;</button>
+    <div v-if="healthTips.length === 0" class="no-tips">No health tips available.</div>
   </div>
-  <div v-if="healthTips.length === 0" class="no-tips">No health tips available.</div>
-</div>
-
   </section>
 </template>
-
 <script>
 import axios from 'axios';
 
@@ -106,27 +104,30 @@ export default {
   },
   methods: {
     async fetchAds() {
-  try {
-    const response = await axios.get('http://localhost:1337/api/ads?populate=*');
-    this.ads = response.data.data.map(ad => ({
-      id: ad.id,
-      Ad: ad.attributes.Ad || 'Ad Title Not Available', // Accessing the Ad title
-      Ads: ad.attributes.Ads ? ad.attributes.Ads.data.map(media => ({
-        url: media.attributes.url
-      })) : [] // Mapping the media URLs if available
-    }));
-  } catch (error) {
-    console.error('Error fetching ads:', error);
-  }
-},
+      try {
+        const response = await axios.get('http://localhost:1337/api/ads?populate=*');
+        this.ads = response.data.data.map(ad => ({
+          id: ad.id,
+          Ad: ad.attributes.Ad || 'Ad Title Not Available', // Accessing the Ad title
+          Ads: ad.attributes.Ads ? ad.attributes.Ads.data.map(media => ({
+            url: media.attributes.url
+          })) : [] // Mapping the media URLs if available
+        }));
+      } catch (error) {
+        console.error('Error fetching ads:', error);
+      }
+    },
     async fetchUpcomingAppointments() {
       try {
-        const response = await axios.get('http://localhost:1337/api/appointments?populate=*');
+        const response = await axios.get('http://localhost:1337/api/other-appointments');
         this.upcomingAppointments = response.data.data.map(appointment => ({
           id: appointment.id,
           date: appointment.attributes.date,
-          doctor: appointment.attributes.doctor,
-          department: appointment.attributes.department,
+          first_name: appointment.attributes.first_name,
+          last_name: appointment.attributes.last_name,
+          appointment_types: appointment.attributes.appointment_types,
+          time: appointment.attributes.time,
+          gender: appointment.attributes.gender,
         }));
       } catch (error) {
         console.error('Error fetching upcoming appointments:', error);
@@ -144,25 +145,23 @@ export default {
       }
     },
     async fetchHealthTips() {
-  try {
-    const response = await axios.get('http://localhost:1337/api/news?populate=*');
-    console.log('API Response:', response.data); // Check this in the console
-
-    // Adjust mappings based on the response structure you observe
-    this.healthTips = response.data.data.map(tip => ({
-      id: tip.id,
-      title: tip.attributes.Title || 'No Title Available',  // Ensure 'Title' matches the field name in Strapi
-      info: tip.attributes.Info || 'No Info Available',  // Ensure 'Info' matches the field name in Strapi
-      images: tip.attributes.News && Array.isArray(tip.attributes.News.data) 
-        ? tip.attributes.News.data.map(newsItem => ({
-            url: `http://localhost:1337${newsItem.attributes.url}`
-          }))
-        : []  // Default to empty array if no images
-    }));
-  } catch (error) {
-    console.error('Error fetching health tips:', error);
-  }
-},
+      try {
+        const response = await axios.get('http://localhost:1337/api/news?populate=*');
+        console.log('API Response:', response.data); // Check this in the console
+        this.healthTips = response.data.data.map(tip => ({
+          id: tip.id,
+          title: tip.attributes.Title || 'No Title Available',
+          info: tip.attributes.Info || 'No Info Available',
+          images: tip.attributes.News && Array.isArray(tip.attributes.News.data)
+            ? tip.attributes.News.data.map(newsItem => ({
+                url: `http://localhost:1337${newsItem.attributes.url}`
+              }))
+            : []
+        }));
+      } catch (error) {
+        console.error('Error fetching health tips:', error);
+      }
+    },
     handleImageError(item) {
       console.log(`Error loading image for: ${item.title || item.Ad}`);
     },
@@ -187,18 +186,16 @@ export default {
       this.isHealthTipsOverflowing = container.scrollWidth > container.clientWidth;
     },
     navigateToHealthTip(tip) {
-  this.$router.push({ 
-    name: 'HealthTip', 
-    params: { id: tip.id },
-    query: { 
-      title: tip.title, 
-      image: tip.images[0]?.url, // Using optional chaining in case there are no images
-      info: tip.info // Pass info as well
-    } 
-  });
-},
-
-
+      this.$router.push({
+        name: 'HealthTip',
+        params: { id: tip.id },
+        query: {
+          title: tip.title,
+          image: tip.images[0]?.url,
+          info: tip.info
+        }
+      });
+    },
   },
   updated() {
     this.checkOverflow();
@@ -302,23 +299,65 @@ export default {
   transform: scale(1.02);
 }
 
-.appointments-section,
-.announcements-section {
+/* Appointment Section Styles */
+.appointments-section {
+  margin-top: 40px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.appointments-section h2 {
+  font-size: 1.8em;
+  margin-bottom: 15px;
+  color: #2a3d52;
+  font-weight: 600;
+}
+
+.appointments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.appointment-card {
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.appointment-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.appointment-card strong {
+  font-size: 1.1em;
+  color: #3b3b3b;
+}
+
+.appointment-card p {
+  font-size: 1em;
+  color: #6b6b6b;
+}
+
+.appointment-card .appointment-time {
+  font-size: 0.9em;
+  color: #a5a5a5;
+}
+
+.no-appointments {
+  text-align: center;
+  font-size: 1.1em;
+  color: #999;
+  font-style: italic;
   margin-top: 20px;
 }
 
-.appointment-card,
-.announcement-card {
-  border: 1px solid #ddd;
-  padding: 15px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-}
-
-.no-appointments,
-.no-announcements,
-.no-tips {
-  color: #999;
-  font-style: italic;
-}
 </style>
