@@ -19,7 +19,7 @@
   <button class="search-icon-btn" @click="executeSearch">
     <img src="./assets/search.png" alt="Search" class="search-icon" />
   </button>
-  <ul v-if="showDropdown && filteredOptions.length" class="dropdown-list">
+  <ul v-if="showDropdown && filteredOptions.length" class="dropdown-list" @mouseleave="hideDropdown">
     <li
       v-for="option in filteredOptions"
       :key="option.value"
@@ -347,6 +347,9 @@
                 console.log("Searching for:", this.searchQuery);
                 // Execute your search functionality here, e.g., navigate to results page
             }
+        },
+        hideDropdown(){
+          this.showDropdown = false;
         },
        
         toggleLanguageDropdown() {
@@ -755,3 +758,4 @@ ul {
   z-index: 10;
 }
 </style>
+
