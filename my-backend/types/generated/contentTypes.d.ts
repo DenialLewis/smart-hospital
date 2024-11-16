@@ -787,6 +787,16 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToMany',
       'api::other-appointment.other-appointment'
     >;
+    doctor_appointments_patient: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToMany',
+      'api::doctor-appointment.doctor-appointment'
+    >;
+    doctor_appointments_doctor: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToMany',
+      'api::doctor-appointment.doctor-appointment'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -856,6 +866,58 @@ export interface ApiDepartmentDepartment extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::department.department',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiDoctorAppointmentDoctorAppointment
+  extends Schema.CollectionType {
+  collectionName: 'doctor_appointments';
+  info: {
+    singularName: 'doctor-appointment';
+    pluralName: 'doctor-appointments';
+    displayName: 'DoctorAppointment';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    patient_names: Attribute.Relation<
+      'api::doctor-appointment.doctor-appointment',
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+    symptom: Attribute.Text;
+    date: Attribute.Date;
+    appointment_time: Attribute.Time;
+    title: Attribute.String;
+    first_name: Attribute.String;
+    last_name: Attribute.String;
+    gender: Attribute.String;
+    date_of_birth: Attribute.Date;
+    phone_num: Attribute.Integer;
+    nationality: Attribute.String;
+    ncid_passport: Attribute.String;
+    doctor_names: Attribute.Relation<
+      'api::doctor-appointment.doctor-appointment',
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::doctor-appointment.doctor-appointment',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::doctor-appointment.doctor-appointment',
       'oneToOne',
       'admin::user'
     > &
@@ -970,6 +1032,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::ad.ad': ApiAdAd;
       'api::department.department': ApiDepartmentDepartment;
+      'api::doctor-appointment.doctor-appointment': ApiDoctorAppointmentDoctorAppointment;
       'api::doctor-schedule.doctor-schedule': ApiDoctorScheduleDoctorSchedule;
       'api::other-appointment.other-appointment': ApiOtherAppointmentOtherAppointment;
     }
