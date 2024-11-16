@@ -1,26 +1,28 @@
+
+
 <!-- <template>
-  <div v-if="departments && departments.length">
+  <div v-if="doctors && doctors.length">
     <h1>{{ translations[currentLang].departmentTitle }}</h1>
     <table>
       <thead>
         <tr>
           <th>{{ translations[currentLang].doctorName }}</th>
-          <th>{{ translations[currentLang].specialization }}</th>
-          <th>{{ translations[currentLang].availableTime }}</th>
+          <th>{{ translations[currentLang].date }}</th>
+          <th>{{ translations[currentLang].day }}</th>
+          <th>{{ translations[currentLang].startTime }}</th>
+          <th>{{ translations[currentLang].endTime }}</th>
           <th>{{ translations[currentLang].bookNow }}</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="department in departments" :key="department.id">
+        <tr v-for="doctor in doctors" :key="doctor.id">
+          <td>{{ doctor.username || "Unnamed Doctor" }}</td>
+          <td>{{ doctor.schedule.date }}</td>
+          <td>{{ doctor.schedule.day }}</td>
+          <td>{{ doctor.schedule.start_time }}</td>
+          <td>{{ doctor.schedule.end_time }}</td>
           <td>
-            <a href="#" @click.prevent="showDoctorDetails(department)">
-              {{ department.DoctorName || "Unnamed Department" }}
-            </a>
-          </td>
-          <td>{{ department.Specialization }}</td>
-          <td>{{ department.Time }}</td>
-          <td>
-            <button @click="bookAppointment(department)">
+            <button @click="bookAppointment(doctor)">
               {{ translations[currentLang].bookNow }}
             </button>
           </td>
@@ -45,19 +47,23 @@ export default {
         EN: {
           departmentTitle: "Department of Thai Traditional Medicine",
           doctorName: "Doctor Name",
-          specialization: "Specialization",
-          availableTime: "Available Time",
+          date: "Date",
+          day: "Day",
+          startTime: "Start Time",
+          endTime: "End Time",
           bookNow: "Book Now",
         },
         TH: {
           departmentTitle: "แผนกการแพทย์แผนไทย",
           doctorName: "ชื่อแพทย์",
-          specialization: "ความชำนาญ",
-          availableTime: "เวลาที่ให้บริการ",
+          date: "วันที่",
+          day: "วัน",
+          startTime: "เวลาที่เริ่ม",
+          endTime: "เวลาสิ้นสุด",
           bookNow: "จองตอนนี้",
         },
       },
-      departments: [],
+      doctors: [], // Array to store doctors with their schedules
     };
   },
   created() {
@@ -66,44 +72,63 @@ export default {
   methods: {
     async fetchDepartments() {
       try {
-        const response = await fetch("http://localhost:1337/api/departments");
+        // Fetch doctor schedules with populated departments
+        const response = await fetch('http://localhost:1337/api/doctor-schedules?populate=doctor.departments');
         const data = await response.json();
-        console.log("Fetched data:", data);
-        this.departments = data.data || [];
+
+        if (data.data) {
+          // Filter schedules to only include doctors from the "Thai Medicine" department
+          this.doctors = data.data
+            .filter(schedule =>
+              schedule.attributes.doctor.data.attributes.departments.data.some(
+                department => department.attributes.department_name === 'Thai Medicine'
+              )
+            )
+            .map(schedule => ({
+              id: schedule.id,
+              username: schedule.attributes.doctor.data.attributes.username,
+              schedule: {
+                date: schedule.attributes.date,
+                day: schedule.attributes.day,
+                start_time: schedule.attributes.start_time,
+                end_time: schedule.attributes.end_time,
+              },
+            }));
+        }
       } catch (error) {
         console.error("Error fetching departments:", error);
       }
     },
     bookAppointment(doctor) {
-      alert(`Booking appointment with ${doctor.DoctorName}`);
-    },
-    showDoctorDetails(doctor) {
-      alert(`Showing details for ${doctor.DoctorName}`);
+      alert(`Booking appointment with ${doctor.username}`);
     },
   },
 };
 </script> -->
+
 <template>
-  <div v-if="departments && departments.length">
+  <div v-if="doctors && doctors.length">
     <h1>{{ translations[currentLang].departmentTitle }}</h1>
     <table>
       <thead>
         <tr>
           <th>{{ translations[currentLang].doctorName }}</th>
           <th>{{ translations[currentLang].specialization }}</th>
-          <th>{{ translations[currentLang].availableTime }}</th>
+          <th>{{ translations[currentLang].date }}</th>
+          <th>{{ translations[currentLang].day }}</th>
+          <th>{{ translations[currentLang].startTime }}</th>
+          <th>{{ translations[currentLang].endTime }}</th>
           <th>{{ translations[currentLang].bookNow }}</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="doctor in doctors" :key="doctor.id">
-          <td>
-            <a href="#" @click.prevent="showDoctorDetails(doctor)">
-              {{ doctor.username || "Unnamed Doctor" }}
-            </a>
-          </td>
-          <td>{{ doctor.specialization }}</td>
-          <td>{{ doctor.time }}</td>
+          <td>{{ doctor.username || "Unnamed Doctor" }}</td>
+          <td>{{ doctor.specialization || "N/A" }}</td>
+          <td>{{ doctor.schedule.date }}</td>
+          <td>{{ doctor.schedule.day }}</td>
+          <td>{{ doctor.schedule.start_time }}</td>
+          <td>{{ doctor.schedule.end_time }}</td>
           <td>
             <button @click="bookAppointment(doctor)">
               {{ translations[currentLang].bookNow }}
@@ -131,72 +156,68 @@ export default {
           departmentTitle: "Department of Thai Traditional Medicine",
           doctorName: "Doctor Name",
           specialization: "Specialization",
-          availableTime: "Available Time",
+          date: "Date",
+          day: "Day",
+          startTime: "Start Time",
+          endTime: "End Time",
           bookNow: "Book Now",
         },
         TH: {
           departmentTitle: "แผนกการแพทย์แผนไทย",
           doctorName: "ชื่อแพทย์",
           specialization: "ความชำนาญ",
-          availableTime: "เวลาที่ให้บริการ",
+          date: "วันที่",
+          day: "วัน",
+          startTime: "เวลาที่เริ่ม",
+          endTime: "เวลาสิ้นสุด",
           bookNow: "จองตอนนี้",
         },
       },
-      departments: [],
-      doctors: [], // Array to store doctors for display
+      doctors: [], // Array to store doctors with their schedules
     };
   },
   created() {
     this.fetchDepartments();
   },
   methods: {
-    // async fetchDepartments() {
-    //   try {
-    //     const response = await fetch("http://localhost:1337/api/departments?populate=doctors");
-    //     const data = await response.json();
-    //     console.log("Fetched data:", data);
-    //     this.departments = data.data || [];
-
-    //     // Extract doctors from each department
-    //     this.doctors = this.departments.flatMap(dept => dept.attributes.doctors.data.map(doc => ({
-    //       id: doc.id,
-    //       username: doc.attributes.username,
-    //       specialization: doc.attributes.specialization,
-    //       time: doc.attributes.time,
-    //     })));
-    //   } catch (error) {
-    //     console.error("Error fetching departments:", error);
-    //   }
-    // },
     async fetchDepartments() {
       try {
-        const response = await fetch(`http://localhost:1337/api/departments/1?populate=doctors`);
+        // Fetch doctor schedules with populated departments
+        const response = await fetch('http://localhost:1337/api/doctor-schedules?populate=doctor.departments');
         const data = await response.json();
-        console.log("Fetched data:", data);
 
-        const departmentData = data.data;
-        if (departmentData) {
-          this.departments = [departmentData]; // Wrap single department in array for easy handling
-          this.doctors = departmentData.attributes.doctors.data.map(doc => ({
-            id: doc.id,
-            username: doc.attributes.username,
-            specialization: doc.attributes.specialization,
-            time: doc.attributes.time,
-          }));
+        if (data.data) {
+          // Filter schedules to only include doctors from the "Thai Medicine" department
+          this.doctors = data.data
+            .filter(schedule =>
+              schedule.attributes.doctor.data.attributes.departments.data.some(
+                department => department.attributes.department_name === 'Thai Medicine'
+              )
+            )
+            .map(schedule => ({
+              id: schedule.id,
+              username: schedule.attributes.doctor.data.attributes.username,
+              specialization: schedule.attributes.doctor.data.attributes.specialization,
+              schedule: {
+                date: schedule.attributes.date,
+                day: schedule.attributes.day,
+                start_time: schedule.attributes.start_time,
+                end_time: schedule.attributes.end_time,
+              },
+            }));
         }
       } catch (error) {
-        console.error("Error fetching department:", error);
+        console.error("Error fetching departments:", error);
       }
     },
     bookAppointment(doctor) {
       alert(`Booking appointment with ${doctor.username}`);
     },
-    showDoctorDetails(doctor) {
-      alert(`Showing details for ${doctor.username}`);
-    },
   },
 };
 </script>
+
+
 
 <style scoped>
 table {
@@ -252,3 +273,4 @@ button:hover {
   margin: 0.5rem 0;
 }
 </style>
+
