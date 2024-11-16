@@ -845,11 +845,6 @@ export interface ApiDepartmentDepartment extends Schema.CollectionType {
       'manyToMany',
       'plugin::users-permissions.user'
     >;
-    doctor_schedules: Attribute.Relation<
-      'api::department.department',
-      'manyToMany',
-      'api::doctor-schedule.doctor-schedule'
-    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -889,11 +884,6 @@ export interface ApiDoctorScheduleDoctorSchedule extends Schema.CollectionType {
     start_time: Attribute.Time;
     end_time: Attribute.Time;
     day: Attribute.String;
-    departments: Attribute.Relation<
-      'api::doctor-schedule.doctor-schedule',
-      'manyToMany',
-      'api::department.department'
-    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

@@ -20,12 +20,6 @@
       "relation": "manyToMany",
       "target": "plugin::users-permissions.user",
       "inversedBy": "departments"
-    },
-    "doctor_schedules": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::doctor-schedule.doctor-schedule",
-      "mappedBy": "departments"
     }
   }
 }
