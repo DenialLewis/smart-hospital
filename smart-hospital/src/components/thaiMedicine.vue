@@ -130,7 +130,7 @@ export default {
           <td>{{ doctor.schedule.start_time }}</td>
           <td>{{ doctor.schedule.end_time }}</td>
           <td>
-            <button @click="bookAppointment(doctor)">
+            <button @click="openPopup(doctor)">
               {{ translations[currentLang].bookNow }}
             </button>
           </td>
@@ -143,11 +143,23 @@ export default {
     <h3>No Doctors are Available</h3>
     <h3>Sorry</h3>
   </div>
+
+  <!-- Popup Component -->
+  <Popup 
+    :doctor="selectedDoctor" 
+    :isVisible="isPopupVisible" 
+    @update:isVisible="isPopupVisible = $event"
+    @bookAppointment="bookAppointment" />
+
 </template>
 
 <script>
+import AppointmentPopUp from './AppointmentPopUp.vue';
 export default {
   name: 'thaiMedicine',
+  components: {
+    AppointmentPopUp, 
+  },
   data() {
     return {
       currentLang: 'EN',
@@ -174,6 +186,8 @@ export default {
         },
       },
       doctors: [], // Array to store doctors with their schedules
+      isPopupVisible: false, // State to control the visibility of the popup
+      selectedDoctor: null, // Doctor selected for the appointment
     };
   },
   created() {
@@ -210,8 +224,13 @@ export default {
         console.error("Error fetching departments:", error);
       }
     },
+    openPopup(doctor) {
+      this.selectedDoctor = doctor;
+      this.isPopupVisible = true;
+    },
     bookAppointment(doctor) {
-      alert(`Booking appointment with ${doctor.username}`);
+      alert(`Appointment confirmed with Dr. ${doctor.username}`);
+      this.isPopupVisible = false; // Close the popup after booking
     },
   },
 };
