@@ -26,6 +26,7 @@
       <button v-if="isOverflowing" @click="scrollRight" class="scroll-button right">&gt;</button>
     </div>
 
+    
     <!-- Upcoming Appointments Section -->
     <div class="appointments-section">
       <h2>Upcoming Appointments</h2>
@@ -34,6 +35,7 @@
           <strong>{{ appointment.date }}</strong>
           <p>{{ appointment.first_name }} {{ appointment.last_name }} - {{ appointment.appointment_types }}</p>
           <p>{{ appointment.time }} - {{ appointment.gender }}</p>
+          <button @click="cancelAppointment(appointment.id)" class="cancel-button">Cancel Appointment</button>
         </div>
         <div v-if="upcomingAppointments.length === 0" class="no-appointments">No upcoming appointments.</div>
       </div>
@@ -317,8 +319,9 @@ export default {
 
 .appointments-list {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;  /* Change to row to display horizontally */
   gap: 15px;
+  flex-wrap: wrap;  /* Allow wrapping if necessary */
 }
 
 .appointment-card {
@@ -330,6 +333,7 @@ export default {
   flex-direction: column;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out;
+  width: 250px;  /* Set a fixed width for each card */
 }
 
 .appointment-card:hover {
@@ -359,5 +363,21 @@ export default {
   font-style: italic;
   margin-top: 20px;
 }
+/* Add styles for cancel button */
+.cancel-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin-top: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cancel-button:hover {
+  background-color: #c0392b;
+}
+
 
 </style>
