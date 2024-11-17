@@ -13,31 +13,40 @@
             <div class="form-container"> 
                 <div class="schedule-info-section">
                     <h3>Schedule information</h3>
+
                     <div class="row"> 
                         <div class="column">
                             <label>Doctor Name</label>
-                            <input type="text" placeholder="doctor name"/>
+                            <input type="text" :value="doctor.username" disabled>
                         </div>
                     </div>
 
                     <div class="row"> 
                         <div class="column">
                             <label>Date</label>
-                            <input type="date" :min="minDate" v-model="selectedDate"/>
+                            <!-- <input type="date" :min="minDate" v-model="selectedDate"/> -->
+                            <input type="text" :value="doctor.schedule.date" disabled />
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="column">
                             <label>Day</label>
-                            <input type="text"/> 
+                            <input type="text" :value="doctor.schedule.day" disabled /> 
+                        </div>
+                    </div>
+
+                    <div class="row"> 
+                        <div class="column">
+                            <label>Appointment time</label>
+                            <input type="text" :value="doctor.schedule.start_time" disabled />
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="column">
                             <label>Write your symptom</label>
-                            <textarea type="text" placeholder="Describe any symptoms or concerns..."></textarea>
+                            <textarea type="text" placeholder="Describe any symptoms or concerns..." v-model="symptoms" ></textarea>
                         </div>
                     </div>
                 
@@ -129,8 +138,9 @@ export default {
         const today = new Date();
         const minDate = today.toISOString().split("T")[0];
         return {
-            selectedDate: '',
+            selectedDate: '', 
             selectedTimeSlot: '',
+            symptoms: '',
             minDate: minDate,
             patientInfo: {
                 title: '',
@@ -166,11 +176,15 @@ export default {
                 "Sudanese", "Surinamese", "Swazi", "Swedish", "Swiss", "Syrian", "Taiwanese", "Tajikistani", "Tanzanian", 
                 "Thai", "Togolese", "Tongan", "Trinidadian", "Tunisian", "Turkish", "Tuvaluan", "Ugandan", "Ukrainian", "Uruguayan", 
                 "Uzbekistani", "Vanuatu", "Venezuelan", "Vietnamese", "Yemenite", "Zambian", "Zimbabwean"
-            ]
+            ], 
+            doctor: this.$props.doctor 
         }
     },
     props: {
-        doctor: Object,
+        doctor: {
+            type: Object,
+            required: true
+        },
         isVisible: Boolean
     },
     computed: {
@@ -190,6 +204,7 @@ export default {
                 console.error('Error fetching username:', error);
             }
         }
+       
     },
     methods: {
         closePopup() {
@@ -392,3 +407,4 @@ h3 {
   }
 }
 </style> 
+
