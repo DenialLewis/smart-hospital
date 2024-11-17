@@ -201,6 +201,19 @@ export default {
         console.error('Error fetching upcoming appointments:', error);
       }
     },
+    async cancelAppointment(appointmentId) {
+    try {
+      // Send DELETE request to Strapi to delete the appointment
+      await axios.delete(`http://localhost:1337/api/other-appointments/${appointmentId}`);
+
+      // After successful deletion, remove the appointment from the list
+      this.upcomingAppointments = this.upcomingAppointments.filter(
+        appointment => appointment.id !== appointmentId
+      );
+    } catch (error) {
+      console.error('Error cancelling the appointment:', error);
+    }
+  },
     async fetchAnnouncements() {
       try {
         const response = await axios.get('http://localhost:1337/api/announcements');
