@@ -24,8 +24,8 @@
                     <div class="row"> 
                         <div class="column">
                             <label>Date</label>
-                            <!-- <input type="date" :min="minDate" v-model="selectedDate"/> -->
-                            <input type="text" :value="doctor.schedule.date" disabled />
+                            <input type="date" :value="doctor.schedule.date"  disabled/>
+                            <!-- <input type="date" v-model="selectedDate" :min="minDate" /> -->
                         </div>
                     </div>
 
@@ -76,7 +76,6 @@
                         </div>
                     </div>
 
-                    <!-- First Name and Last Name Side by Side -->
                     <div class="row">
                         <div class="column">
                             <label>First Name</label>
@@ -118,12 +117,8 @@
 
             </div>
 
-            
-            
-
-            <!-- Submit Button -->
             <h2></h2>
-            <button @click="submitAppointment" class="btn-submit">Submit Appointment</button>
+            <button @click="submitAppointment" class="btn-submit"  :disabled="!doctor || !doctor.schedule">Submit Appointment</button>
         </div>
     </div>
 </template>
@@ -214,27 +209,32 @@ export default {
         async submitAppointment() {
             const token = localStorage.getItem('jwtToken');
             const userId = localStorage.getItem('userId');
+
             try {
                 const headers = {
                     Authorization: `Bearer ${token}`
                 };
+                const formattedDate = new Date(this.doctor.schedule.date).toISOString().split('T')[0];
+                const formattedDob = new Date(this.patientInfo.dob).toISOString().split('T')[0];
+
                 const appointmentData = {
-                    appointment_types: this.selectedAppointmentType,
-                    date: this.selectedDate,
+                    symptom: this.symptoms,
+                    date: formattedDate,
                     day: new Date(this.selectedDate).toLocaleDateString('en-US', { weekday: 'long' }),
-                    time: `${this.selectedTimeSlot}:00.000`,
+                    appointment_time: `${this.doctor.schedule.start_time}:00.000`,
                     title: this.patientInfo.title,
                     first_name: this.patientInfo.firstName,
                     last_name: this.patientInfo.lastName,
                     gender: this.patientInfo.gender,
-                    date_of_birth: this.patientInfo.dob,
+                    date_of_birth: formattedDob,
                     phone_num: this.patientInfo.phone,
                     nationality: this.patientInfo.nationality,
                     ncid_passport: this.patientInfo.idNumber,
-                    username: userId,
+                    patient_names: userId,
+                    doctor_names: this.doctor.id 
                 };
 
-                const response = await axios.post('http://localhost:1337/api/other-appointments', { data: appointmentData }, {headers});
+                const response = await axios.post('http://localhost:1337/api/doctor-appointments', { data: appointmentData }, {headers});
                 this.$emit('update:isVisible', false);
                 alert('Appointment submitted successfully!');
             } catch (error) {

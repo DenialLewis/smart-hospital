@@ -56,6 +56,9 @@
       "relation": "manyToMany",
       "target": "plugin::users-permissions.user",
       "inversedBy": "doctor_appointments_doctor"
+    },
+    "day": {
+      "type": "string"
     }
   }
 }

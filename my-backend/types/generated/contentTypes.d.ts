@@ -907,6 +907,7 @@ export interface ApiDoctorAppointmentDoctorAppointment
       'manyToMany',
       'plugin::users-permissions.user'
     >;
+    day: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

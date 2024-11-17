@@ -112,6 +112,9 @@ export default {
                 end_time: schedule.attributes.end_time,
               },
             }));
+
+            
+
         }
       } catch (error) {
         console.error("Error fetching departments:", error);
