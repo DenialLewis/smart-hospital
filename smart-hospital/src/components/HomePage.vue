@@ -1,5 +1,34 @@
 <template>
   <section class="content-section">
+    <!-- Images Section (Above Ads Section) -->
+    <div class="img-section">
+  <div class="img-container">
+    <!-- Display only one image -->
+    <div class="img-card">
+      <img
+        v-if="selectedImage"
+        :src="`http://localhost:1337${selectedImage}`"
+        alt="Displayed Image"
+        class="uploaded-img"
+        @error="handleImageError"
+      />
+      <p v-else>No images available.</p>
+    </div>
+    <!-- Buttons Section -->
+    <div class="buttons-container">
+      <button
+        v-for="(img, index) in uploadedImages"
+        :key="img.id"
+        @click="displayImage(index)"
+        class="img-button"
+      >
+        .
+      </button>
+    </div>
+  </div>
+</div>
+
+
     <!-- Ads Section -->
     <div class="ads-container-wrapper">
       <button v-if="isOverflowing" @click="scrollLeft" class="scroll-button left">&lt;</button>
@@ -26,7 +55,6 @@
       <button v-if="isOverflowing" @click="scrollRight" class="scroll-button right">&gt;</button>
     </div>
 
-    
     <!-- Upcoming Appointments Section -->
     <div class="appointments-section">
       <h2>Upcoming Appointments</h2>
@@ -41,7 +69,7 @@
       </div>
     </div>
 
-    <!-- Announcements and Alerts Section -->
+    <!-- Announcements Section -->
     <div class="announcements-section">
       <h2>Announcements</h2>
       <div class="announcement-card" v-for="announcement in announcements" :key="announcement.id">
@@ -50,37 +78,38 @@
       <div v-if="announcements.length === 0" class="no-announcements">No announcements available.</div>
     </div>
 
-   <!-- Health Tips & News Section -->
-  <div class="health-tips-section">
-    <h2>Health Tips & News</h2>
-    <div class="health-tips-container-wrapper">
-      <button v-if="isHealthTipsOverflowing" @click="scrollHealthTipsLeft" class="scroll-button left">&lt;</button>
-      <div class="health-tips-container" ref="healthTipsContainer">
-        <div
-          class="health-tip-card"
-          v-for="tip in healthTips"
-          :key="tip.id"
-          @click="navigateToHealthTip(tip)"
-        >
-          <h3>{{ tip.title }}</h3>
-          <div class="health-tip-images-container" v-if="tip.images && Array.isArray(tip.images) && tip.images.length > 0">
-            <img
-              v-for="(image, index) in tip.images"
-              :key="index"
-              :src="image.url"
-              alt="Health Tip Image"
-              class="health-tip-image"
-              @error="handleImageError(tip)"
-            />
+    <!-- Health Tips & News Section -->
+    <div class="health-tips-section">
+      <h2>Health Tips & News</h2>
+      <div class="health-tips-container-wrapper">
+        <button v-if="isHealthTipsOverflowing" @click="scrollHealthTipsLeft" class="scroll-button left">&lt;</button>
+        <div class="health-tips-container" ref="healthTipsContainer">
+          <div
+            class="health-tip-card"
+            v-for="tip in healthTips"
+            :key="tip.id"
+            @click="navigateToHealthTip(tip)"
+          >
+            <h3>{{ tip.title }}</h3>
+            <div class="health-tip-images-container" v-if="tip.images && Array.isArray(tip.images) && tip.images.length > 0">
+              <img
+                v-for="(image, index) in tip.images"
+                :key="index"
+                :src="image.url"
+                alt="Health Tip Image"
+                class="health-tip-image"
+                @error="handleImageError(tip)"
+              />
+            </div>
           </div>
         </div>
+        <button v-if="isHealthTipsOverflowing" @click="scrollHealthTipsRight" class="scroll-button right">&gt;</button>
       </div>
-      <button v-if="isHealthTipsOverflowing" @click="scrollHealthTipsRight" class="scroll-button right">&gt;</button>
+      <div v-if="healthTips.length === 0" class="no-tips">No health tips available.</div>
     </div>
-    <div v-if="healthTips.length === 0" class="no-tips">No health tips available.</div>
-  </div>
   </section>
 </template>
+
 <script>
 import axios from 'axios';
 
@@ -89,6 +118,8 @@ export default {
   data() {
     return {
       ads: [],
+      uploadedImages: [], // Array to store fetched image data
+    selectedImage: null, // URL of the currently displayed image
       isOverflowing: false,
       upcomingAppointments: [],
       announcements: [],
@@ -97,23 +128,44 @@ export default {
     };
   },
   mounted() {
+    this.fetchImages();
     this.fetchAds();
     this.fetchUpcomingAppointments();
     this.fetchAnnouncements();
-    this.fetchHealthTips(); // Make sure this method is correctly named
+    this.fetchHealthTips();
     this.checkOverflow();
     this.checkHealthTipsOverflow();
   },
   methods: {
+    async fetchImages() {
+    try {
+      const response = await axios.get('http://localhost:1337/api/imgs?populate=*');
+      this.uploadedImages = response.data.data.map(img => ({
+        id: img.id,
+        Img: img.attributes.Imgs?.data[0]?.attributes.url || null, // Fetch the first image from each entry
+      }));
+      // Set the first image as default
+      this.selectedImage = this.uploadedImages.length > 0 ? this.uploadedImages[0].Img : null;
+    } catch (error) {
+      console.error('Error fetching images:', error);
+    }
+  },
+  displayImage(index) {
+    // Update the displayed image based on button click
+    this.selectedImage = this.uploadedImages[index]?.Img;
+  },
+  handleImageError() {
+    console.error('Error loading the image.');
+  },
     async fetchAds() {
       try {
         const response = await axios.get('http://localhost:1337/api/ads?populate=*');
         this.ads = response.data.data.map(ad => ({
           id: ad.id,
-          Ad: ad.attributes.Ad || 'Ad Title Not Available', // Accessing the Ad title
+          Ad: ad.attributes.Ad || 'Ad Title Not Available',
           Ads: ad.attributes.Ads ? ad.attributes.Ads.data.map(media => ({
-            url: media.attributes.url
-          })) : [] // Mapping the media URLs if available
+            url: media.attributes.url,
+          })) : [],
         }));
       } catch (error) {
         console.error('Error fetching ads:', error);
@@ -149,23 +201,26 @@ export default {
     async fetchHealthTips() {
       try {
         const response = await axios.get('http://localhost:1337/api/news?populate=*');
-        console.log('API Response:', response.data); // Check this in the console
         this.healthTips = response.data.data.map(tip => ({
           id: tip.id,
           title: tip.attributes.Title || 'No Title Available',
           info: tip.attributes.Info || 'No Info Available',
           images: tip.attributes.News && Array.isArray(tip.attributes.News.data)
             ? tip.attributes.News.data.map(newsItem => ({
-                url: `http://localhost:1337${newsItem.attributes.url}`
+                url: `http://localhost:1337${newsItem.attributes.url}`,
               }))
-            : []
+            : [],
         }));
       } catch (error) {
         console.error('Error fetching health tips:', error);
       }
     },
+    handleButtonClick(img, index) {
+    console.log(`Button ${index + 1} clicked for image entry:`, img);
+    // Perform any action when a button is clicked, such as showing more details
+  },
     handleImageError(item) {
-      console.log(`Error loading image for: ${item.title || item.Ad}`);
+      console.log(`Error loading image for: ${item.Img || item.Ad}`);
     },
     scrollLeft() {
       this.$refs.adsContainer.scrollBy({ left: -200, behavior: 'smooth' });
@@ -194,8 +249,8 @@ export default {
         query: {
           title: tip.title,
           image: tip.images[0]?.url,
-          info: tip.info
-        }
+          info: tip.info,
+        },
       });
     },
   },
@@ -210,6 +265,42 @@ export default {
 .content-section {
   padding: 20px;
 }
+
+.img-section {
+  display: flex; /* Use flexbox for centering content */
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Horizontally center content */
+  justify-content: center; /* Vertically center content */
+  text-align: center; /* Center align text */
+  padding: 20px; /* Add some padding for better spacing */
+}
+
+.uploaded-img {
+  max-width: 100%;
+  max-height: 300px; /* Set a max height for larger images */
+  height: auto;
+  border-radius: 5px;
+  transition: transform 0.3s ease; /* Add a smooth hover effect */
+}
+
+.img-button {
+  width: 15px; /* Diameter of the dot */
+  height: 15px; /* Diameter of the dot */
+  background-color: red; /* Red color for the dot */
+  border: none; /* Remove default button border */
+  border-radius: 50%; /* Make the button circular */
+  margin: 5px; /* Spacing between dots */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  display: inline-block; /* Ensure proper alignment */
+  transition: transform 0.2s ease; /* Smooth animation on click */
+}
+
+.img-button:hover {
+  transform: scale(1.2); /* Slightly enlarge on hover */
+  background-color: darkred; /* Darker shade on hover */
+}
+
+
 
 .ads-container-wrapper,
 .health-tips-container-wrapper {

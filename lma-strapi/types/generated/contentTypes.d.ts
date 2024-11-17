@@ -906,6 +906,30 @@ export interface ApiDoctorScheduleDoctorSchedule extends Schema.CollectionType {
   };
 }
 
+export interface ApiImgImg extends Schema.CollectionType {
+  collectionName: 'imgs';
+  info: {
+    singularName: 'img';
+    pluralName: 'imgs';
+    displayName: 'Img';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Img: Attribute.String;
+    Imgs: Attribute.Media<'images' | 'files' | 'videos' | 'audios', true>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::img.img', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::img.img', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
 export interface ApiNewNew extends Schema.CollectionType {
   collectionName: 'news';
   info: {
@@ -999,6 +1023,7 @@ declare module '@strapi/types' {
       'api::ad.ad': ApiAdAd;
       'api::department.department': ApiDepartmentDepartment;
       'api::doctor-schedule.doctor-schedule': ApiDoctorScheduleDoctorSchedule;
+      'api::img.img': ApiImgImg;
       'api::new.new': ApiNewNew;
       'api::other-appointment.other-appointment': ApiOtherAppointmentOtherAppointment;
     }
