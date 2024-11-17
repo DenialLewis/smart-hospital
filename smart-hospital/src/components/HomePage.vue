@@ -22,7 +22,6 @@
           @click="displayImage(index)"
           class="img-button"
         >
-          .
         </button>
       </div>
     </div>
@@ -313,7 +312,7 @@ export default {
 .img-button {
   width: 15px; /* Diameter of the dot */
   height: 15px; /* Diameter of the dot */
-  background-color: red; /* Red color for the dot */
+  background-color: #B5DEE0; /* Red color for the dot */
   border: none; /* Remove default button border */
   border-radius: 50%; /* Make the button circular */
   margin: 5px; /* Spacing between dots */
@@ -324,7 +323,7 @@ export default {
 
 .img-button:hover {
   transform: scale(1.2); /* Slightly enlarge on hover */
-  background-color: darkred; /* Darker shade on hover */
+  background-color: #2C3E50; /* Darker shade on hover */
 }
 
 
