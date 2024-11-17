@@ -4,6 +4,7 @@
     <table>
       <thead>
         <tr>
+          <th>{{ translations[currentLang].doctorId }}</th>
           <th>{{ translations[currentLang].doctorName }}</th>
           <th>{{ translations[currentLang].specialization }}</th>
           <th>{{ translations[currentLang].date }}</th>
@@ -15,6 +16,7 @@
       </thead>
       <tbody>
         <tr v-for="doctor in doctors" :key="doctor.id">
+          <td>{{ doctor.userId }}</td>
           <td>{{ doctor.username || "Unnamed Doctor" }}</td>
           <td>{{ doctor.specialization || "N/A" }}</td>
           <td>{{ doctor.schedule.date }}</td>
@@ -59,6 +61,7 @@ export default {
       translations: {
         EN: {
           departmentTitle: "Department of Thai Traditional Medicine",
+          doctorId: "id",
           doctorName: "Doctor Name",
           specialization: "Specialization",
           date: "Date",
@@ -103,6 +106,7 @@ export default {
             )
             .map(schedule => ({
               id: schedule.id,
+              userId: schedule.attributes.doctor.data.id,
               username: schedule.attributes.doctor.data.attributes.username,
               specialization: schedule.attributes.doctor.data.attributes.specialization,
               schedule: {
@@ -122,6 +126,13 @@ export default {
     },
     openPopup(doctor) {
       this.selectedDoctor = doctor;
+    //   this.selectedDoctor = {
+    //     id: doctor.userId,  // doctor ID
+    //   username: doctor.username, // doctor name
+    //   date: doctor.schedule.date, // schedule date
+    //   day: doctor.schedule.day, // schedule day
+    //   start_time: doctor.schedule.start_time,
+    // };
       this.isPopupVisible = true;
     },
     bookAppointment(doctor) {

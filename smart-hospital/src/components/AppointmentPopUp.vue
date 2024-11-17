@@ -14,6 +14,13 @@
                 <div class="schedule-info-section">
                     <h3>Schedule information</h3>
 
+                    <div class="row">
+                    <div class="column">
+                        <label>Current User</label>
+                        <input type="text" :value="username"  />
+                    </div>
+                    </div>
+
                     <div class="row"> 
                         <div class="column">
                             <label>Doctor Name</label>
@@ -216,59 +223,61 @@ export default {
         },
        
 
-        //second time 
         async submitAppointment() {
-            try {
-                const token = localStorage.getItem('jwtToken'); // Declare token once
-                const userId = localStorage.getItem('userId'); // Retrieve userId from localStorage
+    try {
+        const token = localStorage.getItem('jwtToken'); // Token for authentication
+        const userId = localStorage.getItem('userId'); // Retrieve userId from localStorage
 
-                if (!token) {
-                    alert("User is not authenticated. Please log in.");
-                    return;
-                }
-
-                const headers = {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                };
-
-                const formattedDate = new Date(this.doctor.schedule.date).toISOString().split('T')[0];
-                const formattedDob = new Date(this.patientInfo.dob).toISOString().split('T')[0];
-
-                const appointmentData = {
-                    symptom: this.symptoms,
-                    date: formattedDate,
-                    day: this.doctor.schedule.day,
-                    appointment_time: this.doctor.schedule.start_time,
-                    title: this.patientInfo.title,
-                    first_name: this.patientInfo.firstName,
-                    last_name: this.patientInfo.lastName,
-                    gender: this.patientInfo.gender,
-                    date_of_birth: formattedDob,
-                    phone_num: this.patientInfo.phone,
-                    nationality: this.patientInfo.nationality,
-                    ncid_passport: this.patientInfo.idNumber,
-                    patient_names: userId, // Use the userId retrieved earlier
-                    doctor_names: this.doctor.id
-                };
-
-                const response = await axios.post(
-                    'http://localhost:1337/api/doctor-appointments',
-                    { data: appointmentData },
-                    { headers }
-                );
-
-                console.log("Doctor data:", this.doctor);
-                console.log("Patient info:", this.patientInfo);
-                console.log("Symptoms:", this.symptoms);
-
-                this.$emit('update:isVisible', false);
-                alert('Appointment submitted successfully!');
-            } catch (error) {
-                console.error('Error submitting appointment:', error.response?.data || error.message);
-                alert(`Failed to submit appointment: ${error.response?.data?.error?.message || "Please try again."}`);
-            }
+        if (!token) {
+            alert("User is not authenticated. Please log in.");
+            return;
         }
+
+        const headers = {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        };
+
+        const formattedDate = new Date(this.doctor.schedule.date).toISOString().split('T')[0];
+        const formattedDob = new Date(this.patientInfo.dob).toISOString().split('T')[0];
+
+        // Appointment data with user IDs for relations
+        const appointmentData = {
+            symptom: this.symptoms,
+            date: formattedDate,
+            day: this.doctor.schedule.day,
+            appointment_time: this.doctor.schedule.start_time,
+            title: this.patientInfo.title,
+            first_name: this.patientInfo.firstName,
+            last_name: this.patientInfo.lastName,
+            gender: this.patientInfo.gender,
+            date_of_birth: formattedDob,
+            phone_num: this.patientInfo.phone,
+            nationality: this.patientInfo.nationality,
+            ncid_passport: this.patientInfo.idNumber,
+            patient_names: userId, // Use the logged-in user's ID
+            //doctor_names: this.doctor.id // Use the selected doctor's ID
+            doctor: this.$props.doctor.id
+        };
+
+        // Make a POST request to Strapi
+        const response = await axios.post(
+            'http://localhost:1337/api/doctor-appointments',
+            { data: appointmentData },
+            { headers }
+        );
+
+        console.log("Appointment response:", response.data);
+        console.log(this.$props.doctor);
+        this.$emit('update:isVisible', false);
+        alert('Appointment submitted successfully!');
+    } catch (error) {
+        console.error('Error submitting appointment:', error.response?.data || error.message);
+        alert(`Failed to submit appointment: ${error.response?.data?.error?.message || "Please try again."}`);
+    }
+}
+
+
 
 
        
