@@ -1,32 +1,32 @@
 <template>
   <section class="content-section">
-    <!-- Images Section (Above Ads Section) -->
-    <div class="img-section">
-  <div class="img-container">
-    <!-- Display only one image -->
-    <div class="img-card">
-      <img
-        v-if="selectedImage"
-        :src="`http://localhost:1337${selectedImage}`"
-        alt="Displayed Image"
-        class="uploaded-img"
-        @error="handleImageError"
-      />
-      <p v-else>No images available.</p>
-    </div>
-    <!-- Buttons Section -->
-    <div class="buttons-container">
-      <button
-        v-for="(img, index) in uploadedImages"
-        :key="img.id"
-        @click="displayImage(index)"
-        class="img-button"
-      >
-        .
-      </button>
+    <!-- Images Section -->
+     <!-- Images Section -->
+  <div class="img-section">
+    <div class="img-container">
+      <div class="img-card">
+        <img
+          v-if="selectedImage"
+          :src="`http://localhost:1337${selectedImage}`"
+          alt="Displayed Image"
+          class="uploaded-img"
+          @error="handleImageError"
+        />
+        <p v-else>No images available.</p>
+      </div>
+      <!-- Buttons Section -->
+      <div class="buttons-container">
+        <button
+          v-for="(img, index) in uploadedImages"
+          :key="img.id"
+          @click="displayImage(index)"
+          class="img-button"
+        >
+          .
+        </button>
+      </div>
     </div>
   </div>
-</div>
 
 
     <!-- Ads Section -->
@@ -119,7 +119,9 @@ export default {
     return {
       ads: [],
       uploadedImages: [], // Array to store fetched image data
-    selectedImage: null, // URL of the currently displayed image
+      selectedImage: null, // URL of the currently displayed image
+      autoChangeInterval: null, // To store interval ID for automatic image change
+      currentImageIndex: 0, // To keep track of the current image
       isOverflowing: false,
       upcomingAppointments: [],
       announcements: [],
@@ -129,6 +131,10 @@ export default {
   },
   mounted() {
     this.fetchImages();
+    // Automatically change the image every 5 seconds
+    this.autoChangeInterval = setInterval(() => {
+      this.changeImage();
+    }, 5000);
     this.fetchAds();
     this.fetchUpcomingAppointments();
     this.fetchAnnouncements();
@@ -138,25 +144,33 @@ export default {
   },
   methods: {
     async fetchImages() {
-    try {
-      const response = await axios.get('http://localhost:1337/api/imgs?populate=*');
-      this.uploadedImages = response.data.data.map(img => ({
-        id: img.id,
-        Img: img.attributes.Imgs?.data[0]?.attributes.url || null, // Fetch the first image from each entry
-      }));
-      // Set the first image as default
-      this.selectedImage = this.uploadedImages.length > 0 ? this.uploadedImages[0].Img : null;
-    } catch (error) {
-      console.error('Error fetching images:', error);
-    }
-  },
-  displayImage(index) {
-    // Update the displayed image based on button click
-    this.selectedImage = this.uploadedImages[index]?.Img;
-  },
-  handleImageError() {
-    console.error('Error loading the image.');
-  },
+      try {
+        const response = await axios.get('http://localhost:1337/api/imgs?populate=*');
+        this.uploadedImages = response.data.data.map(img => ({
+          id: img.id,
+          Img: img.attributes.Imgs?.data[0]?.attributes.url || null, // Fetch the first image from each entry
+        }));
+        // Set the first image as default
+        if (this.uploadedImages.length > 0) {
+          this.selectedImage = this.uploadedImages[0].Img;
+        }
+      } catch (error) {
+        console.error('Error fetching images:', error);
+      }
+    },
+    displayImage(index) {
+    
+      this.selectedImage = this.uploadedImages[index]?.Img;
+      this.currentImageIndex = index; // Update the current image index
+    },
+    changeImage() {
+      // Change to the next image automatically
+      this.currentImageIndex = (this.currentImageIndex + 1) % this.uploadedImages.length;
+      this.selectedImage = this.uploadedImages[this.currentImageIndex]?.Img;
+    },
+    handleImageError() {
+      console.error('Error loading the image.');
+    },
     async fetchAds() {
       try {
         const response = await axios.get('http://localhost:1337/api/ads?populate=*');
