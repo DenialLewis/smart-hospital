@@ -114,7 +114,7 @@ export default {
         localStorage.setItem('jwtToken', response.data.jwt);
         localStorage.setItem('userId', response.data.user.id);
         console.log('JWT Token:', localStorage.getItem('jwtToken'));
-console.log('User ID:', localStorage.getItem('userId'));
+        console.log('User ID:', localStorage.getItem('userId'));
         this.$emit('login-success');
         alert('Login successful!');
         this.$emit('close');

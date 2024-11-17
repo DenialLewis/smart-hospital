@@ -12,12 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "patient_names": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "doctor_appointments_patient"
-    },
     "symptom": {
       "type": "text"
     },
@@ -59,6 +53,12 @@
     },
     "day": {
       "type": "string"
+    },
+    "patient_names": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "doctor_appointments_patient"
     }
   }
 }

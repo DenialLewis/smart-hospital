@@ -787,12 +787,12 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToMany',
       'api::other-appointment.other-appointment'
     >;
-    doctor_appointments_patient: Attribute.Relation<
+    doctor_appointments_doctor: Attribute.Relation<
       'plugin::users-permissions.user',
       'manyToMany',
       'api::doctor-appointment.doctor-appointment'
     >;
-    doctor_appointments_doctor: Attribute.Relation<
+    doctor_appointments_patient: Attribute.Relation<
       'plugin::users-permissions.user',
       'manyToMany',
       'api::doctor-appointment.doctor-appointment'
@@ -886,11 +886,6 @@ export interface ApiDoctorAppointmentDoctorAppointment
     draftAndPublish: true;
   };
   attributes: {
-    patient_names: Attribute.Relation<
-      'api::doctor-appointment.doctor-appointment',
-      'manyToMany',
-      'plugin::users-permissions.user'
-    >;
     symptom: Attribute.Text;
     date: Attribute.Date;
     appointment_time: Attribute.Time;
@@ -908,6 +903,11 @@ export interface ApiDoctorAppointmentDoctorAppointment
       'plugin::users-permissions.user'
     >;
     day: Attribute.String;
+    patient_names: Attribute.Relation<
+      'api::doctor-appointment.doctor-appointment',
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

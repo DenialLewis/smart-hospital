@@ -17,29 +17,28 @@
                     <div class="row"> 
                         <div class="column">
                             <label>Doctor Name</label>
-                            <input type="text" :value="doctor.username" disabled>
+                            <input type="text" :value="doctor.username" >
                         </div>
                     </div>
 
                     <div class="row"> 
                         <div class="column">
                             <label>Date</label>
-                            <input type="date" :value="doctor.schedule.date"  disabled/>
-                            <!-- <input type="date" v-model="selectedDate" :min="minDate" /> -->
+                            <input type="date" :value="doctor.schedule.date"  />
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="column">
                             <label>Day</label>
-                            <input type="text" :value="doctor.schedule.day" disabled /> 
+                            <input type="text" :value="doctor.schedule.day"  /> 
                         </div>
                     </div>
 
                     <div class="row"> 
                         <div class="column">
                             <label>Appointment time</label>
-                            <input type="text" :value="doctor.schedule.start_time" disabled />
+                            <input type="text" :value="doctor.schedule.start_time"  />
                         </div>
                     </div>
 
@@ -148,6 +147,7 @@ export default {
                 idNumber: ''
             },
             username: '',
+            
 
             nationalities: [
                 "Afghan", "Albanian", "Algerian", "American", "Andorran", "Angolan", "Antiguan", "Argentine", "Armenian", 
@@ -172,7 +172,7 @@ export default {
                 "Thai", "Togolese", "Tongan", "Trinidadian", "Tunisian", "Turkish", "Tuvaluan", "Ugandan", "Ukrainian", "Uruguayan", 
                 "Uzbekistani", "Vanuatu", "Venezuelan", "Vietnamese", "Yemenite", "Zambian", "Zimbabwean"
             ], 
-            doctor: this.$props.doctor 
+            //doctor: this.$props.doctor 
         }
     },
     props: {
@@ -180,13 +180,21 @@ export default {
             type: Object,
             required: true
         },
-        isVisible: Boolean
+        isVisible: Boolean,
+
+       
+
     },
     computed: {
-        formattedDate() {
-            const d = new Date(date);
-            return d.toISOString().split("T")[0]; 
-        }
+        // formattedDate() {
+        //     const d = new Date(date);
+        //     return d.toISOString().split("T")[0]; 
+        //}
+        doctorData() {
+            return this.doctor;
+        },
+        
+
     },
     async mounted() {
         // Fetch the user's username on component mount if they're logged in
@@ -206,22 +214,32 @@ export default {
             // Emit an event to close the popup
             this.$emit('update:isVisible', false);
         },
-        async submitAppointment() {
-            const token = localStorage.getItem('jwtToken');
-            const userId = localStorage.getItem('userId');
+       
 
+        //second time 
+        async submitAppointment() {
             try {
+                const token = localStorage.getItem('jwtToken'); // Declare token once
+                const userId = localStorage.getItem('userId'); // Retrieve userId from localStorage
+
+                if (!token) {
+                    alert("User is not authenticated. Please log in.");
+                    return;
+                }
+
                 const headers = {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json'
                 };
+
                 const formattedDate = new Date(this.doctor.schedule.date).toISOString().split('T')[0];
                 const formattedDob = new Date(this.patientInfo.dob).toISOString().split('T')[0];
 
                 const appointmentData = {
                     symptom: this.symptoms,
                     date: formattedDate,
-                    day: new Date(this.selectedDate).toLocaleDateString('en-US', { weekday: 'long' }),
-                    appointment_time: `${this.doctor.schedule.start_time}:00.000`,
+                    day: this.doctor.schedule.day,
+                    appointment_time: this.doctor.schedule.start_time,
                     title: this.patientInfo.title,
                     first_name: this.patientInfo.firstName,
                     last_name: this.patientInfo.lastName,
@@ -230,19 +248,32 @@ export default {
                     phone_num: this.patientInfo.phone,
                     nationality: this.patientInfo.nationality,
                     ncid_passport: this.patientInfo.idNumber,
-                    patient_names: userId,
-                    doctor_names: this.doctor.id 
+                    patient_names: userId, // Use the userId retrieved earlier
+                    doctor_names: this.doctor.id
                 };
 
-                const response = await axios.post('http://localhost:1337/api/doctor-appointments', { data: appointmentData }, {headers});
+                const response = await axios.post(
+                    'http://localhost:1337/api/doctor-appointments',
+                    { data: appointmentData },
+                    { headers }
+                );
+
+                console.log("Doctor data:", this.doctor);
+                console.log("Patient info:", this.patientInfo);
+                console.log("Symptoms:", this.symptoms);
+
                 this.$emit('update:isVisible', false);
                 alert('Appointment submitted successfully!');
             } catch (error) {
                 console.error('Error submitting appointment:', error.response?.data || error.message);
                 alert(`Failed to submit appointment: ${error.response?.data?.error?.message || "Please try again."}`);
             }
-            
-        },
+        }
+
+
+       
+
+
     }
 };
 </script>
