@@ -103,6 +103,7 @@ export default {
             )
             .map(schedule => ({
               id: schedule.id,
+              userId: schedule.attributes.doctor.data.id,
               username: schedule.attributes.doctor.data.attributes.username,
               specialization: schedule.attributes.doctor.data.attributes.specialization,
               schedule: {
@@ -118,6 +119,8 @@ export default {
       }
     },
     openPopup(doctor) {
+      alert(`Selected Schedule Info:\n\nID: ${doctor.id}\nSelected doctor id: ${doctor.userId}\n Name: ${doctor.username}\nSpecialization: ${doctor.specialization}\nDate: ${doctor.schedule.date}\nDay: ${doctor.schedule.day}\nStart Time: ${doctor.schedule.start_time}\nEnd Time: ${doctor.schedule.end_time}`);
+
       this.selectedDoctor = doctor;
       this.isPopupVisible = true;
     },
