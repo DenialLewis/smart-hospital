@@ -89,7 +89,7 @@
           <strong>{{ appointment.day }}</strong>
           <p>{{ formatDisplayAppointmentTime(appointment.appointment_time) }}</p>
           <p>{{ appointment.first_name }} {{ appointment.last_name }} ({{ appointment.gender }})</p>
-          <p>To see with Dr. {{ appointment.doctor_names }}</p>
+          <p>To see with Dr. {{ appointment.doctor_names }} ({{ appointment.specialization }}) </p>
           <button @click="cancelAppointment(appointment.id)" class="cancel-button">Cancel Appointment</button>
         </div>
         <div v-if="upcomingDoctorAppointments.length === 0" class="no-appointments">No upcoming doctor appointments.</div>
@@ -212,22 +212,6 @@ export default {
         console.error('Error fetching ads:', error);
       }
     },
-    // async fetchUpcomingAppointments() {
-    //   try {
-    //     const response = await axios.get('http://localhost:1337/api/other-appointments');
-    //     this.upcomingAppointments = response.data.data.map(appointment => ({
-    //       id: appointment.id,
-    //       date: appointment.attributes.date,
-    //       first_name: appointment.attributes.first_name,
-    //       last_name: appointment.attributes.last_name,
-    //       appointment_types: appointment.attributes.appointment_types,
-    //       time: appointment.attributes.time,
-    //       gender: appointment.attributes.gender,
-    //     }));
-    //   } catch (error) {
-    //     console.error('Error fetching upcoming appointments:', error);
-    //   }
-    // },
     async fetchUpcomingAppointments() {
       try {
         const userId = localStorage.getItem('userId'); // Get the logged-in user's ID
@@ -268,39 +252,10 @@ export default {
             appointment_time: appointment.attributes.appointment_time,
             gender: appointment.attributes.gender,
             doctor_names: appointment. attributes.doctor_names?.data[0]?.attributes?.username, 
+            specialization: appointment. attributes.doctor_names?.data[0]?.attributes?.specialization, 
+
             
           }));
-
-      //     this.upcomingDoctorAppointments = response.data.data.map(appointment => ({
-      //   id: appointment.id,
-      //   date: appointment.attributes.date,
-      //   day: appointment.attributes.day,
-      //   first_name: appointment.attributes.first_name,
-      //   last_name: appointment.attributes.last_name,
-      //   appointment_time: appointment.attributes.appointment_time,
-      //   gender: appointment.attributes.gender,
-      //   doctor_names: appointment.attributes.doctor_names?.data?.length
-      //     ? appointment.attributes.doctor_names.data
-      //         .map(doctor => doctor.attributes.username)
-      //         .join(', ')
-      //     : 'No Doctors Assigned',
-      // }));
-
-
-      // this.upcomingDoctorAppointments = response.data.data.map(appointment => {
-      //   const doctorNamesData = appointment.attributes.doctor_names?.data || [];
-      //   const doctorNames = doctorNamesData.map(doctor => doctor.attributes.username).join(', ');
-      //   return {
-      //     id: appointment.id,
-      //     date: appointment.attributes.date,
-      //     day: appointment.attributes.day,
-      //     first_name: appointment.attributes.first_name,
-      //     last_name: appointment.attributes.last_name,
-      //     appointment_time: appointment.attributes.appointment_time,
-      //     gender: appointment.attributes.gender,
-      //     doctor_names: doctorNames || 'No Doctors Assigned',
-      //   };
-      // });
 
         } else {
           console.error("User is not logged in.");
