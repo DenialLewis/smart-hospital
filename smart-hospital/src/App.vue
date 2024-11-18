@@ -623,6 +623,7 @@ main {
 }
 
 .nav-tabs {
+    font-family: Arial, Helvetica, sans-serif;
     display: flex;
     justify-content: space-around;
     background-color: #ffffff;

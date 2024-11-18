@@ -2,30 +2,30 @@
   <section class="content-section">
     <!-- Images Section -->
      <!-- Images Section -->
-  <div class="img-section">
-    <div class="img-container">
-      <div class="img-card">
-        <img
-          v-if="selectedImage"
-          :src="`http://localhost:1337${selectedImage}`"
-          alt="Displayed Image"
-          class="uploaded-img"
-          @error="handleImageError"
-        />
-        <p v-else>No images available.</p>
-      </div>
-      <!-- Buttons Section -->
-      <div class="buttons-container">
-        <button
-          v-for="(img, index) in uploadedImages"
-          :key="img.id"
-          @click="displayImage(index)"
-          class="img-button"
-        >
-        </button>
+    <div class="img-section">
+      <div class="img-container">
+        <div class="img-card">
+          <img
+            v-if="selectedImage"
+            :src="`http://localhost:1337${selectedImage}`"
+            alt="Displayed Image"
+            class="uploaded-img"
+            @error="handleImageError"
+          />
+          <p v-else>No images available.</p>
+        </div>
+        <!-- Buttons Section -->
+        <div class="buttons-container">
+          <button
+            v-for="(img, index) in uploadedImages"
+            :key="img.id"
+            @click="displayImage(index)"
+            class="img-button"
+          >
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 
 
     <!-- Ads Section -->
@@ -289,6 +289,7 @@ export default {
 
 <style scoped>
 .content-section {
+  font-family: Arial, Helvetica, sans-serif;
   padding: 20px;
 }
 
