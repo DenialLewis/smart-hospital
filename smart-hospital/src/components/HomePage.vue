@@ -28,31 +28,43 @@
     </div>
 
 
-    <!-- Ads Section -->
-    <div class="ads-container-wrapper">
-      <button v-if="isOverflowing" @click="scrollLeft" class="scroll-button left">&lt;</button>
-      <div class="ads-container" ref="adsContainer">
-        <template v-for="ad in ads" :key="ad.id">
-          <div class="ad-card">
-            <h3 class="ad-title">{{ ad.Ad || 'Ad Title Not Available' }}</h3>
-            <div class="ad-images-container">
-              <template v-if="ad.Ads && ad.Ads.length > 0">
-                <img
-                  v-for="(image, index) in ad.Ads"
-                  :key="index"
-                  :src="`http://localhost:1337${image.url}`"
-                  alt="Ad Image"
-                  class="ad-image"
-                  @error="handleImageError(ad)"
-                />
-              </template>
-              <p v-else>No images available for this ad.</p>
-            </div>
-          </div>
-        </template>
+     <!-- Announcements Section -->
+     <div class="announcements-section">
+      <h2>Announcements</h2>
+      <div class="announcement-card" v-for="announcement in announcements" :key="announcement.id">
+        <p>🏥 {{ announcement.message }}</p>
       </div>
-      <button v-if="isOverflowing" @click="scrollRight" class="scroll-button right">&gt;</button>
+      <div v-if="announcements.length === 0" class="no-announcements">No announcements available.</div>
+
+      <!-- Ads Section -->
+      <div class="ads-container-wrapper">
+        <button v-if="isOverflowing" @click="scrollLeft" class="scroll-button left">&lt;</button>
+        <div class="ads-container" ref="adsContainer">
+          <template v-for="ad in ads" :key="ad.id">
+            <div class="ad-card">
+              <h3 class="ad-title">{{ ad.Ad || 'Ad Title Not Available' }}</h3>
+              <div class="ad-images-container">
+                <template v-if="ad.Ads && ad.Ads.length > 0">
+                  <img
+                    v-for="(image, index) in ad.Ads"
+                    :key="index"
+                    :src="`http://localhost:1337${image.url}`"
+                    alt="Ad Image"
+                    class="ad-image"
+                    @error="handleImageError(ad)"
+                  />
+                </template>
+                <p v-else>No images available for this ad.</p>
+              </div>
+            </div>
+          </template>
+        </div>
+        <button v-if="isOverflowing" @click="scrollRight" class="scroll-button right">&gt;</button>
+      </div>
     </div>
+
+
+    
 
     <!-- Upcoming Appointments Section -->
     <div class="appointments-section">
@@ -77,7 +89,7 @@
           <strong>{{ appointment.day }}</strong>
           <p>{{ formatDisplayAppointmentTime(appointment.appointment_time) }}</p>
           <p>{{ appointment.first_name }} {{ appointment.last_name }} ({{ appointment.gender }})</p>
-          <p>Meet with {{ appointment.doctor_names }}</p>
+          <p>To see with Dr. {{ appointment.doctor_names }}</p>
           <button @click="cancelAppointment(appointment.id)" class="cancel-button">Cancel Appointment</button>
         </div>
         <div v-if="upcomingDoctorAppointments.length === 0" class="no-appointments">No upcoming doctor appointments.</div>
@@ -86,14 +98,7 @@
 
       
 
-    <!-- Announcements Section -->
-    <div class="announcements-section">
-      <h2>Announcements</h2>
-      <div class="announcement-card" v-for="announcement in announcements" :key="announcement.id">
-        <p>🏥 {{ announcement.message }}</p>
-      </div>
-      <div v-if="announcements.length === 0" class="no-announcements">No announcements available.</div>
-    </div>
+   
 
     <!-- Health Tips & News Section -->
     <div class="health-tips-section">
@@ -528,9 +533,11 @@ export default {
 }
 
 /* Appointment Section Styles */
-.appointments-section {
+.appointments-section,
+.health-tips-section,
+.announcements-section {
   margin-top: 40px;
-  background-color: #f9f9f9;
+  background-color: #efeeee;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
