@@ -252,22 +252,19 @@ export default {
       try {
         const userId = localStorage.getItem('userId'); // Get the logged-in user's ID
         if (userId) {
-          const response = await axios.get(`http://localhost:1337/api/doctor-appointments?populate=patient_names&filters[patient_names][id][$eq]=${userId}`);
+          const response = await axios.get(`http://localhost:1337/api/doctor-appointments?populate=*&filters[patient_names][id][$eq]=${userId}`);
           
-          // this.upcomingDoctorAppointments = response.data.data.map(appointment => {
-          //   const doctorNamesData = appointment.attributes.doctor_names?.data || [];
-          //   return{id: appointment.id,
-          //   date: appointment.attributes.date,
-          //   day: appointment.attributes.day,
-          //   first_name: appointment.attributes.first_name,
-          //   last_name: appointment.attributes.last_name,
-          //   appointment_time: appointment.attributes.appointment_time,
-          //   gender: appointment.attributes.gender,
-          //   //doctor_names: appointment.attributes.doctor_names.data.attributes.username, 
-          //   doctor_names: doctorNamesData
-          //     .map(doctor => doctor.data.attributes.username)
-          //     .join(', ') || 'No Doctors Assigned',};
-          // });
+          this.upcomingDoctorAppointments = response.data.data.map(appointment => ({
+            id: appointment.id,
+            date: appointment.attributes.date,
+            day: appointment.attributes.day,
+            first_name: appointment.attributes.first_name,
+            last_name: appointment.attributes.last_name,
+            appointment_time: appointment.attributes.appointment_time,
+            gender: appointment.attributes.gender,
+            doctor_names: appointment. attributes.doctor_names?.data[0]?.attributes?.username, 
+            
+          }));
 
       //     this.upcomingDoctorAppointments = response.data.data.map(appointment => ({
       //   id: appointment.id,
@@ -283,20 +280,22 @@ export default {
       //         .join(', ')
       //     : 'No Doctors Assigned',
       // }));
-      this.upcomingDoctorAppointments = response.data.data.map(appointment => {
-        const doctorNamesData = appointment.attributes.doctor_names?.data || [];
-        const doctorNames = doctorNamesData.map(doctor => doctor.attributes.username).join(', ');
-        return {
-          id: appointment.id,
-          date: appointment.attributes.date,
-          day: appointment.attributes.day,
-          first_name: appointment.attributes.first_name,
-          last_name: appointment.attributes.last_name,
-          appointment_time: appointment.attributes.appointment_time,
-          gender: appointment.attributes.gender,
-          doctor_names: doctorNames || 'No Doctors Assigned',
-        };
-      });
+
+
+      // this.upcomingDoctorAppointments = response.data.data.map(appointment => {
+      //   const doctorNamesData = appointment.attributes.doctor_names?.data || [];
+      //   const doctorNames = doctorNamesData.map(doctor => doctor.attributes.username).join(', ');
+      //   return {
+      //     id: appointment.id,
+      //     date: appointment.attributes.date,
+      //     day: appointment.attributes.day,
+      //     first_name: appointment.attributes.first_name,
+      //     last_name: appointment.attributes.last_name,
+      //     appointment_time: appointment.attributes.appointment_time,
+      //     gender: appointment.attributes.gender,
+      //     doctor_names: doctorNames || 'No Doctors Assigned',
+      //   };
+      // });
 
         } else {
           console.error("User is not logged in.");

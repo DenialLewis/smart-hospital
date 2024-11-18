@@ -14,7 +14,7 @@
           <button class="toggle-button" @click="toggleSidebar">
             <i :class="sidebarOpen ? 'fas fa-angle-left' : 'fas fa-angle-right'"></i>
           </button>
-          <h2 v-if="sidebarOpen && loggedIn">Welcome, Dr. {{ username }}!</h2>
+          <h2 v-if="sidebarOpen && loggedIn">Welcome, Dr. {{ userId }} {{ username }}!</h2>
           <h2 v-else-if="sidebarOpen">Welcome! Please Log In</h2>
           <button class="login-button" @click="toggleLogin" v-if="sidebarOpen">
             <i :class="loggedIn ? 'fas fa-sign-out-alt' : 'fas fa-sign-in-alt'"></i>
@@ -49,6 +49,7 @@ export default {
     return {
       showLoginPopup: false,
       loggedIn: false,
+      userId: '',
       username: '',
       specialization: '',
       department: '',
@@ -76,6 +77,7 @@ export default {
         const userData = await response.json();
         
         // Set user information from fetched data
+        this.userId =userData.id; 
         this.username = userData.username;
         this.specialization = userData.specialization;
         this.department = userData.departments?.[0]?.department_name || '';

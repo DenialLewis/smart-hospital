@@ -25,6 +25,7 @@
   
   <style scoped>
   .health-tip-detail {
+    font-family: Arial, Helvetica, sans-serif;
     max-width: 800px; /* Set a max width for the detail view */
     margin: 20px auto; /* Center the card */
     padding: 20px;
@@ -34,6 +35,7 @@
   }
   
   .title {
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 24px; /* Font size for the title */
     font-weight: bold; /* Bold title */
     color: #333333; /* Darker color for the title */
@@ -41,7 +43,7 @@
   }
   
   .health-tip-image {
-    margin-left: 40%;
+    margin:auto;
     max-width: 100%; /* Responsive image */
     height: 300px; /* Maintain aspect ratio */
     border-radius: 8px; /* Rounded corners for the image */
@@ -49,6 +51,7 @@
   }
   
   .info {
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 16px; /* Font size for the info text */
     line-height: 1.5; /* Increase line height for readability */
     color: #555555; /* Lighter color for the info text */

@@ -14,7 +14,7 @@
         <div v-if="appointments.length > 0" class="appointments-list">
           <div v-for="appointment in appointments" :key="appointment.id" class="appointment-card">
             <h3>Appointment Details</h3>
-            <p><strong>Doctor Name:</strong> {{ appointment.attributes.doctor_name || "Not Provided" }}</p>
+            <p><strong>Doctor Name:</strong> {{ appointment.attributes.doctor_names?.data[0]?.attributes?.username  || "Not Provided" }}</p>
             <p><strong>Patient Name:</strong> {{ appointment.attributes.first_name }} {{ appointment.attributes.last_name }}</p>
             <p><strong>Symptom:</strong> {{ appointment.attributes.symptom }}</p>
             <p><strong>Date:</strong> {{ formatDate(appointment.attributes.date) }}</p>
