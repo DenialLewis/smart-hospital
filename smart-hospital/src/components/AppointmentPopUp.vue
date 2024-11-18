@@ -309,10 +309,23 @@ export default {
   padding: 2rem;
   border-radius: 10px;
   width: 900px;
+  height: 80%; /* Set the height to 60% of the viewport */
+  max-height: 80vh; /* Ensure it doesn't exceed 60% of the viewport height */
+  overflow-y: auto; /* Make the content scrollable if it exceeds the container height */
   text-align: left;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   position: relative;
 }
+
+/* Adjust padding and font scaling for smaller screens */
+@media (max-width: 600px) {
+  .popup-content {
+    width: 90%; /* Reduce width for smaller screens */
+    height: 70%; /* Slightly increase height for better usability on small screens */
+    padding: 1.5rem; /* Reduce padding */
+  }
+}
+
 
 /* Close button styling */
 .close-btn {
@@ -440,11 +453,5 @@ h3 {
   width: 90%;
 }
 
-/* Adjust spacing and responsiveness */
-@media (max-width: 600px) {
-  .row {
-    flex-direction: column;
-  }
-}
 </style> 
 
