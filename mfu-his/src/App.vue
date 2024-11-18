@@ -20,10 +20,11 @@
             <i :class="loggedIn ? 'fas fa-sign-out-alt' : 'fas fa-sign-in-alt'"></i>
             {{ loggedIn ? 'Logout' : 'Login' }}
           </button>
-          <ul v-if="sidebarOpen">
+          
+          <!-- Show the links only when the user is logged in -->
+          <ul v-if="sidebarOpen && loggedIn">
             <li><router-link to="/appointment-managing"><i class="fas fa-calendar-alt"></i> Appointments</router-link></li>
             <li><router-link to="/patient-info"><i class="fas fa-user-injured"></i> Patients Info</router-link></li>
-            <li><router-link to="/billing-collection"><i class="fas fa-money-bill-wave"></i> Hospital Fees</router-link></li>
             <li><router-link to="/add-schedule"><i class="fas fa-user-clock"></i> Add Doctor Schedule</router-link></li>
           </ul>
         </nav>
@@ -34,7 +35,6 @@
     </div>
     <LoginPage v-if="showLoginPopup" @close="showLoginPopup = false" @login-success="handleLoginSuccess"/>
   </div>
-
 </template>
 
 <script>
@@ -55,7 +55,6 @@ export default {
       sidebarOpen: true,
     };
   },
-  //here starts 
   created() {
     // Check localStorage for JWT token and user information
     const jwtToken = localStorage.getItem('jwtToken');
@@ -66,10 +65,7 @@ export default {
       this.fetchUserData(userId);
     }
   },
-  //here ends 
   methods: {
-
-    //this is the portion where to achieve the logged out on refresh is prevented 
     async fetchUserData(userId) {
       try {
         const response = await fetch(`http://localhost:1337/api/users/${userId}?populate=departments`, {
@@ -87,7 +83,6 @@ export default {
         console.error('Error fetching user data:', error);
       }
     },
-    //here ends 
     toggleSidebar() {
       this.sidebarOpen = !this.sidebarOpen;
     },
@@ -105,25 +100,6 @@ export default {
       this.department = department;
       this.showLoginPopup = false;
 
-      //do not delete this comment section please
-
-      // try {
-      //   const userId = localStorage.getItem('userId');
-      //   const response = await fetch(`http://localhost:1337/api/users/${userId}?populate=departments`, {
-      //     headers: {
-      //       Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
-      //     },
-      //   });
-      //   const userData = await response.json();
-
-      //   // Make sure specialization and department are properly stored
-      //   this.specialization = specialization || userData.specialization;
-      //   this.department = department || (userData.departments && userData.departments[0].department_name) || '';
-      // } catch (error) {
-      //   console.error('Error fetching user data:', error);
-      // }
-
-      //this is the new code for no loggint out after website refresh 
       const userId = localStorage.getItem('userId');
       if (userId) {
         await this.fetchUserData(userId);
