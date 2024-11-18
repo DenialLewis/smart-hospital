@@ -184,22 +184,44 @@ export default {
         console.error('Error fetching ads:', error);
       }
     },
+    // async fetchUpcomingAppointments() {
+    //   try {
+    //     const response = await axios.get('http://localhost:1337/api/other-appointments');
+    //     this.upcomingAppointments = response.data.data.map(appointment => ({
+    //       id: appointment.id,
+    //       date: appointment.attributes.date,
+    //       first_name: appointment.attributes.first_name,
+    //       last_name: appointment.attributes.last_name,
+    //       appointment_types: appointment.attributes.appointment_types,
+    //       time: appointment.attributes.time,
+    //       gender: appointment.attributes.gender,
+    //     }));
+    //   } catch (error) {
+    //     console.error('Error fetching upcoming appointments:', error);
+    //   }
+    // },
     async fetchUpcomingAppointments() {
-      try {
-        const response = await axios.get('http://localhost:1337/api/other-appointments');
-        this.upcomingAppointments = response.data.data.map(appointment => ({
-          id: appointment.id,
-          date: appointment.attributes.date,
-          first_name: appointment.attributes.first_name,
-          last_name: appointment.attributes.last_name,
-          appointment_types: appointment.attributes.appointment_types,
-          time: appointment.attributes.time,
-          gender: appointment.attributes.gender,
-        }));
-      } catch (error) {
-        console.error('Error fetching upcoming appointments:', error);
-      }
-    },
+  try {
+    const userId = localStorage.getItem('userId'); // Get the logged-in user's ID
+    if (userId) {
+      const response = await axios.get(`http://localhost:1337/api/other-appointments?populate=username&filters[username][id][$eq]=${userId}`);
+      this.upcomingAppointments = response.data.data.map(appointment => ({
+        id: appointment.id,
+        date: appointment.attributes.date,
+        first_name: appointment.attributes.first_name,
+        last_name: appointment.attributes.last_name,
+        appointment_types: appointment.attributes.appointment_types,
+        time: appointment.attributes.time,
+        gender: appointment.attributes.gender,
+      }));
+    } else {
+      console.error("User is not logged in.");
+    }
+  } catch (error) {
+    console.error('Error fetching upcoming appointments:', error);
+  }
+},
+
     async cancelAppointment(appointmentId) {
     try {
       // Send DELETE request to Strapi to delete the appointment
