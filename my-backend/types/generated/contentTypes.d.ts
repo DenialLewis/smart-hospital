@@ -840,6 +840,36 @@ export interface ApiAdAd extends Schema.CollectionType {
   };
 }
 
+export interface ApiAnnouncementAnnouncement extends Schema.CollectionType {
+  collectionName: 'announcements';
+  info: {
+    singularName: 'announcement';
+    pluralName: 'announcements';
+    displayName: 'Announcement';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    message: Attribute.Text;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::announcement.announcement',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::announcement.announcement',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiDepartmentDepartment extends Schema.CollectionType {
   collectionName: 'departments';
   info: {
@@ -997,13 +1027,14 @@ export interface ApiNewNew extends Schema.CollectionType {
     singularName: 'new';
     pluralName: 'news';
     displayName: 'New';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
     Title: Attribute.String;
-    Info: Attribute.String;
+    Info: Attribute.Text;
     News: Attribute.Media<'images' | 'files' | 'videos' | 'audios', true>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -1082,6 +1113,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::ad.ad': ApiAdAd;
+      'api::announcement.announcement': ApiAnnouncementAnnouncement;
       'api::department.department': ApiDepartmentDepartment;
       'api::doctor-appointment.doctor-appointment': ApiDoctorAppointmentDoctorAppointment;
       'api::doctor-schedule.doctor-schedule': ApiDoctorScheduleDoctorSchedule;

@@ -34,7 +34,7 @@
       <div class="ads-container" ref="adsContainer">
         <template v-for="ad in ads" :key="ad.id">
           <div class="ad-card">
-            <h2 class="ad-title">{{ ad.Ad || 'Ad Title Not Available' }}</h2>
+            <h3 class="ad-title">{{ ad.Ad || 'Ad Title Not Available' }}</h3>
             <div class="ad-images-container">
               <template v-if="ad.Ads && ad.Ads.length > 0">
                 <img
@@ -362,6 +362,7 @@ export default {
   position: relative;
   display: flex;
   align-items: center;
+  max-width: 100%;
 }
 
 .ads-container,
@@ -431,7 +432,9 @@ export default {
   background-color: #fff;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Reduce shadow effect */
   transition: transform 0.3s;
-  max-width: 150px; /* Set a maximum width to make the cards smaller */
+  max-width: 400px;  
+  min-width: 100px;
+  max-height: 250px;
 }
 
 .ad-image,
