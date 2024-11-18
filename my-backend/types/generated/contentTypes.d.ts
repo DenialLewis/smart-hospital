@@ -968,6 +968,53 @@ export interface ApiDoctorScheduleDoctorSchedule extends Schema.CollectionType {
   };
 }
 
+export interface ApiImgImg extends Schema.CollectionType {
+  collectionName: 'imgs';
+  info: {
+    singularName: 'img';
+    pluralName: 'imgs';
+    displayName: 'Img';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Img: Attribute.String;
+    Imgs: Attribute.Media<'images' | 'files' | 'videos' | 'audios', true>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::img.img', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::img.img', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiNewNew extends Schema.CollectionType {
+  collectionName: 'news';
+  info: {
+    singularName: 'new';
+    pluralName: 'news';
+    displayName: 'New';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Title: Attribute.String;
+    Info: Attribute.String;
+    News: Attribute.Media<'images' | 'files' | 'videos' | 'audios', true>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::new.new', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::new.new', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
 export interface ApiOtherAppointmentOtherAppointment
   extends Schema.CollectionType {
   collectionName: 'other_appointments';
@@ -1038,6 +1085,8 @@ declare module '@strapi/types' {
       'api::department.department': ApiDepartmentDepartment;
       'api::doctor-appointment.doctor-appointment': ApiDoctorAppointmentDoctorAppointment;
       'api::doctor-schedule.doctor-schedule': ApiDoctorScheduleDoctorSchedule;
+      'api::img.img': ApiImgImg;
+      'api::new.new': ApiNewNew;
       'api::other-appointment.other-appointment': ApiOtherAppointmentOtherAppointment;
     }
   }
