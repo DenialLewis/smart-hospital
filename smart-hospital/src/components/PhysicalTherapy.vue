@@ -131,8 +131,9 @@ export default {
 
   <style scoped>
   .scheduletable {
-  height: 40vh;
-}
+    height: 40vh;
+    font-family: Arial, Helvetica, sans-serif;
+  }
   table {
     width: 100%;
     border-collapse: collapse;
