@@ -60,8 +60,10 @@
       <div class="appointments-list">
         <div class="appointment-card" v-for="appointment in upcomingAppointments" :key="appointment.id">
           <strong>{{ appointment.date }}</strong>
-          <p>{{ appointment.first_name }} {{ appointment.last_name }} - {{ appointment.appointment_types }}</p>
-          <p>{{ appointment.time }} - {{ appointment.gender }}</p>
+          <strong>{{ appointment.day }}</strong>
+          <p>{{ formatDisplayAppointmentTime(appointment.time) }}</p>
+          <p>{{ appointment.first_name }} {{ appointment.last_name }} ({{ appointment.gender }})</p>
+          <p>For {{ appointment.appointment_types }}</p>
           <button @click="cancelAppointment(appointment.id)" class="cancel-button">Cancel Appointment</button>
         </div>
         <div v-if="upcomingAppointments.length === 0" class="no-appointments">No upcoming appointments.</div>
@@ -142,6 +144,9 @@ export default {
     this.checkHealthTipsOverflow();
   },
   methods: {
+    formatDisplayAppointmentTime(time) {
+      return time.split(':').slice(0, 2).join(':'); 
+    },
     async fetchImages() {
       try {
         const response = await axios.get('http://localhost:1337/api/imgs?populate=*');
@@ -208,6 +213,7 @@ export default {
       this.upcomingAppointments = response.data.data.map(appointment => ({
         id: appointment.id,
         date: appointment.attributes.date,
+        day: appointment.attributes.day,
         first_name: appointment.attributes.first_name,
         last_name: appointment.attributes.last_name,
         appointment_types: appointment.attributes.appointment_types,

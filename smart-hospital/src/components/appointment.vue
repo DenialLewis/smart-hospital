@@ -226,6 +226,7 @@ export default {
 
                 const response = await axios.post('http://localhost:1337/api/other-appointments', { data: appointmentData }, {headers});
                 alert('Appointment submitted successfully!');
+                this.$router.push('/');
             } catch (error) {
                 console.error('Error submitting appointment:', error.response?.data || error.message);
                 alert(`Failed to submit appointment: ${error.response?.data?.error?.message || "Please try again."}`);
