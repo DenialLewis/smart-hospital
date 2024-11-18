@@ -1,329 +1,174 @@
 <template>
-    <div class="appointments-container">
-      <h1 class="page-title">Doctor's Appointments</h1>
-  
-      <!-- Date Picker to Select Week -->
-      <div class="controls-container">
-        <div class="date-picker">
-          <label for="week-select">Select Week:</label>
-          <vue3-datepicker v-model="selectedDate" :format="formatDate" />
-        </div>
-  
-        <!-- Search Bar for Filtering Appointments -->
-        <div class="search-bar">
-          <input
-            type="text"
-            v-model="searchQuery"
-            placeholder="Search by patient name"
-            class="search-input"
-          />
-        </div>
+  <div class="form-wrapper">
+    <div class="appointment-container">
+      <h1>Manage Appointments</h1>
+
+      <!-- Loading Spinner -->
+      <div v-if="loading" class="loading-spinner">
+        <p>Loading appointments...</p>
       </div>
-  
-      <!-- Week Container for Appointments -->
-      <div class="week-container">
-        <div
-          v-for="(dayAppointments, day) in filteredWeekAppointments"
-          :key="day"
-          class="day-card"
-        >
-          <h2 class="day-title">{{ day }}</h2>
-          <div v-if="dayAppointments.length > 0">
-            <ul class="appointments-list">
-              <li
-                v-for="(appointment, index) in dayAppointments"
-                :key="index"
-                class="appointment-item"
-                @click="openPatientDetails(appointment)"
-              >
-                <div class="patient-info">
-                  <span class="patient-name">{{ appointment.patientName }}</span>
-                  <span class="appointment-time">{{ appointment.time }}</span>
-                  <button class="status-button" :class="appointment.status">
-                    {{ appointment.status }}
-                  </button>
-                  <button @click.stop="cancelAppointment(index, day)" class="cancel-button">
-                    Cancel
-                  </button>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div v-else>
-            <p class="free-text">No appointments today - Free</p>
+
+      <!-- Appointment List -->
+      <div v-else>
+        <h2>Your Appointments</h2>
+        <div v-if="appointments.length > 0" class="appointments-list">
+          <div v-for="appointment in appointments" :key="appointment.id" class="appointment-card">
+            <h3>Appointment Details</h3>
+            <p><strong>Doctor Name:</strong> {{ appointment.attributes.doctor_name || "Not Provided" }}</p>
+            <p><strong>Patient Name:</strong> {{ appointment.attributes.first_name }} {{ appointment.attributes.last_name }}</p>
+            <p><strong>Symptom:</strong> {{ appointment.attributes.symptom }}</p>
+            <p><strong>Date:</strong> {{ formatDate(appointment.attributes.date) }}</p>
+            <p><strong>Day:</strong> {{ appointment.attributes.day }}</p>
+            <p><strong>Time:</strong> {{ formatTime(appointment.attributes.appointment_time) }}</p>
+            <p><strong>Gender:</strong> {{ appointment.attributes.gender }}</p>
+            <p><strong>Date of Birth:</strong> {{ formatDate(appointment.attributes.date_of_birth) }}</p>
+            <p><strong>Phone:</strong> {{ appointment.attributes.phone_num }}</p>
+            <p><strong>Nationality:</strong> {{ appointment.attributes.nationality }}</p>
+            <p><strong>NCID/Passport:</strong> {{ appointment.attributes.ncid_passport }}</p>
+            <div class="appointment-actions">
+              <button class="btn cancel-btn">Cancel Appointment</button>
+              <button class="btn reschedule-btn">Reschedule</button>
+            </div>
           </div>
         </div>
-      </div>
-  
-      <!-- Patient Details Modal -->
-      <div v-if="showPatientModal" class="modal-overlay" @click="closePatientModal">
-        <div class="modal-content" @click.stop>
-          <h3>Patient Details</h3>
-          <p><strong>Name:</strong> {{ selectedAppointment.patientName }}</p>
-          <p><strong>Time:</strong> {{ selectedAppointment.time }}</p>
-          <p><strong>Status:</strong> {{ selectedAppointment.status }}</p>
-          <button @click="closePatientModal" class="close-modal-button">Close</button>
+        <div v-else>
+          <p>No appointments found.</p>
         </div>
       </div>
     </div>
-  </template>
-  
-  <script>
-  import Vue3Datepicker from "vue3-datepicker";
-  
-  export default {
-    name: "AppointmentManaging",
-    components: {
-      Vue3Datepicker,
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+export default {
+  name: 'AppointmentManaging',
+  data() {
+    return {
+      appointments: [], // Holds the fetched appointment data
+      loading: true, // Flag to show loading spinner
+    };
+  },
+  async mounted() {
+    await this.fetchAppointments(); // Fetch appointments on component mount
+  },
+  methods: {
+    async fetchAppointments() {
+      const token = localStorage.getItem('jwtToken'); // Get JWT token for authentication
+      try {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        const response = await axios.get(
+          'http://localhost:1337/api/doctor-appointments?populate=*',
+          { headers }
+        );
+        this.appointments = response.data.data; // Assuming the data is in response.data.data
+      } catch (error) {
+        console.error('Error fetching appointments:', error.response?.data || error.message);
+        alert(`Failed to fetch appointments: ${error.response?.data?.error?.message || "Please try again."}`);
+      } finally {
+        this.loading = false; // Hide loading spinner after fetching data
+      }
     },
-    data() {
-      return {
-        selectedDate: new Date(),
-        searchQuery: "",
-        weekAppointments: {
-          Monday: [
-            { patientName: "John Doe", time: "10:00 AM", status: "confirmed" },
-            { patientName: "Jane Smith", time: "11:30 AM", status: "completed" },
-          ],
-          Tuesday: [],
-          Wednesday: [{ patientName: "Michael Johnson", time: "9:00 AM", status: "canceled" }],
-          Thursday: [],
-          Friday: [
-            { patientName: "Emily Davis", time: "2:00 PM", status: "confirmed" },
-            { patientName: "David Brown", time: "3:30 PM", status: "confirmed" },
-          ],
-          Saturday: [],
-          Sunday: [],
-        },
-        showPatientModal: false,
-        selectedAppointment: null,
-      };
+    formatDate(dateString) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const date = new Date(dateString);
+      return date.toLocaleDateString(undefined, options); // Format date
     },
-    computed: {
-      filteredWeekAppointments() {
-        if (this.searchQuery) {
-          const filteredAppointments = {};
-          for (const [day, appointments] of Object.entries(this.weekAppointments)) {
-            filteredAppointments[day] = appointments.filter((appointment) =>
-              appointment.patientName.toLowerCase().includes(this.searchQuery.toLowerCase())
-            );
-          }
-          return filteredAppointments;
-        }
-        return this.weekAppointments;
-      },
+    formatTime(timeString) {
+      const [hours, minutes] = timeString.split(':');
+      return `${hours}:${minutes}`; // Format time
     },
-    methods: {
-      formatDate(date) {
-        return date.toLocaleDateString("en-GB");
-      },
-      openPatientDetails(appointment) {
-        this.selectedAppointment = appointment;
-        this.showPatientModal = true;
-      },
-      closePatientModal() {
-        this.showPatientModal = false;
-        this.selectedAppointment = null;
-      },
-      cancelAppointment(index, day) {
-        this.weekAppointments[day].splice(index, 1);
-      },
-    },
-  };
-  </script>
-  
-  <style scoped>
-  /* General container styles */
-  .appointments-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 30px;
-    font-family: "Roboto", sans-serif;
-    background: #f3f6f9;
-    border-radius: 8px;
-  }
-  
-  /* Page title */
-  .page-title {
-    font-size: 2rem;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 2rem;
-    color: #333;
-  }
-  
-  /* Controls Container */
-  .controls-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  /* Date Picker */
-  .date-picker label {
-    margin-right: 10px;
-    color: #333;
-    font-weight: 500;
-  }
-  
-  /* Search Bar */
-  .search-input {
-    width: 100%;
-    max-width: 280px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1rem;
-    transition: box-shadow 0.3s;
-  }
-  
-  .search-input:focus {
-    box-shadow: 0px 0px 5px rgba(0, 128, 255, 0.5);
-  }
-  
-  /* Week container */
-  .week-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-    gap: 15px;
-  }
-  
-  /* Each day's card */
-  .day-card {
-    background-color: #ffffff;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  
-  .day-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-  }
-  
-  /* Day title */
-  .day-title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: #2b2b2b;
-    margin-bottom: 10px;
-  }
-  
-  /* Appointment list */
+  },
+};
+</script>
+
+<style scoped>
+.form-wrapper {
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.appointment-container {
+  background-color: #f9f9f9;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.appointment-container h1 {
+  font-size: 32px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.appointments-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.appointment-card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.appointment-card h3 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #4a4a4a;
+}
+
+.appointment-card p {
+  font-size: 14px;
+  margin: 5px 0;
+  color: #666;
+}
+
+.appointment-actions {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn {
+  padding: 8px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.reschedule-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.loading-spinner {
+  text-align: center;
+  font-size: 18px;
+  color: #888;
+}
+
+@media (max-width: 768px) {
   .appointments-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+    flex-direction: column;
   }
-  .appointment-item {
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: #fafafa;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .patient-info {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+
+  .appointment-card {
     width: 100%;
   }
-  
-  /* Patient name and appointment time */
-  .patient-name {
-    font-weight: bold;
-    color: #333;
-  }
-  .appointment-time {
-    font-style: italic;
-    color: #666;
-  }
-  
-  /* Status button */
-  .status-button {
-    padding: 5px 8px;
-    border-radius: 4px;
-    color: white;
-    font-weight: bold;
-    border: none;
-    cursor: default;
-  }
-  .status-button.confirmed {
-    background-color: #4caf50;
-  }
-  .status-button.completed {
-    background-color: #2196f3;
-  }
-  .status-button.canceled {
-    background-color: #f44336;
-  }
-  
-  /* Cancel Button */
-  .cancel-button {
-    background-color: #ff8a80;
-    color: #fff;
-    border: none;
-    padding: 5px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .cancel-button:hover {
-    background-color: #ff5252;
-  }
-  
-  /* Free text when no appointments */
-  .free-text {
-    font-size: 1rem;
-    color: #4caf50;
-    text-align: center;
-    padding: 8px;
-    background-color: #e8f5e9;
-    border-radius: 6px;
-  }
-  
-  /* Modal for Patient Details */
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 400px;
-    width: 100%;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  }
-  
-  .close-modal-button {
-    margin-top: 15px;
-    padding: 10px 15px;
-    background-color: #f44336;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .close-modal-button:hover {
-    background-color: #d32f2f;
-  }
-  </style>
-  
+}
+</style>
