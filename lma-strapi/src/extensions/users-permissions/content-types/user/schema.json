@@ -105,6 +105,18 @@
       "relation": "manyToMany",
       "target": "api::other-appointment.other-appointment",
       "mappedBy": "username"
+    },
+    "doctor_appointments_patient": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::doctor-appointment.doctor-appointment",
+      "mappedBy": "patient_names"
+    },
+    "doctor_appointments_doctor": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::doctor-appointment.doctor-appointment",
+      "mappedBy": "doctor_names"
     }
   }
 }
