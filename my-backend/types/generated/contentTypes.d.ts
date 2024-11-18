@@ -797,6 +797,9 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToMany',
       'api::doctor-appointment.doctor-appointment'
     >;
+    phone: Attribute.String;
+    address: Attribute.String;
+    birthday: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
