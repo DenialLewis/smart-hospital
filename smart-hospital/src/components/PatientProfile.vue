@@ -121,11 +121,14 @@ export default {
 
 <style scoped>
 .patient-profile {
+  font-family: Arial, Helvetica, sans-serif;
   padding: 20px;
-  background-color: #f7f7f7;
+  background-color: #d8d8d8;
   border-radius: 8px;
   width: 50%;
   margin: auto;
+  margin-top:100px;
+  margin-bottom: 100px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
