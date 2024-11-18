@@ -182,8 +182,12 @@
                 <img src="@/assets/hours-icon.png" alt="Business Hours" class="info-icon" />
                 <div class="info-text">
                   <p>
-                    <strong>{{ translations[currentLang].businessHoursTitle || 'Business days and hours:' }}</strong><br />
-                    {{ translations[currentLang].businessHours || 'Monday-Friday: 8:00 AM - 8:00 PM<br>Saturday: 8:00 AM - 4:00 PM<br>(Closed every Sunday and public holidays)' }}
+                      <strong>{{ translations[currentLang].businessHoursTitle || 'Business days and hours:' }}</strong>
+                      <ul class="business-hours">
+                          <li>Monday-Friday: 8:00 AM - 8:00 PM</li>
+                          <li>Saturday: 8:00 AM - 4:00 PM</li>
+                          <li>Closed every Sunday and public holidays</li>
+                      </ul>
                   </p>
                 </div>
               </div>
@@ -782,5 +786,13 @@ ul {
   width: 200px; /* Adjust width as needed */
   z-index: 10;
 }
+.business-hours {
+    display: block; /* Ensures the content is displayed as a block element */
+    white-space: pre-wrap; /* Preserves line breaks and wraps text as needed */
+    word-break: break-all;
+    hyphens: auto;
+    text-align: justify;
+}
 </style>
+
 
