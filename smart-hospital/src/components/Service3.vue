@@ -1,96 +1,71 @@
 <template>
   <div class="services-container">
     <h1 class="section-title">Eyes Examination</h1>
-   
+
     <div class="services-grid">
-     
+      <!-- Refraction Test -->
       <div class="service-card">
-        <img :src="require('@/assets/eyetest.png')" alt="eyetest" class="service-icon" />
+        <img :src="require('@/assets/eyetest.png')" alt="Refraction Test" class="service-icon" />
         <h2>Refraction Test</h2>
-        <p>Determines the lens prescription for glasses or contacts</p>
+        <p>Determines the lens prescription for glasses or contacts.</p>
         <div class="service-price">
           <strong>Price:</strong> 1,000–1,500 THB
         </div>
       </div>
 
-
-
-
-      <!-- Teeth Cleaning -->
+      <!-- Slit-Lamp Examination -->
       <div class="service-card">
-        <img :src="require('@/assets/medical.png')" alt="medical" class="service-icon" />
+        <img :src="require('@/assets/medical.png')" alt="Slit-Lamp Examination" class="service-icon" />
         <h2>Slit-Lamp Examination</h2>
-        <p>Provides a detailed view of the eye's front parts (cornea, iris, lens)</p>
+        <p>Provides a detailed view of the eye's front parts (cornea, iris, lens).</p>
         <div class="service-price">
           <strong>Price:</strong> 1,500–2,500 THB
         </div>
       </div>
 
-
-
-
-      <!-- Dental X-ray -->
+      <!-- Intraocular Pressure Test -->
       <div class="service-card">
-        <img :src="require('@/assets/eyeball.png')" alt="Dental X-ray" class="service-icon" />
+        <img :src="require('@/assets/eyeball.png')" alt="Intraocular Pressure Test" class="service-icon" />
         <h2>Intraocular Pressure Test (Tonometry)</h2>
-        <p>Measures eye pressure to screen for glaucoma</p>
+        <p>Measures eye pressure to screen for glaucoma.</p>
         <div class="service-price">
-          <strong>Price:</strong> 1,000–2.000 THB
+          <strong>Price:</strong> 1,000–2,000 THB
         </div>
       </div>
 
-
-
-
-      <!-- Tooth Extraction -->
+      <!-- Visual Field Test -->
       <div class="service-card">
-        <img :src="require('@/assets/field.png')" alt="field" class="service-icon" />
-        <h2>Visual field test </h2>
-        <p>Checks peripheral vision for potential issues like glaucoma</p>
+        <img :src="require('@/assets/field.png')" alt="Visual Field Test" class="service-icon" />
+        <h2>Visual Field Test</h2>
+        <p>Checks peripheral vision for potential issues like glaucoma.</p>
         <div class="service-price">
           <strong>Price:</strong> 1,500–3,000 THB
         </div>
       </div>
 
-
-
-
-     
-
-
-
-
-     
-     
-        <!-- <img :src="require('@/assets/braces-consultation.png')" alt="Braces Consultation" class="service-icon" /> -->
-        <!-- <h2>Braces Consultation</h2>
-        <p>Consultation for dental braces to straighten teeth and correct bite issues</p>
+      <!-- Cataract Surgery -->
+      <div class="service-card">
+        <img :src="require('@/assets/laser.png')" alt="Cataract Surgery" class="service-icon" />
+        <h2>Cataract Surgery</h2>
+        <p>Advanced techniques like phacoemulsification or laser-assisted cataract surgery.</p>
         <div class="service-price">
-          <strong>Price:</strong> 500–1,500 THB
+          <strong>Price:</strong> 2,500–3,500 THB
         </div>
-      </div> -->
+      </div>
 
-
-
-
-     
-     
-        <!-- <img :src="require('@/assets/gum-treatment.png')" alt="Gum Treatment" class="service-icon" /> -->
-        <!-- <h2>Gum Treatment</h2>
-        <p>Treatment for gum diseases, such as gingivitis and periodontitis</p>
+      <!-- Corneal Transplant Services -->
+      <div class="service-card">
+        <img :src="require('@/assets/cornea.png')" alt="Corneal Transplant Services" class="service-icon" />
+        <h2>Corneal Transplant Services</h2>
+        <p>Replacing damaged corneas with donor tissue to restore vision.</p>
         <div class="service-price">
-          <strong>Price:</strong> 600–1,200 THB
+          <strong>Price:</strong> 5,000–8,000 THB
         </div>
-      </div> -->
-
-
-
-
-     
-     
+      </div>
     </div>
   </div>
 </template>
+
 
 
 
