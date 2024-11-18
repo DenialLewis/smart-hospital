@@ -74,7 +74,7 @@
     <div class="announcements-section">
       <h2>Announcements</h2>
       <div class="announcement-card" v-for="announcement in announcements" :key="announcement.id">
-        <p>{{ announcement.message }}</p>
+        <p>🏥 {{ announcement.message }}</p>
       </div>
       <div v-if="announcements.length === 0" class="no-announcements">No announcements available.</div>
     </div>
@@ -91,7 +91,7 @@
             :key="tip.id"
             @click="navigateToHealthTip(tip)"
           >
-            <h3>{{ tip.title }}</h3>
+            <h4>{{ tip.title }}</h4>
             <div class="health-tip-images-container" v-if="tip.images && Array.isArray(tip.images) && tip.images.length > 0">
               <img
                 v-for="(image, index) in tip.images"
