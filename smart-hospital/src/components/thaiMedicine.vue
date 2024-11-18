@@ -125,14 +125,9 @@ export default {
       }
     },
     openPopup(doctor) {
+      alert(`Selected Schedule Info:\n\nID: ${doctor.id}\nSelected doctor id: ${doctor.userId}\n Name: ${doctor.username}\nSpecialization: ${doctor.specialization}\nDate: ${doctor.schedule.date}\nDay: ${doctor.schedule.day}\nStart Time: ${doctor.schedule.start_time}\nEnd Time: ${doctor.schedule.end_time}`);
+
       this.selectedDoctor = doctor;
-    //   this.selectedDoctor = {
-    //     id: doctor.userId,  // doctor ID
-    //   username: doctor.username, // doctor name
-    //   date: doctor.schedule.date, // schedule date
-    //   day: doctor.schedule.day, // schedule day
-    //   start_time: doctor.schedule.start_time,
-    // };
       this.isPopupVisible = true;
     },
     bookAppointment(doctor) {

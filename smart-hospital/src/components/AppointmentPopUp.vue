@@ -257,7 +257,8 @@ export default {
             ncid_passport: this.patientInfo.idNumber,
             patient_names: userId, // Use the logged-in user's ID
             //doctor_names: this.doctor.id // Use the selected doctor's ID
-            doctor: this.$props.doctor.id
+            //doctor: this.$props.doctor.id
+            doctor_names: this.doctor.userId
         };
 
         // Make a POST request to Strapi
@@ -270,7 +271,15 @@ export default {
         console.log("Appointment response:", response.data);
         console.log(this.$props.doctor);
         this.$emit('update:isVisible', false);
-        alert('Appointment submitted successfully!');
+        alert(`Appointment submitted successfully!\n\n
+            Title: ${this.patientInfo.title}\n
+            Name: ${this.patientInfo.firstName} ${this.patientInfo.lastName}\n
+            Doctor: ${this.doctor.username}\n
+            Date: ${this.doctor.schedule.date}\n
+            Time: ${this.doctor.schedule.start_time} - ${this.doctor.schedule.end_time}\n
+            Patient ID: ${userId}\n
+            Doctor ID: ${this.doctor.userId}\n
+            Symptoms: ${this.symptoms}`);
     } catch (error) {
         console.error('Error submitting appointment:', error.response?.data || error.message);
         alert(`Failed to submit appointment: ${error.response?.data?.error?.message || "Please try again."}`);
