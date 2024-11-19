@@ -8,38 +8,7 @@
         <img alt="Mfu Logo" src="./assets/Hospital.png" />
       </div>
       <div class="lang-switch">
-       <!-- Search Bar -->
-       <div class="search-bar">
-          <input
-            type="text"
-            v-model="searchQuery"
-            placeholder="Search..."
-            @focus="showDropdown = true"
-            @input="filterOptions"
-            @keydown.enter="executeSearch"
-          />
-          <button class="search-icon-btn" @click="executeSearch">
-            <img src="./assets/search.png" alt="Search" class="search-icon" />
-          </button>
-          <ul v-if="showDropdown && filteredOptions.length" class="dropdown-list" @mouseleave="hideDropdown">
-            <li
-              v-for="option in filteredOptions"
-              :key="option.value"
-              @mousedown="selectOption(option)"
-              class="dropdown-item"
-            >
-              {{ option.label }}
-            </li>
-          </ul>
-        </div>
-        <!-- Chat Button -->
-        <div class="chat-boutton">
-          <button class="chat-button" @click="toggleChat">
-            <img src="./assets/chatbox.png" alt="Chat Icon" />
-            <span>{{ translations[currentLang].chat }}</span>
-          </button>
-        </div>
-       
+      
         <!-- Language Choices -->
         <div class="lang-dropdown" @click="toggleLanguageDropdown">
           <span>{{ currentLang }}</span>
@@ -97,8 +66,6 @@
     </header>
 
 
-
-
     <!-- Navigation Tabs -->
     <nav class="nav-tabs">
       <router-link to="/" class="tab">
@@ -146,16 +113,9 @@
     </div>
   </div>
 </nav>
-
-
-
-
     <main>
       <router-view />
     </main>
-
-
-
 
     <footer class="footer">
       <div class="footer-content">
@@ -231,28 +191,13 @@
       @close="showCreateAccountForm = false"
       @create-account-success="handleCreateAccountSuccess"
     />
-    <ChatBox v-if="showChat" @close="toggleChat" />
-    <Search v-if="showSearch" @close="toggleSearch" />
-
-
-
-
   </div>
 </template>
-
-
-
-
-
-
-
-
 <!-- JS -->
 <script>
   import axios from 'axios';
   import LogIn from './components/log_in.vue';
   import CreateAcc from './components/create_acc.vue';
-  import ChatWindow from './components/ChatWindow.vue';
   export default {
       name: 'App',
       data() {
@@ -510,11 +455,6 @@
 }
 </script>
 
-
-
-
-
-
 <!-- CSS -->
 <style scoped>
 
@@ -557,29 +497,7 @@ main {
     align-items: center;
     cursor: pointer;
 }
-.search-bar {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-.search-bar input[type="text"] {
-  width: 300px;
-  padding: 8px;
-  border-radius: 4px 0 0 4px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-}
-.search-icon-btn {
-  border: none;
-  background-color: #ccc;
-  padding: 8px;
-  border-radius: 0 4px 4px 0;
-  cursor: pointer;
-}
-.search-icon {
-  width: 20px;
-  height: 20px;
-}
+
 .dropdown-list {
   position: absolute;
   top: 100%;
@@ -599,21 +517,7 @@ main {
 .dropdown-item:hover {
   background-color: #f1f1f1;
 }
-.chat-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    margin-left: 10px;
-    display: flex;
-    align-items: center;
-}
-.chat-button img {
-    width: 40px;
-    height: 40px;
-}
-.chat-button:hover {
-    filter: brightness(0.9);
-}
+
 .dropdown-menu {
     position: absolute;
     top: 30px;
