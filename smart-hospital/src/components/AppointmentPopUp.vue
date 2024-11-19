@@ -14,38 +14,38 @@
                 <div class="schedule-info-section">
                     <h3>Schedule information</h3>
 
-                    <div class="row">
+                    <!-- <div class="row">
                     <div class="column">
                         <label>Current User</label>
-                        <input type="text" :value="username"  />
+                        <input type="text" :value="username"  readonly/>
                     </div>
-                    </div>
+                    </div> -->
 
                     <div class="row"> 
                         <div class="column">
                             <label>Doctor Name</label>
-                            <input type="text" :value="doctor.username" >
+                            <input type="text" :value="doctor.username" readonly >
                         </div>
                     </div>
 
                     <div class="row"> 
                         <div class="column">
                             <label>Date</label>
-                            <input type="date" :value="doctor.schedule.date"  />
+                            <input type="date" :value="doctor.schedule.date" readonly />
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="column">
                             <label>Day</label>
-                            <input type="text" :value="doctor.schedule.day"  /> 
+                            <input type="text" :value="doctor.schedule.day"  readonly/> 
                         </div>
                     </div>
 
                     <div class="row"> 
                         <div class="column">
                             <label>Appointment time</label>
-                            <input type="text" :value="doctor.schedule.start_time"  />
+                            <input type="text" :value="doctor.schedule.start_time"  readonly/>
                         </div>
                     </div>
 
@@ -271,15 +271,15 @@ export default {
         console.log("Appointment response:", response.data);
         console.log(this.$props.doctor);
         this.$emit('update:isVisible', false);
-        alert(`Appointment submitted successfully!\n\n
-            Title: ${this.patientInfo.title}\n
-            Name: ${this.patientInfo.firstName} ${this.patientInfo.lastName}\n
-            Doctor: ${this.doctor.username}\n
-            Date: ${this.doctor.schedule.date}\n
-            Time: ${this.doctor.schedule.start_time} - ${this.doctor.schedule.end_time}\n
-            Patient ID: ${userId}\n
-            Doctor ID: ${this.doctor.userId}\n
-            Symptoms: ${this.symptoms}`);
+        // alert(`Appointment submitted successfully!\n\n
+        //     Title: ${this.patientInfo.title}\n
+        //     Name: ${this.patientInfo.firstName} ${this.patientInfo.lastName}\n
+        //     Doctor: ${this.doctor.username}\n
+        //     Date: ${this.doctor.schedule.date}\n
+        //     Time: ${this.doctor.schedule.start_time} - ${this.doctor.schedule.end_time}\n
+        //     Patient ID: ${userId}\n
+        //     Doctor ID: ${this.doctor.userId}\n
+        //     Symptoms: ${this.symptoms}`);
     } catch (error) {
         console.error('Error submitting appointment:', error.response?.data || error.message);
         alert(`Failed to submit appointment: ${error.response?.data?.error?.message || "Please try again."}`);

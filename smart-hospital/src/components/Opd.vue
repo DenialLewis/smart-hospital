@@ -122,7 +122,7 @@ export default {
       }
     },
     openPopup(doctor) {
-      alert(`Selected Schedule Info:\n\nID: ${doctor.id}\nSelected doctor id: ${doctor.userId}\n Name: ${doctor.username}\nSpecialization: ${doctor.specialization}\nDate: ${doctor.schedule.date}\nDay: ${doctor.schedule.day}\nStart Time: ${doctor.schedule.start_time}\nEnd Time: ${doctor.schedule.end_time}`);
+      //alert(`Selected Schedule Info:\n\nID: ${doctor.id}\nSelected doctor id: ${doctor.userId}\n Name: ${doctor.username}\nSpecialization: ${doctor.specialization}\nDate: ${doctor.schedule.date}\nDay: ${doctor.schedule.day}\nStart Time: ${doctor.schedule.start_time}\nEnd Time: ${doctor.schedule.end_time}`);
 
       this.selectedDoctor = doctor;
       this.isPopupVisible = true;
