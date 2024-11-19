@@ -38,7 +38,8 @@
 </template>
 
 <script>
-import axios from 'axios'; 
+import axios from 'axios';
+
 export default {
   name: 'LoginPage',
   data() {
@@ -50,48 +51,54 @@ export default {
     };
   },
   methods: {
-  async submitForm() {
-    this.errorMessage = ''; 
-    try {
-      const response = await axios.post('http://localhost:1337/api/auth/local', {
-        identifier: this.email,
-        password: this.password
-      });
-      console.log(response.data);
-      localStorage.setItem('jwtToken', response.data.jwt);
-      localStorage.setItem('userId', response.data.user.id);
+    togglePasswordVisibility() {
+      // Toggle the visibility of the password
+      this.passwordVisible = !this.passwordVisible;
+    },
+    async submitForm() {
+      this.errorMessage = ''; // Clear previous error messages
+      try {
+        const response = await axios.post('http://localhost:1337/api/auth/local', {
+          identifier: this.email,
+          password: this.password,
+        });
 
-      //this.$emit('login-success', response.data.user.username); // Emit the username
-      const userId = response.data.user.id;
-      const userResponse = await axios.get(`http://localhost:1337/api/users/${userId}?populate=departments`, {
-        headers: {
-          Authorization: `Bearer ${response.data.jwt}`,
-        },
-      });
+        // Save JWT token to localStorage
+        localStorage.setItem('jwtToken', response.data.jwt);
+        localStorage.setItem('userId', response.data.user.id);
 
-      const userData = userResponse.data;
-      
-      // Extract the necessary user details
-      const username = userData.username;
-      const specialization = userData.specialization;
-      const department = userData.departments && userData.departments.length > 0 
-        ? userData.departments[0].department_name 
-        : '';
+        // Fetch user details
+        const userId = response.data.user.id;
+        const userResponse = await axios.get(`http://localhost:1337/api/users/${userId}?populate=departments`, {
+          headers: {
+            Authorization: `Bearer ${response.data.jwt}`,
+          },
+        });
 
-      // Emit login success event with additional user details
-      this.$emit('login-success', username, specialization, department);
+        const userData = userResponse.data;
 
-      alert('Login successful!');
-      this.$emit('close');
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        this.errorMessage = this.translations[this.currentLang].invalidCredentials;
-      } else {
-        this.errorMessage = 'An error occurred. Please try again.';
+        // Extract user details like username, specialization, and department
+        const username = userData.username;
+        const specialization = userData.specialization;
+        const department = userData.departments && userData.departments.length > 0
+          ? userData.departments[0].department_name
+          : '';
+
+        // Emit login success event with user details
+        this.$emit('login-success', username, specialization, department);
+
+        alert('Login successful!');
+        this.$emit('close'); // Close the login popup
+
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          this.errorMessage = 'Invalid credentials. Please try again.';
+        } else {
+          this.errorMessage = 'An error occurred. Please try again.';
+        }
       }
-    }
+    },
   },
-}
 };
 </script>
 
@@ -208,31 +215,35 @@ p {
 .additional-links a:hover {
   text-decoration: underline;
 }
+
+/* Password toggle button styles */
 .password-group {
-    position: relative;
-  }
+  position: relative;
+}
 
-  .toggle-password {
-    position: absolute;
-    right: 10px;
-    top: 35%;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    outline: none;
-  }
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 35%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
 
-  .eye-icon {
-    margin-top: 40px;
-    width: 20px;
-    height: 20px;
-    color: black;
-  }
+.eye-icon {
+  margin-top: 40px;
+  margin-left: 70%;
+  width: 20px;
+  height: 20px;
+  color: black;
+}
 
-  .error {
-    color: red;
-    margin-top: 10px;
-    font-size: 14px;
-    font-family: Arial, Helvetica, sans-serif;
-  }
+/* Error message styling */
+.error {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+}
 </style>
