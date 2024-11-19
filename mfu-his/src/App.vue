@@ -23,8 +23,8 @@
           
           <!-- Show the links only when the user is logged in -->
           <ul v-if="sidebarOpen && loggedIn">
-            <li><router-link to="/appointment-managing"><i class="fas fa-calendar-alt"></i> Appointments</router-link></li>
-            <li><router-link to="/patient-info"><i class="fas fa-user-injured"></i> Patients Info</router-link></li>
+            <li><router-link to="/appointment-managing"><i class="fas fa-calendar-alt"></i>Doctor Appointments</router-link></li>
+            <li><router-link to="/patient-info"><i class="fas fa-user-injured"></i> Other Appointments</router-link></li>
             <li><router-link to="/add-schedule"><i class="fas fa-user-clock"></i> Add Doctor Schedule</router-link></li>
           </ul>
         </nav>
@@ -268,7 +268,3 @@ header {
   margin: 20px;
 }
 </style>
-
-
-
-
