@@ -95,7 +95,7 @@ export default {
 
       <!-- Appointment List -->
       <div v-else>
-        <h2>Your Doctor Appointments</h2>
+        <h2>Your Patients' Appointments</h2>
         <div v-if="appointments.length > 0" class="appointments-list">
           <div v-for="appointment in appointments" :key="appointment.id" class="appointment-card">
             <h3>Appointment Details</h3>
@@ -112,7 +112,6 @@ export default {
             <p><strong>NCID/Passport:</strong> {{ appointment.ncid_passport }}</p>
             <div class="appointment-actions">
               <button class="btn cancel-btn" @click="cancelAppointment(appointment.id)">Cancel Appointment</button>
-              <button class="btn reschedule-btn">Reschedule</button>
             </div>
           </div>
         </div>
@@ -180,9 +179,18 @@ export default {
       const [hours, minutes] = timeString.split(':');
       return `${hours}:${minutes}`; // Format time
     },
-    cancelAppointment(appointmentId) {
+    async cancelAppointment(appointmentId) {
+      try{
+        await axios.delete(`http://localhost:1337/api/doctor-appointments/${appointmentId}`);
+
+        // After successful deletion, remove the appointment from the list
+        this.appointments = this.appointments.filter(
+          appointment => appointment.id !== appointmentId
+        );
+      }catch(error){
+        console.error('Error cancelling the appointment:',error); 
+      }
       // Implement the logic for canceling the appointment (you might need to use axios.delete)
-      console.log(`Cancelling appointment with ID: ${appointmentId}`);
     },
   },
 };
@@ -253,6 +261,7 @@ export default {
 .cancel-btn {
   background-color: #f44336;
   color: white;
+  margin-left: 60%; 
 }
 
 .reschedule-btn {
