@@ -4,7 +4,7 @@
     <table>
       <thead>
         <tr>
-          <th>{{ translations[currentLang].doctorId }}</th>
+          <!-- <th>{{ translations[currentLang].doctorId }}</th> -->
           <th>{{ translations[currentLang].doctorName }}</th>
           <th>{{ translations[currentLang].specialization }}</th>
           <th>{{ translations[currentLang].date }}</th>
@@ -16,13 +16,13 @@
       </thead>
       <tbody>
         <tr v-for="doctor in doctors" :key="doctor.id">
-          <td>{{ doctor.userId }}</td>
+          <!-- <td>{{ doctor.userId }}</td> -->
           <td>{{ doctor.username || "Unnamed Doctor" }}</td>
           <td>{{ doctor.specialization || "N/A" }}</td>
           <td>{{ doctor.schedule.date }}</td>
           <td>{{ doctor.schedule.day }}</td>
-          <td>{{ doctor.schedule.start_time }}</td>
-          <td>{{ doctor.schedule.end_time }}</td>
+          <td>{{ formatDisplayScheduleTime(doctor.schedule.start_time) }}</td>
+          <td>{{ formatDisplayScheduleTime(doctor.schedule.end_time) }}</td>
           <td>
             <button @click="openPopup(doctor)">
               {{ translations[currentLang].bookNow }}
@@ -90,6 +90,9 @@ export default {
     this.fetchDepartments();
   },
   methods: {
+    formatDisplayScheduleTime(time) {
+      return time.split(':').slice(0, 2).join(':'); 
+    },
     async fetchDepartments() {
       try {
         // Fetch doctor schedules with populated departments

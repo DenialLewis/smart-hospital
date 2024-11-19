@@ -19,8 +19,8 @@
           <td>{{ doctor.specialization || "N/A" }}</td>
           <td>{{ doctor.schedule.date }}</td>
           <td>{{ doctor.schedule.day }}</td>
-          <td>{{ doctor.schedule.start_time }}</td>
-          <td>{{ doctor.schedule.end_time }}</td>
+          <td>{{ formatDisplayScheduleTime(doctor.schedule.start_time) }}</td>
+          <td>{{ formatDisplayScheduleTime(doctor.schedule.end_time) }}</td>
           <td>
             <button @click="openPopup(doctor)">
               {{ translations[currentLang].bookNow }}
@@ -86,6 +86,9 @@ export default {
     this.fetchDepartments();
   },
   methods: {
+    formatDisplayScheduleTime(time) {
+      return time.split(':').slice(0, 2).join(':'); 
+    },
     async fetchDepartments() {
       try {
         // Fetch doctor schedules with populated departments
@@ -102,6 +105,7 @@ export default {
             )
             .map(schedule => ({
               id: schedule.id,
+              userId: schedule.attributes.doctor.data.id,
               username: schedule.attributes.doctor.data.attributes.username,
               specialization: schedule.attributes.doctor.data.attributes.specialization,
               schedule: {
