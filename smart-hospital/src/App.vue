@@ -1,13 +1,45 @@
 <template>
   <div id="app">
 
+
     <!-- Header -->
     <header class="header">
       <div class="logo" @click="goToHomePage" style="cursor: pointer;">
         <img alt="Mfu Logo" src="./assets/Hospital.png" />
       </div>
       <div class="lang-switch">
-      
+       <!-- Search Bar -->
+       <div class="search-bar">
+          <input
+            type="text"
+            v-model="searchQuery"
+            placeholder="Search..."
+            @focus="showDropdown = true"
+            @input="filterOptions"
+            @keydown.enter="executeSearch"
+          />
+          <button class="search-icon-btn" @click="executeSearch">
+            <img src="./assets/search.png" alt="Search" class="search-icon" />
+          </button>
+          <ul v-if="showDropdown && filteredOptions.length" class="dropdown-list" @mouseleave="hideDropdown">
+            <li
+              v-for="option in filteredOptions"
+              :key="option.value"
+              @mousedown="selectOption(option)"
+              class="dropdown-item"
+            >
+              {{ option.label }}
+            </li>
+          </ul>
+        </div>
+        <!-- Chat Button -->
+        <div class="chat-boutton">
+          <button class="chat-button" @click="toggleChat">
+            <img src="./assets/chatbox.png" alt="Chat Icon" />
+            <span>{{ translations[currentLang].chat }}</span>
+          </button>
+        </div>
+       
         <!-- Language Choices -->
         <div class="lang-dropdown" @click="toggleLanguageDropdown">
           <span>{{ currentLang }}</span>
@@ -65,6 +97,8 @@
     </header>
 
 
+
+
     <!-- Navigation Tabs -->
     <nav class="nav-tabs">
       <router-link to="/" class="tab">
@@ -94,29 +128,33 @@
       </router-link>
       <div @mouseenter="showServicesDropdown = true, showDoctorDropdown = false" @mouseleave="showServicesDropdown = false">
         <button class="tab" :class="{ 'active': showServicesDropdown }">
-          {{ translations[currentLang].services }}
-        </button>
-        <div v-if="showServicesDropdown" class="service-dropdown">
-          <router-link to="/check-up" @click="toggleServicesDropdown">
-            <button class="dropdown-item">Service 1: General Check-up</button>
-          </router-link>
-          <router-link to="/dental-consult" @click="toggleServicesDropdown">
-            <button class="dropdown-item">Service 2: Dental Consultation</button>
-          </router-link>
-          <router-link to="/eye-exam" @click="toggleServicesDropdown">
-            <button class="dropdown-item">Service 3: Eye Examination</button>
-          </router-link>
-          <router-link to="/pediatric" @click="toggleServicesDropdown">
-            <button class="dropdown-item">Service 4: Pediatric Check-up</button>
-          </router-link>
-        </div>
-      </div>
-    </nav>
+      {{ translations[currentLang].services }}
+    </button>
+    <div v-if="showServicesDropdown" class="service-dropdown">
+      <router-link to="/check-up" @click="toggleServicesDropdown">
+        <button class="dropdown-item">{{ translations[currentLang].servicesList.Service1 }}</button>
+      </router-link>
+      <router-link to="/dental-consult" @click="toggleServicesDropdown">
+        <button class="dropdown-item">{{ translations[currentLang].servicesList.Service2}}</button>
+      </router-link>
+      <router-link to="/eye-exam" @click="toggleServicesDropdown">
+        <button class="dropdown-item">{{ translations[currentLang].servicesList.Service3}}</button>
+      </router-link>
+      <router-link to="/pediatric" @click="toggleServicesDropdown">
+        <button class="dropdown-item">{{ translations[currentLang].servicesList.Service4}}</button>
+      </router-link>
+    </div>
+  </div>
+</nav>
+
+
 
 
     <main>
       <router-view />
     </main>
+
+
 
 
     <footer class="footer">
@@ -181,6 +219,8 @@
     </footer>
 
 
+
+
     <LogIn
       v-if="showLoginForm"
       @close="showLoginForm = false"
@@ -191,10 +231,18 @@
       @close="showCreateAccountForm = false"
       @create-account-success="handleCreateAccountSuccess"
     />
+    <ChatBox v-if="showChat" @close="toggleChat" />
+    <Search v-if="showSearch" @close="toggleSearch" />
+
+
 
 
   </div>
 </template>
+
+
+
+
 
 
 
@@ -204,6 +252,7 @@
   import axios from 'axios';
   import LogIn from './components/log_in.vue';
   import CreateAcc from './components/create_acc.vue';
+  import ChatWindow from './components/ChatWindow.vue';
   export default {
       name: 'App',
       data() {
@@ -224,7 +273,7 @@
                   { value: 2, label: 'Service 2:Dental Consultation' },
                   { value: 3, label: 'Service 3:Eye Examination' },
                   { value: 4, label: 'Service 4:Pediatric Check-up' },
-                
+               
               ],
               filteredOptions: [],
               currentLang: 'EN',
@@ -239,6 +288,7 @@
                       doctorSchedule: 'Doctor Schedule',
                       appointments: 'Appointments',
                       services: 'Services',
+                      openChatbox: 'Open Chatbox',
                       contactUs: 'Contact Us',
                       hospitalName: 'Address',
                       address: '333 Moo 1, Tha Sut Subdistrict, Mueang District, Chiang Rai Province 57100',
@@ -249,8 +299,11 @@
                           chineseMedicine: "Department of Chinese Medicine",
                           physicalTherapy: "Physical Therapy Department",
                           outpatientClinic: "Outpatient Clinic"                          },
-                      service: {
-                          service1: 'Chat Box'
+                          servicesList: {
+                        Service1: "Service 1: General Check-up",
+                       Service2: "Service 2: Dental Consultation",
+                       Service3: "Service 3: Eye Examination",
+                        Service4: "Service 4: Pediatric Check-up",
                       }
                   },
                   ไทย: {
@@ -260,6 +313,7 @@
             doctorSchedule: 'ตารางหมอ',
             appointments: 'การนัดหมาย',
             services: 'บริการ',
+            openChatbox: 'เปิดแชทบ็อกซ์',
             contactUs: 'ติดต่อเรา',
             hospitalName: 'โรงพยาบาล Mfu',
             address: '333 ,หมู่ที่1 ,ตําบลท่าสด ,อําเภอเมือง ,จังหวัดเชียงราย ,57100',
@@ -271,9 +325,13 @@
                           physicalTherapy: "แผนกกายภาพบำบัด",
                           outpatientClinic: "แผนกผู้ป่วยนอก"
                       },
-                      service: {
-                          service1: 'Chat Box'
+                      servicesList: {
+                        Service1:"บริการ 1: การตรวจสุขภาพทั่วไป",
+                       Service2: "บริการ 2: การปรึกษาทันตกรรม",
+                       Service3: "บริการ 3: การตรวจสายตา",
+                        Service4: "บริการ 4: การตรวจสุขภาพเด็ก"
                       }
+                     
                   },
                   မြန်မာ: {
                       login: 'လော့အင် ဝင်ပါ',
@@ -294,8 +352,11 @@
                           physicalTherapy: "ရုပ်ပိုင်းဆိုင်ရာကုထုံး ဌာန",
                           outpatientClinic: "ပြင်ပလူနာ ဌာန"
                       },
-                      service: {
-                          service1: 'Chat Box'
+                      servicesList: {
+                        Service1: "ဝန်ဆောင်မှု ၁: အထွေထွေစစ်ဆေးခြင်း",
+                       Service2: "ဝန်ဆောင်မှု ၂: သွားဘက်ဆိုင်ရာစစ်ဆေးခြင်း",
+                       Service3: "ဝန်ဆောင်မှု ၃: မျက်စိစစ်ဆေးခြင်း",
+                        Service4: "ဝန်ဆောင်မှု ၄: ကလေးအထူးကု"
                       }
                 }
             }
@@ -319,6 +380,17 @@
             this.filteredOptions = this.options.filter(option =>
                 option.label.toLowerCase().includes(query)
             );
+        },
+        selectOption(option) {
+            this.searchQuery = option.label;
+            this.showDropdown = false;
+            this.executeSearch(); // Optional: perform search immediately
+        },
+        executeSearch() {
+            if (this.searchQuery) {
+                console.log("Searching for:", this.searchQuery);
+                // Execute your search functionality here, e.g., navigate to results page
+            }
         },
         hideDropdown(){
           this.showDropdown = false;
@@ -423,6 +495,13 @@
       this.showDropdown = false;
       this.executeSearch(); // Optional: perform search immediately
     },
+   
+    executeSearch() {
+      if (this.searchQuery) {
+        console.log("Searching for:", this.searchQuery);
+        // Execute your search functionality here, e.g., navigate to results page
+      }
+    },
     },
     mounted() {
     // Initialize filteredOptions with all options initially
@@ -433,8 +512,12 @@
 
 
 
+
+
+
 <!-- CSS -->
 <style scoped>
+
 
 .header {
     top: 0;
@@ -474,8 +557,29 @@ main {
     align-items: center;
     cursor: pointer;
 }
-
-
+.search-bar {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.search-bar input[type="text"] {
+  width: 300px;
+  padding: 8px;
+  border-radius: 4px 0 0 4px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+.search-icon-btn {
+  border: none;
+  background-color: #ccc;
+  padding: 8px;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+.search-icon {
+  width: 20px;
+  height: 20px;
+}
 .dropdown-list {
   position: absolute;
   top: 100%;
@@ -494,6 +598,21 @@ main {
 }
 .dropdown-item:hover {
   background-color: #f1f1f1;
+}
+.chat-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+}
+.chat-button img {
+    width: 40px;
+    height: 40px;
+}
+.chat-button:hover {
+    filter: brightness(0.9);
 }
 .dropdown-menu {
     position: absolute;
@@ -535,6 +654,7 @@ main {
 .down-arrow {
     transition: transform 0.3s ease;
 }
+
 
 .nav-tabs {
     font-family: Arial, Helvetica, sans-serif;
@@ -622,7 +742,6 @@ main {
   background-color: rgba(255, 255, 255, 0.05);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   gap: 20px;
-  font-family: Arial, Helvetica, sans-serif;
 }
 .info-icon {
   width: 30px;
@@ -705,5 +824,10 @@ ul {
     text-align: justify;
 }
 </style>
+
+
+
+
+
 
 
