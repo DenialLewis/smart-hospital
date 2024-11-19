@@ -90,7 +90,7 @@
           <p>{{ formatDisplayAppointmentTime(appointment.appointment_time) }}</p>
           <p>{{ appointment.first_name }} {{ appointment.last_name }} ({{ appointment.gender }})</p>
           <p>To see with Dr. {{ appointment.doctor_names }} ({{ appointment.specialization }}) </p>
-          <button @click="cancelAppointment(appointment.id)" class="cancel-button">Cancel Appointment</button>
+          <button @click="cancelDoctorAppointment(appointment.id)" class="cancel-button">Cancel Appointment</button>
         </div>
         <div v-if="upcomingDoctorAppointments.length === 0" class="no-appointments">No upcoming doctor appointments.</div>
       </div>
@@ -266,18 +266,33 @@ export default {
     },
 
     async cancelAppointment(appointmentId) {
-    try {
-      // Send DELETE request to Strapi to delete the appointment
-      await axios.delete(`http://localhost:1337/api/other-appointments/${appointmentId}`);
+      try {
+        // Send DELETE request to Strapi to delete the appointment
+        await axios.delete(`http://localhost:1337/api/other-appointments/${appointmentId}`);
 
-      // After successful deletion, remove the appointment from the list
-      this.upcomingAppointments = this.upcomingAppointments.filter(
-        appointment => appointment.id !== appointmentId
-      );
-    } catch (error) {
-      console.error('Error cancelling the appointment:', error);
-    }
-  },
+        // After successful deletion, remove the appointment from the list
+        this.upcomingAppointments = this.upcomingAppointments.filter(
+          appointment => appointment.id !== appointmentId
+        );
+      } catch (error) {
+        console.error('Error cancelling the appointment:', error);
+      }
+    },
+
+    async cancelDoctorAppointment(appointmentId) {
+      try {
+        // Send DELETE request to Strapi to delete the appointment
+        await axios.delete(`http://localhost:1337/api/doctor-appointments/${appointmentId}`);
+
+        // After successful deletion, remove the appointment from the list
+        this.upcomingDoctorAppointments = this.upcomingDoctorAppointments.filter(
+          appointment => appointment.id !== appointmentId
+        );
+      } catch (error) {
+        console.error('Error cancelling the appointment:', error);
+      }
+    },
+
     async fetchAnnouncements() {
       try {
         const response = await axios.get('http://localhost:1337/api/announcements');
@@ -569,4 +584,5 @@ export default {
 
 
 </style>
+
 
