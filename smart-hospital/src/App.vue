@@ -646,6 +646,7 @@ main {
   background-color: rgba(255, 255, 255, 0.05);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   gap: 20px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 .info-icon {
   width: 30px;

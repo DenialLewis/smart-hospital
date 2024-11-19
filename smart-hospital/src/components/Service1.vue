@@ -145,6 +145,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
   transition: transform 0.2s;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .service-card:hover {
