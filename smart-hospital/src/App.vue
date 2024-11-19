@@ -7,38 +7,7 @@
         <img alt="Mfu Logo" src="./assets/Hospital.png" />
       </div>
       <div class="lang-switch">
-       <!-- Search Bar -->
-       <div class="search-bar">
-          <input
-            type="text"
-            v-model="searchQuery"
-            placeholder="Search..."
-            @focus="showDropdown = true"
-            @input="filterOptions"
-            @keydown.enter="executeSearch"
-          />
-          <button class="search-icon-btn" @click="executeSearch">
-            <img src="./assets/search.png" alt="Search" class="search-icon" />
-          </button>
-          <ul v-if="showDropdown && filteredOptions.length" class="dropdown-list" @mouseleave="hideDropdown">
-            <li
-              v-for="option in filteredOptions"
-              :key="option.value"
-              @mousedown="selectOption(option)"
-              class="dropdown-item"
-            >
-              {{ option.label }}
-            </li>
-          </ul>
-        </div>
-        <!-- Chat Button -->
-        <div class="chat-boutton">
-          <button class="chat-button" @click="toggleChat">
-            <img src="./assets/chatbox.png" alt="Chat Icon" />
-            <span>{{ translations[currentLang].chat }}</span>
-          </button>
-        </div>
-       
+      
         <!-- Language Choices -->
         <div class="lang-dropdown" @click="toggleLanguageDropdown">
           <span>{{ currentLang }}</span>
@@ -222,8 +191,6 @@
       @close="showCreateAccountForm = false"
       @create-account-success="handleCreateAccountSuccess"
     />
-    <ChatBox v-if="showChat" @close="toggleChat" />
-    <Search v-if="showSearch" @close="toggleSearch" />
 
 
   </div>
@@ -237,7 +204,6 @@
   import axios from 'axios';
   import LogIn from './components/log_in.vue';
   import CreateAcc from './components/create_acc.vue';
-  import ChatWindow from './components/ChatWindow.vue';
   export default {
       name: 'App',
       data() {
@@ -273,7 +239,6 @@
                       doctorSchedule: 'Doctor Schedule',
                       appointments: 'Appointments',
                       services: 'Services',
-                      openChatbox: 'Open Chatbox',
                       contactUs: 'Contact Us',
                       hospitalName: 'Address',
                       address: '333 Moo 1, Tha Sut Subdistrict, Mueang District, Chiang Rai Province 57100',
@@ -295,7 +260,6 @@
             doctorSchedule: 'ตารางหมอ',
             appointments: 'การนัดหมาย',
             services: 'บริการ',
-            openChatbox: 'เปิดแชทบ็อกซ์',
             contactUs: 'ติดต่อเรา',
             hospitalName: 'โรงพยาบาล Mfu',
             address: '333 ,หมู่ที่1 ,ตําบลท่าสด ,อําเภอเมือง ,จังหวัดเชียงราย ,57100',
@@ -355,17 +319,6 @@
             this.filteredOptions = this.options.filter(option =>
                 option.label.toLowerCase().includes(query)
             );
-        },
-        selectOption(option) {
-            this.searchQuery = option.label;
-            this.showDropdown = false;
-            this.executeSearch(); // Optional: perform search immediately
-        },
-        executeSearch() {
-            if (this.searchQuery) {
-                console.log("Searching for:", this.searchQuery);
-                // Execute your search functionality here, e.g., navigate to results page
-            }
         },
         hideDropdown(){
           this.showDropdown = false;
@@ -470,13 +423,6 @@
       this.showDropdown = false;
       this.executeSearch(); // Optional: perform search immediately
     },
-   
-    executeSearch() {
-      if (this.searchQuery) {
-        console.log("Searching for:", this.searchQuery);
-        // Execute your search functionality here, e.g., navigate to results page
-      }
-    },
     },
     mounted() {
     // Initialize filteredOptions with all options initially
@@ -528,29 +474,8 @@ main {
     align-items: center;
     cursor: pointer;
 }
-.search-bar {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-.search-bar input[type="text"] {
-  width: 300px;
-  padding: 8px;
-  border-radius: 4px 0 0 4px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-}
-.search-icon-btn {
-  border: none;
-  background-color: #ccc;
-  padding: 8px;
-  border-radius: 0 4px 4px 0;
-  cursor: pointer;
-}
-.search-icon {
-  width: 20px;
-  height: 20px;
-}
+
+
 .dropdown-list {
   position: absolute;
   top: 100%;
@@ -569,21 +494,6 @@ main {
 }
 .dropdown-item:hover {
   background-color: #f1f1f1;
-}
-.chat-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    margin-left: 10px;
-    display: flex;
-    align-items: center;
-}
-.chat-button img {
-    width: 40px;
-    height: 40px;
-}
-.chat-button:hover {
-    filter: brightness(0.9);
 }
 .dropdown-menu {
     position: absolute;
@@ -712,7 +622,6 @@ main {
   background-color: rgba(255, 255, 255, 0.05);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   gap: 20px;
-  font-family: Arial, Helvetica, sans-serif;
 }
 .info-icon {
   width: 30px;
